@@ -1,8 +1,9 @@
-﻿import viz
+import viz
 import vizfx
 import vizshape
 import vizact
 import random
+import vizfx
 
 viz.setMultiSample(4)
 
@@ -53,6 +54,7 @@ for i in range(10):
 	pigeon = viz.addAvatar('pigeon.cfg')
 	
 	pigeon.setPosition([x,0,z])
+	#pigeon.setScale([10,10,10])
 	pigeon.setEuler([yaw,0,0])
 	pigeon.state(1)
 	
@@ -75,5 +77,13 @@ def pigeonsFeed():
 	for pigeon in pigeons:
 		pigeon.addAction(pigeon_idle)
 		
-vizact.onkeydown('w', walkAvatars)
-vizact.onkeydown('p', pigeonsFeed)
+vizact.onkeydown('1', walkAvatars)
+vizact.onkeydown('2', pigeonsFeed)
+
+def moveMushroom():
+	move = vizact.animation(2,freeze=True)
+	mushroom.addAction(move)	
+	
+mushroom = viz.addAvatar('Martial_arts_character.osgb')
+mushroom.setScale([1,1,1])
+vizact.onkeydown('3', moveMushroom)
