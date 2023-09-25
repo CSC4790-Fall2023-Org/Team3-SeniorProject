@@ -4,9 +4,9 @@ import vizact
 import vizinfo
 import vizproximity
 import vizshape
+import loop
 
-isCave = True
-
+isCave = False
 
 ALMOST_ZERO=0.000001
 class MyDtrackManager():
@@ -130,5 +130,8 @@ ceiling.texture(ceilingCover)
 
 # Cover floor with texture
 floor.texture(floorCover)
+
+# Spawn loop problem structure
+loop.createProblem()
 
 viz.MainView.collision(viz.ON)
