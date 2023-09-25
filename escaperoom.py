@@ -5,7 +5,7 @@ import vizinfo
 import vizproximity
 import vizshape
 
-isCave = True
+isCave = False
 
 
 ALMOST_ZERO=0.000001
