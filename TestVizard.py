@@ -87,3 +87,14 @@ def moveMushroom():
 mushroom = viz.addAvatar('Martial_arts_character.osgb')
 mushroom.setScale([1,1,1])
 vizact.onkeydown('3', moveMushroom)
+
+andGateTex = viz.addTexture("AndGate.png")
+orGateTex = viz.addTexture("OrGate.png")
+xorGateTex = viz.addTexture("XorGate.png")
+notGateTex = viz.addTexture("NotGate.png")
+
+
+andGate = viz.addTexQuad()
+andGateTex = viz.addTexture("AndGate.png")
+andGate.texture(gateTex)
+andGate.setPosition([10,10,10])
