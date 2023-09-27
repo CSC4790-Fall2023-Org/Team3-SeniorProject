@@ -67,6 +67,17 @@ table = viz.addChild('CustomModels/table1.osgb')
 table.setScale([0.01, 0.0125, 0.01])
 table.setPosition([3, 0, 3])
 
+# Add Left Shelf
+
+
+# Figure out the shelf + scale + texture or model or DIY
+# Import a scale model
+# Decide what our object will be -- which will be a model
+# Try and figure out how to make those objects interactive
+# Color coordinate the objects
+
+
+
 # Create Wall 1 with door
 # The wall consists of three parts, left of the door, above the door, and right of the door
 # Alternatively door could be overlaid on a singular instance of the wall, however this gives the option to have 
