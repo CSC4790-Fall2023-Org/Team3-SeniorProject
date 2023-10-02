@@ -1,9 +1,18 @@
-﻿import viz
+﻿"""  
+Click on the tile to cycle through the 7 logic gate symbols.
+In order, the symbols are AND, NAND, NOR, NOT, OR, XOR, XNOR
+""" 
+
+import viz
 import vizact
+import vizinfo
 
 viz.setMultiSample(4)
 viz.fov(60)
 viz.go()
+
+#Add instructions
+vizinfo.InfoPanel()
 
 # Disable mouse navigation
 viz.mouse(viz.OFF)
@@ -25,6 +34,7 @@ colors = [andImage, nandImage, norImage, notImage, orImage, xorImage, xnorImage]
 
 # Create surface to wrap the texture on
 quad = viz.addTexQuad()
+quad.setScale([1.5,1,1])
 quad.setPosition([0, 2, 3])  # Put quad in view
 
 # Wrap initial texture on quad
