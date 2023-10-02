@@ -13,12 +13,17 @@ viz.go()
 isDoor = False
 
 # Set up room and put up walls
-# room = viz.addChild('lab.osgb')
+room = viz.addChild('lab.osgb')
 
 # Add table
 table = viz.addChild('CustomModels/table1.osgb')
 table.setScale([0.01, 0.015, 0.01])
 table.setPosition([3, 0, 3])
+
+#
+dog = viz.addChild('CustomModels/shiba.glb.')
+dog.setScale([0, 0, 0])
+dog.setPosition([0, 0, 0])
 
 # Add Shelf
 shelf = viz.addChild('CustomModels/shelf.fbx')
