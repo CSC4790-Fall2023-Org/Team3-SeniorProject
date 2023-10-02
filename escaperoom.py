@@ -4,9 +4,10 @@ import vizact
 import vizinfo
 import vizproximity
 import vizshape
+from loop import *
+from utilFunctions import *
 
 isCave = False
-
 
 ALMOST_ZERO=0.000001
 class MyDtrackManager():
@@ -123,6 +124,10 @@ floor.setPosition([0,0.001,0])
 floor.setEuler([0,90,0])
 floor.setScale([10,10,10])
 
+# ---------------------------------
+# viz.INTERSECT must be turned off for all the room walls so we don't accidentally pick up the floor !!!
+# ---------------------------------
+
 
 # Create textures
 wallCover = viz.addTexture('CustomImages/concreteWall.jpg')
@@ -141,5 +146,18 @@ ceiling.texture(ceilingCover)
 
 # Cover floor with texture
 floor.texture(floorCover)
+
+# Spawn loop problem structure
+createProblem()
+spawnCodeBoxes()
+
+# Establish line
+lineStart = [0,3,0]
+lineEnd = [1,0.1,-2]
+line = drawLine(lineStart, lineEnd)
+
+# Testing
+#selected = viz.Intersect(lineStart, lineEnd)
+checkHover(lineStart, lineEnd)
 
 viz.MainView.collision(viz.ON)
