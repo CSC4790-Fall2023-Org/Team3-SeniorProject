@@ -46,7 +46,15 @@ def createProblem():
 	return
 	
 def spawnCodeBoxes():
-	# Create and place boxes
+	
+	global testItem
+	testItem = vizshape.addBox()
+	testItem.setPosition([1,0.1,-2])
+	testItem.color(viz.RED)
+	
 	return
 	
-# def 
+def checkHover(lineStart, lineEnd):
+	
+	hovered = viz.Intersect(lineStart, lineEnd)
+	hovered.object.color = (viz.BLUE)

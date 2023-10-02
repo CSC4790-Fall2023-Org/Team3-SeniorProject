@@ -4,7 +4,8 @@ import vizact
 import vizinfo
 import vizproximity
 import vizshape
-import loop
+from loop import *
+from utilFunctions import *
 
 isCave = False
 
@@ -112,6 +113,10 @@ floor.setPosition([0,0.001,0])
 floor.setEuler([0,90,0])
 floor.setScale([10,10,10])
 
+# ---------------------------------
+# viz.INTERSECT must be turned off for all the room walls so we don't accidentally pick up the floor !!!
+# ---------------------------------
+
 
 # Create textures
 wallCover = viz.addTexture('CustomImages/concreteWall.jpg')
@@ -132,6 +137,16 @@ ceiling.texture(ceilingCover)
 floor.texture(floorCover)
 
 # Spawn loop problem structure
-loop.createProblem()
+createProblem()
+spawnCodeBoxes()
+
+# Establish line
+lineStart = [0,3,0]
+lineEnd = [1,0.1,-2]
+line = drawLine(lineStart, lineEnd)
+
+# Testing
+#selected = viz.Intersect(lineStart, lineEnd)
+checkHover(lineStart, lineEnd)
 
 viz.MainView.collision(viz.ON)
