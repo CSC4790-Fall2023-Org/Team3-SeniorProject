@@ -10,15 +10,20 @@ viz.fov(80)
 viz.go()
 
 #variable for toggling door
-isDoor = True
+isDoor = False
 
 # Set up room and put up walls
-room = viz.addChild('lab.osgb')
+# room = viz.addChild('lab.osgb')
 
 # Add table
 table = viz.addChild('CustomModels/table1.osgb')
 table.setScale([0.01, 0.015, 0.01])
 table.setPosition([3, 0, 3])
+
+# Add Shelf
+shelf = viz.addChild('CustomModels/shelf.fbx')
+shelf.setScale([.01, .01, .01])
+shelf.setPosition([-3, 0, -3])
 
 # Create Wall 1 with door
 # The wall consists of three parts, left of the door, above the door, and right of the door
