@@ -70,6 +70,10 @@ table.setPosition([3, 0, 3])
 
 # Add Left Shelf
 
+shelf = viz.addChild('CustomModels/shelf.fbx')
+shelf.setEuler(90, 0, 0)
+shelf.setScale([0.01, 0.0125, 0.01])
+shelf.setPosition([-4.5, 0, 0])
 
 # Figure out the shelf + scale + texture or model or DIY
 # Import a scale model
