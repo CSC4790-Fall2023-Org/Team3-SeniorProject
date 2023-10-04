@@ -93,8 +93,19 @@ orGateTex = viz.addTexture("OrGate.png")
 xorGateTex = viz.addTexture("XorGate.png")
 notGateTex = viz.addTexture("NotGate.png")
 
+counter = 0
+gateTextures = [andGateTex, orGateTex, xorGateTex]
+textureInt = 0
 
-andGate = viz.addTexQuad()
-andGateTex = viz.addTexture("AndGate.png")
-andGate.texture(gateTex)
-andGate.setPosition([10,10,10])
+gate = viz.addTexQuad()
+gate.setPosition([10,5,10])
+gate.texture(andGateTex)
+
+def changeTexture():
+	global counter
+	object = viz.pick()
+	if object.valid():
+		counter += 1
+		gate.texture(gateTextures[counter % 3])
+		
+vizact.onkeydown('r', changeTexture)
