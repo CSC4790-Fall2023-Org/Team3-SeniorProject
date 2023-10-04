@@ -66,7 +66,9 @@ room = viz.addChild('lab.osgb')
 # Add table
 table = viz.addChild('CustomModels/table1.osgb')
 table.setScale([0.01, 0.0125, 0.01])
-table.setPosition([3, 0, 3])
+table.setPosition([4.5, 0, 0])
+table.setEuler(90, 0, 0)
+
 
 # Add Left Shelf
 shelf = viz.addChild('CustomModels/shelf.fbx')
@@ -86,13 +88,41 @@ shelf.setEuler(90, 0, 0)
 shelf.setScale([0.013, 0.0125, 0.01])
 shelf.setPosition([-4.5, 0, 3])
 
-# Figure out the shelf + scale + texture or model or DIY
-# Import a scale model
-# Decide what our object will be -- which will be a model
-# Try and figure out how to make those objects interactive
-# Color coordinate the objects
+# red ball
+redBall = vizshape.addSphere()
+redBall.setScale([0.1, 0.1, 0.1])
+redBall.setPosition([3, 3, 3])
+redBall.color(viz.RED)
 
+# blue ball
+blueBall = vizshape.addSphere()
+blueBall.setScale([0.1, 0.1, 0.1])
+blueBall.setPosition([3, 3, 3.2])
+blueBall.color(viz.BLUE)
 
+# green ball
+greenBall = vizshape.addSphere()
+greenBall.setScale([0.1, 0.1, 0.1])
+greenBall.setPosition([3, 3, 3.4])
+greenBall.color(viz.GREEN)
+
+# orange ball
+orangeBall = vizshape.addSphere()
+orangeBall.setScale([0.1, 0.1, 0.1])
+orangeBall.setPosition([3, 3, 3.6])
+orangeBall.color(viz.ORANGE)
+
+# black ball
+blackBall = vizshape.addSphere()
+blackBall.setScale([0.1, 0.1, 0.1])
+blackBall.setPosition([3, 3, 3.8])
+blackBall.color(viz.BLACK)
+
+# purple ball
+purpleBall = vizshape.addSphere()
+purpleBall.setScale([0.1, 0.1, 0.1])
+purpleBall.setPosition([3, 3, 4])
+purpleBall.color(viz.PURPLE)
 
 # Create Wall 1 with door
 # The wall consists of three parts, left of the door, above the door, and right of the door
