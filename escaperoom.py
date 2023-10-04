@@ -88,41 +88,42 @@ shelf.setEuler(90, 0, 0)
 shelf.setScale([0.013, 0.0125, 0.01])
 shelf.setPosition([-4.5, 0, 3])
 
-# red ball
-redBall = vizshape.addSphere()
-redBall.setScale([0.1, 0.1, 0.1])
-redBall.setPosition([3, 3, 3])
-redBall.color(viz.RED)
 
-# blue ball
-blueBall = vizshape.addSphere()
-blueBall.setScale([0.1, 0.1, 0.1])
-blueBall.setPosition([3, 3, 3.2])
-blueBall.color(viz.BLUE)
+# red cube
+redCube = vizshape.addCube()
+redCube.setScale([0.15, 0.15, 0.15])
+redCube.setPosition([-4.5, 3, 3])
+redCube.color(viz.RED)
 
-# green ball
-greenBall = vizshape.addSphere()
-greenBall.setScale([0.1, 0.1, 0.1])
-greenBall.setPosition([3, 3, 3.4])
-greenBall.color(viz.GREEN)
+# blue cube
+blueCube = vizshape.addCube()
+blueCube.setScale([0.15, 0.15, 0.15])
+blueCube.setPosition([-4.5, 3, 3.2])
+blueCube.color(viz.BLUE)
 
-# orange ball
-orangeBall = vizshape.addSphere()
-orangeBall.setScale([0.1, 0.1, 0.1])
-orangeBall.setPosition([3, 3, 3.6])
-orangeBall.color(viz.ORANGE)
+# green cube
+greenCube = vizshape.addCube()
+greenCube.setScale([0.15, 0.15, 0.15])
+greenCube.setPosition([-4.5, 3, 3.4])
+greenCube.color(viz.GREEN)
 
-# black ball
-blackBall = vizshape.addSphere()
-blackBall.setScale([0.1, 0.1, 0.1])
-blackBall.setPosition([3, 3, 3.8])
-blackBall.color(viz.BLACK)
+# orange cube
+orangeCube = vizshape.addCube()
+orangeCube.setScale([0.15, 0.15, 0.15])
+orangeCube.setPosition([-4.5, 3, 3.6])
+orangeCube.color(viz.ORANGE)
 
-# purple ball
-purpleBall = vizshape.addSphere()
-purpleBall.setScale([0.1, 0.1, 0.1])
-purpleBall.setPosition([3, 3, 4])
-purpleBall.color(viz.PURPLE)
+# black cube
+blackCube = vizshape.addCube()
+blackCube.setScale([0.15, 0.15, 0.15])
+blackCube.setPosition([-4.5, 3, 3.8])
+blackCube.color(viz.BLACK)
+
+# purple cube
+purpleCube = vizshape.addCube()
+purpleCube.setScale([0.15, 0.15, 0.15])
+purpleCube.setPosition([-4.5, 3, 4])
+purpleCube.color(viz.PURPLE)
 
 # Create Wall 1 with door
 # The wall consists of three parts, left of the door, above the door, and right of the door
