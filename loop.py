@@ -5,9 +5,17 @@ import vizinfo
 import vizproximity
 import vizshape
 
+def __init__(self, normal, node, name, node_path, name_path):
+	self.normal
+	
+
 def createProblem():
 	
 	# Create and place code slots
+	global slot1
+	global slot2
+	global slot3
+	global slot4
 	slot1 = viz.addTexQuad()
 	slot2 = viz.addTexQuad()
 	slot3 = viz.addTexQuad()
@@ -47,14 +55,30 @@ def createProblem():
 	
 def spawnCodeBoxes():
 	
-	global testItem
-	testItem = vizshape.addBox()
-	testItem.setPosition([1,0.1,-2])
-	testItem.color(viz.RED)
+	global box1
+	global box2
+	global box3
+	global box4
+	
+	box1 = vizshape.addBox()
+	box2 = vizshape.addBox()
+	box3 = vizshape.addBox()
+	box4 = vizshape.addBox()
+	
+	box1.setPosition([1,0.1,-2])
+	box2.setPosition([1,0.1,2])
+	box3.setPosition([-2,0.1,-2])
+	box4.setPosition([-2,0.1,2])
+	
+	box1.color(viz.BLACK)
+	box2.color(viz.BLACK)
+	box3.color(viz.BLACK)
+	box4.color(viz.BLACK)
 	
 	return
 	
-def checkHover(lineStart, lineEnd):
-	
-	hovered = viz.Intersect(lineStart, lineEnd)
-	hovered.object.color = (viz.BLUE)
+def setTextures():
+	slot1.texture('CustomImages/codeSolutions/init.png')
+	slot2.texture('CustomImages/codeSolutions/sol1.png')
+	slot3.texture('CustomImages/codeSolutions/sol2.png')
+	slot4.texture('CustomImages/codeSolutions/sol3.png')

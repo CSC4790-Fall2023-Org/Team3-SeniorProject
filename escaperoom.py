@@ -146,7 +146,6 @@ lineEnd = [1,0.1,-2]
 line = drawLine(lineStart, lineEnd)
 
 # Testing
-#selected = viz.Intersect(lineStart, lineEnd)
-checkHover(lineStart, lineEnd)
+#checkHover(line, lineStart, lineEnd)
 
 viz.MainView.collision(viz.ON)
