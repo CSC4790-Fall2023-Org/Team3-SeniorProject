@@ -125,6 +125,21 @@ purpleCube.setScale([0.15, 0.15, 0.15])
 purpleCube.setPosition([-4.5, 3, 4])
 purpleCube.color(viz.PURPLE)
 
+
+# TESTING SHAPES
+# Right shelf -- second highest row
+Cube1 = vizshape.addCube()
+Cube1.setScale([0.2, 0.2, 0.2])
+Cube1.setPosition([-4.68, 1.55, 2.6])
+Cube1.color(viz.BLACK)
+
+Cube2 = vizshape.addCube()
+Cube2.setScale([0.3, 0.3, 0.3])
+Cube2.setPosition([-4.68, 1.56, 2.25])
+Cube2.color(viz.BLACK)
+
+
+
 # Create Wall 1 with door
 # The wall consists of three parts, left of the door, above the door, and right of the door
 # Alternatively door could be overlaid on a singular instance of the wall, however this gives the option to have 
@@ -205,5 +220,10 @@ line = drawLine(lineStart, lineEnd)
 # Testing
 #selected = viz.Intersect(lineStart, lineEnd)
 checkHover(lineStart, lineEnd)
+
+'''light = viz.addLight()
+light.color(viz.BLUE)
+light.setPosition(0, 3, 0)
+light.intensity(100)'''
 
 viz.MainView.collision(viz.ON)
