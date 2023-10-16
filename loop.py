@@ -23,12 +23,16 @@ def createProblem():
 	
 	slot1.setPosition([-1, 3.4, -4.9])
 	slot1.setScale([7,0.6,0.5])
+	slot1.setEuler([180,0,0])
 	slot2.setPosition([-1, 2.6, -4.9])
 	slot2.setScale([7,0.6,0.5])
+	slot2.setEuler([180,0,0])
 	slot3.setPosition([-1, 1.8, -4.9])
 	slot3.setScale([7,0.6,0.5])
+	slot3.setEuler([180,0,0])
 	slot4.setPosition([-1, 1, -4.9])
 	slot4.setScale([7,0.6,0.5])
+	slot4.setEuler([180,0,0])
 	
 	# Create chest
 	wallBack = viz.addTexQuad()
@@ -78,7 +82,13 @@ def spawnCodeBoxes():
 	return
 	
 def setTextures():
-	slot1.texture('CustomImages/codeSolutions/init.png')
-	slot2.texture('CustomImages/codeSolutions/sol1.png')
-	slot3.texture('CustomImages/codeSolutions/sol2.png')
-	slot4.texture('CustomImages/codeSolutions/sol3.png')
+	
+	init = viz.addTexture('CustomImages/codeSolutions/init.jpg')
+	sol1 = viz.addTexture('CustomImages/codeSolutions/sol1.jpg')
+	sol2 = viz.addTexture('CustomImages/codeSolutions/sol2.jpg')
+	sol3 = viz.addTexture('CustomImages/codeSolutions/sol3.jpg')
+	
+	slot1.texture(init)
+	slot2.texture(sol1)
+	slot3.texture(sol2)
+	slot4.texture(sol3)

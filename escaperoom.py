@@ -157,6 +157,6 @@ lineEnd = [1,0.1,-2]
 line = drawLine(lineStart, lineEnd)
 
 # Testing
-#checkHover(line, lineStart, lineEnd)
+setTextures()
 
 viz.MainView.collision(viz.ON)
