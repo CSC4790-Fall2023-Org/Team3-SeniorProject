@@ -110,19 +110,19 @@ greenCube.color(viz.GREEN)
 # orange cube
 orangeCube = vizshape.addCube()
 orangeCube.setScale([0.15, 0.15, 0.15])
-orangeCube.setPosition([-4.5, 3, 3.6])
+orangeCube.setPosition([-4.7, 2, 2.6])
 orangeCube.color(viz.ORANGE)
 
 # black cube
 blackCube = vizshape.addCube()
 blackCube.setScale([0.15, 0.15, 0.15])
-blackCube.setPosition([-4.5, 3, 3.8])
+blackCube.setPosition([-4.7, 2, 2.8])
 blackCube.color(viz.BLACK)
 
 # purple cube
 purpleCube = vizshape.addCube()
 purpleCube.setScale([0.15, 0.15, 0.15])
-purpleCube.setPosition([-4.5, 3, 4])
+purpleCube.setPosition([-4.7, 2, 3])
 purpleCube.color(viz.PURPLE)
 
 
