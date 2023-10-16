@@ -4,9 +4,10 @@ import vizact
 import vizinfo
 import vizproximity
 import vizshape
+from loop import *
+from utilFunctions import *
 
 isCave = False
-
 
 ALMOST_ZERO=0.000001
 class MyDtrackManager():
@@ -65,7 +66,79 @@ room = viz.addChild('lab.osgb')
 # Add table
 table = viz.addChild('CustomModels/table1.osgb')
 table.setScale([0.01, 0.0125, 0.01])
-table.setPosition([3, 0, 3])
+table.setPosition([4.5, 0, 0])
+table.setEuler(90, 0, 0)
+
+
+# Add Left Shelf
+shelf = viz.addChild('CustomModels/shelf.fbx')
+shelf.setEuler(90, 0, 0)
+shelf.setScale([0.013, 0.0125, 0.01])
+shelf.setPosition([-4.5, 0, -2])
+
+# Add Middle Shelf
+shelf = viz.addChild('CustomModels/shelf.fbx')
+shelf.setEuler(90, 0, 0)
+shelf.setScale([0.013, 0.0125, 0.01])
+shelf.setPosition([-4.5, 0, 0.5])
+
+# Add Right Shelf
+shelf = viz.addChild('CustomModels/shelf.fbx')
+shelf.setEuler(90, 0, 0)
+shelf.setScale([0.013, 0.0125, 0.01])
+shelf.setPosition([-4.5, 0, 3])
+
+
+# red cube
+redCube = vizshape.addCube()
+redCube.setScale([0.15, 0.15, 0.15])
+redCube.setPosition([-4.5, 3, 3])
+redCube.color(viz.RED)
+
+# blue cube
+blueCube = vizshape.addCube()
+blueCube.setScale([0.15, 0.15, 0.15])
+blueCube.setPosition([-4.5, 3, 3.2])
+blueCube.color(viz.BLUE)
+
+# green cube
+greenCube = vizshape.addCube()
+greenCube.setScale([0.15, 0.15, 0.15])
+greenCube.setPosition([-4.5, 3, 3.4])
+greenCube.color(viz.GREEN)
+
+# orange cube
+orangeCube = vizshape.addCube()
+orangeCube.setScale([0.15, 0.15, 0.15])
+orangeCube.setPosition([-4.5, 3, 3.6])
+orangeCube.color(viz.ORANGE)
+
+# black cube
+blackCube = vizshape.addCube()
+blackCube.setScale([0.15, 0.15, 0.15])
+blackCube.setPosition([-4.5, 3, 3.8])
+blackCube.color(viz.BLACK)
+
+# purple cube
+purpleCube = vizshape.addCube()
+purpleCube.setScale([0.15, 0.15, 0.15])
+purpleCube.setPosition([-4.5, 3, 4])
+purpleCube.color(viz.PURPLE)
+
+
+# TESTING SHAPES
+# Right shelf -- second highest row
+Cube1 = vizshape.addCube()
+Cube1.setScale([0.2, 0.2, 0.2])
+Cube1.setPosition([-4.68, 1.55, 2.6])
+Cube1.color(viz.BLACK)
+
+Cube2 = vizshape.addCube()
+Cube2.setScale([0.3, 0.3, 0.3])
+Cube2.setPosition([-4.68, 1.56, 2.25])
+Cube2.color(viz.BLACK)
+
+
 
 # Create Wall 1 with door
 # The wall consists of three parts, left of the door, above the door, and right of the door
@@ -112,6 +185,10 @@ floor.setPosition([0,0.001,0])
 floor.setEuler([0,90,0])
 floor.setScale([10,10,10])
 
+# ---------------------------------
+# viz.INTERSECT must be turned off for all the room walls so we don't accidentally pick up the floor !!!
+# ---------------------------------
+
 
 # Create textures
 wallCover = viz.addTexture('CustomImages/concreteWall.jpg')
@@ -130,5 +207,23 @@ ceiling.texture(ceilingCover)
 
 # Cover floor with texture
 floor.texture(floorCover)
+
+# Spawn loop problem structure
+createProblem()
+spawnCodeBoxes()
+
+# Establish line
+lineStart = [0,3,0]
+lineEnd = [1,0.1,-2]
+line = drawLine(lineStart, lineEnd)
+
+# Testing
+#selected = viz.Intersect(lineStart, lineEnd)
+checkHover(lineStart, lineEnd)
+
+'''light = viz.addLight()
+light.color(viz.BLUE)
+light.setPosition(0, 3, 0)
+light.intensity(100)'''
 
 viz.MainView.collision(viz.ON)
