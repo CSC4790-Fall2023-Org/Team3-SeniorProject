@@ -96,19 +96,7 @@ def changeTexture():
 		gateValue = (gateValue + 1) % 3
 		gate.texture(gateTextures[gateValue])
 	wireColor(wire3, GateOutput(gateValue, wire1Value, wire2Value))
-	
-def AndGate(b1, b2):
-    return b1 and b2
 
-def OrGate(b1, b2):
-    return b1 or b2
-
-def XorGate(b1, b2):
-    if b1 == b2:
-        return False
-    else:
-        return True
-    
 def NotGate(b):
     return not b
 
@@ -117,11 +105,14 @@ def BufferGate(b):
 
 def GateOutput(c, i1, i2):
 	if c == 0:
-		return AndGate(i1, i2)
+		return i1 and i2
 	elif c == 1:
-		return OrGate(i1, i2)
+		return i1 or i2
 	else:
-		return XorGate(i1, i2)
+		if b1 == b2:
+			return False
+		else:
+			return True
 
 def objColor(obj, val):
 	if val:
@@ -140,7 +131,7 @@ light2 = [vizshape.addSphere(), True]
 light3 = [vizshape.addSphere(), True]
 light4 = [vizshape.addSphere(), True]
 light5 = [vizshape.addSphere(), False]
-outLight = vizshape.addSphere()
+#outLight = vizshape.addSphere()
 
 light1[0].setPosition(10,10,0)
 light2[0].setPosition(10,8,0)
@@ -190,9 +181,9 @@ wire5[0].setPosition(10,2,-1.5)
 wire5[0].setEuler([0,90,0])
 objColor(wire5[0], wire5[1])
 
-gate1 = [viz.addTexQuad(), 0, wire1[1], wire2[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
+gate1 = [viz.addTexQuad(), 1, wire1[1], wire2[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
 gate1[0].setPosition([10,9,-3])
-gate1[0].texture(andGateTex)
+gate1[0].texture(gateTextures[gate1[1]])
 gate1[0].setEuler([90,0,0])
 
 wire6 = [vizshape.addCylinder(), GateOutput(gate1[1], gate1[2], gate1[3])]
