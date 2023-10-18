@@ -56,6 +56,7 @@ if isCave:
 	dtrack_manager.startDefaultHeadPosition()
 else:
 	viz.go()
+	viz.collision(viz.ON)
 
 #variable for toggling door
 isDoor = True
