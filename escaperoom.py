@@ -70,60 +70,62 @@ table.setPosition([4.5, 0, 0])
 table.setEuler(90, 0, 0)
 
 
-# Add Left Shelf
+'''''''''RIGHT WALL -- KNAPSACK PROBLEM'''''''''
+# LEFT SHELF
 shelf = viz.addChild('CustomModels/shelf.fbx')
 shelf.setEuler(90, 0, 0)
 shelf.setScale([0.013, 0.0125, 0.01])
 shelf.setPosition([-4.5, 0, -2])
 
-# Add Middle Shelf
+# MIDDLE SHELF
 shelf = viz.addChild('CustomModels/shelf.fbx')
 shelf.setEuler(90, 0, 0)
 shelf.setScale([0.013, 0.0125, 0.01])
 shelf.setPosition([-4.5, 0, 0.5])
 
-# Add Right Shelf
+# RIGHT SHELF
 shelf = viz.addChild('CustomModels/shelf.fbx')
 shelf.setEuler(90, 0, 0)
 shelf.setScale([0.013, 0.0125, 0.01])
 shelf.setPosition([-4.5, 0, 3])
 
 
-# red cube
+# RED CUBE
 redCube = vizshape.addCube()
 redCube.setScale([0.2, 0.2, 0.2])
 redCube.setPosition([-4.63, 1.1, 2.25])
 redCube.color(viz.RED)
 
-# blue cube
+# BLUE CUBE
 blueCube = vizshape.addCube()
 blueCube.setScale([0.2, 0.2, 0.2])
 blueCube.setPosition([-4.63, 1.55, 2.6])
 blueCube.color(viz.BLUE)
 
-# green cube
+# GREEN CUBE
 greenCube = vizshape.addCube()
 greenCube.setScale([0.2, 0.2, 0.2])
 greenCube.setPosition([-4.63, 0.65, 0])
 greenCube.color(viz.GREEN)
 
-# orange cube
+# ORANGE CUBE
 orangeCube = vizshape.addCube()
 orangeCube.setScale([0.2, 0.2, 0.2])
 orangeCube.setPosition([-4.63, 2, -0.2])
 orangeCube.color(viz.ORANGE)
 
-# black cube
+# BLACK CUBE
 blackCube = vizshape.addCube()
 blackCube.setScale([0.2, 0.2, 0.2])
 blackCube.setPosition([-4.63, 0.22, -2.3])
 blackCube.color(viz.BLACK)
 
-# purple cube
+# PURPLE CUBE
 purpleCube = vizshape.addCube()
 purpleCube.setScale([0.2, 0.2, 0.2])
 purpleCube.setPosition([-4.63, 1.55, -2.8])
 purpleCube.color(viz.PURPLE)
+'''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''
 
 
 
