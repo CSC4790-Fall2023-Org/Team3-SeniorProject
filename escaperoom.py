@@ -44,16 +44,18 @@ class MyDtrackManager():
 			return False
 			
 
-
+joystickTracker = None
 
 #viz.setMultiSample(4)
 viz.fov(80)
 if isCave:
 	import vizconnect
-	CONFIG_FILE = "E:\\VizardProjects\\_CaveConfigFiles\\vizconnect_config_CaveFloor+ART_headnode.py"
+	CONFIG_FILE = "vizconnect_config_CaveFloor+ART_headnode.py"
+	#CONFIG_FILE = ""
 	vizconnect.go(CONFIG_FILE)	
 	dtrack_manager = MyDtrackManager()
 	dtrack_manager.startDefaultHeadPosition()
+	joystickTracker = vizconnect.getTracker("dtrack_flystick")
 else:
 	viz.go()
 
@@ -64,9 +66,9 @@ isDoor = True
 room = viz.addChild('lab.osgb')
 
 # Add table
-table = viz.addChild('CustomModels/table1.osgb')
-table.setScale([0.01, 0.0125, 0.01])
-table.setPosition([3, 0, 3])
+#table = viz.addChild('CustomModels/table1.osgb')
+#table.setScale([0.01, 0.0125, 0.01])
+#table.setPosition([3, 0, 3])
 
 # Add Left Shelf
 
@@ -152,9 +154,13 @@ createProblem()
 spawnCodeBoxes()
 
 # Establish line
-lineStart = [0,3,0]
-lineEnd = [1,0.1,-2]
-line = drawLine(lineStart, lineEnd)
+#lineStart = [0,3,0]
+#lineEnd = [1,0.1,-2]
+#line = drawLine(lineStart, lineEnd)
+
+# Add callbacks
+#vizact.onupdate(0, checkHover, joystickTracker)
+#vizact.onupdate(0, drawJoystickLine, joystickTracker)
 
 # Testing
 setTextures()

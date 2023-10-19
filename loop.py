@@ -8,7 +8,6 @@ import vizshape
 def __init__(self, normal, node, name, node_path, name_path):
 	self.normal
 	
-
 def createProblem():
 	
 	# Create and place code slots
@@ -56,18 +55,18 @@ def createProblem():
 	lid.setEuler([0, 90, 0])
 	
 	return
-	
+
+box1 = vizshape.addBox(splitFaces=True)
+box2 = vizshape.addBox(splitFaces=True)
+box3 = vizshape.addBox(splitFaces=True)
+box4 = vizshape.addBox(splitFaces=True)
+
 def spawnCodeBoxes():
 	
 	global box1
 	global box2
 	global box3
 	global box4
-	
-	box1 = vizshape.addBox()
-	box2 = vizshape.addBox()
-	box3 = vizshape.addBox()
-	box4 = vizshape.addBox()
 	
 	box1.setPosition([1,0.1,-2])
 	box2.setPosition([1,0.1,2])
@@ -83,6 +82,13 @@ def spawnCodeBoxes():
 	
 def setTextures():
 	
+	global box1
+	global box2
+	global box3
+	global box4
+	
+	newBox = vizshape.addBox(splitFaces=True)
+	
 	init = viz.addTexture('CustomImages/codeSolutions/init.jpg')
 	sol1 = viz.addTexture('CustomImages/codeSolutions/sol1.jpg')
 	sol2 = viz.addTexture('CustomImages/codeSolutions/sol2.jpg')
@@ -92,3 +98,8 @@ def setTextures():
 	slot2.texture(sol1)
 	slot3.texture(sol2)
 	slot4.texture(sol3)
+	
+	box1.texture(init)
+	box2.texture(sol1)
+	box3.texture(sol2)
+	box4.texture(sol3)
