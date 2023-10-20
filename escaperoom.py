@@ -56,6 +56,7 @@ if isCave:
 	dtrack_manager.startDefaultHeadPosition()
 else:
 	viz.go()
+	viz.collision(viz.ON)
 
 #variable for toggling door
 isDoor = True
@@ -70,73 +71,63 @@ table.setPosition([4.5, 0, 0])
 table.setEuler(90, 0, 0)
 
 
-# Add Left Shelf
+'''''''''RIGHT WALL -- KNAPSACK PROBLEM'''''''''
+# LEFT SHELF
 shelf = viz.addChild('CustomModels/shelf.fbx')
 shelf.setEuler(90, 0, 0)
 shelf.setScale([0.013, 0.0125, 0.01])
 shelf.setPosition([-4.5, 0, -2])
 
-# Add Middle Shelf
+# MIDDLE SHELF
 shelf = viz.addChild('CustomModels/shelf.fbx')
 shelf.setEuler(90, 0, 0)
 shelf.setScale([0.013, 0.0125, 0.01])
 shelf.setPosition([-4.5, 0, 0.5])
 
-# Add Right Shelf
+# RIGHT SHELF
 shelf = viz.addChild('CustomModels/shelf.fbx')
 shelf.setEuler(90, 0, 0)
 shelf.setScale([0.013, 0.0125, 0.01])
 shelf.setPosition([-4.5, 0, 3])
 
 
-# red cube
+# RED CUBE
 redCube = vizshape.addCube()
-redCube.setScale([0.15, 0.15, 0.15])
-redCube.setPosition([-4.5, 3, 3])
+redCube.setScale([0.2, 0.2, 0.2])
+redCube.setPosition([-4.63, 1.1, 2.25])
 redCube.color(viz.RED)
 
-# blue cube
+# BLUE CUBE
 blueCube = vizshape.addCube()
-blueCube.setScale([0.15, 0.15, 0.15])
-blueCube.setPosition([-4.5, 3, 3.2])
+blueCube.setScale([0.2, 0.2, 0.2])
+blueCube.setPosition([-4.63, 1.55, 2.6])
 blueCube.color(viz.BLUE)
 
-# green cube
+# GREEN CUBE
 greenCube = vizshape.addCube()
-greenCube.setScale([0.15, 0.15, 0.15])
-greenCube.setPosition([-4.5, 3, 3.4])
+greenCube.setScale([0.2, 0.2, 0.2])
+greenCube.setPosition([-4.63, 0.65, 0])
 greenCube.color(viz.GREEN)
 
-# orange cube
+# ORANGE CUBE
 orangeCube = vizshape.addCube()
-orangeCube.setScale([0.15, 0.15, 0.15])
-orangeCube.setPosition([-4.7, 2, 2.6])
+orangeCube.setScale([0.2, 0.2, 0.2])
+orangeCube.setPosition([-4.63, 2, -0.2])
 orangeCube.color(viz.ORANGE)
 
-# black cube
+# BLACK CUBE
 blackCube = vizshape.addCube()
-blackCube.setScale([0.15, 0.15, 0.15])
-blackCube.setPosition([-4.7, 2, 2.8])
+blackCube.setScale([0.2, 0.2, 0.2])
+blackCube.setPosition([-4.63, 0.22, -2.3])
 blackCube.color(viz.BLACK)
 
-# purple cube
+# PURPLE CUBE
 purpleCube = vizshape.addCube()
-purpleCube.setScale([0.15, 0.15, 0.15])
-purpleCube.setPosition([-4.7, 2, 3])
+purpleCube.setScale([0.2, 0.2, 0.2])
+purpleCube.setPosition([-4.63, 1.55, -2.8])
 purpleCube.color(viz.PURPLE)
+'''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''
 
-
-# TESTING SHAPES
-# Right shelf -- second highest row
-Cube1 = vizshape.addCube()
-Cube1.setScale([0.2, 0.2, 0.2])
-Cube1.setPosition([-4.68, 1.55, 2.6])
-Cube1.color(viz.BLACK)
-
-Cube2 = vizshape.addCube()
-Cube2.setScale([0.3, 0.3, 0.3])
-Cube2.setPosition([-4.68, 1.56, 2.25])
-Cube2.color(viz.BLACK)
 
 
 
