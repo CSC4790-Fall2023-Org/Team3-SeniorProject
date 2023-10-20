@@ -9,6 +9,10 @@ from utilFunctions import *
 
 isCave = False
 
+viz.phys.enable()
+
+
+
 ALMOST_ZERO=0.000001
 class MyDtrackManager():
 	def __init__(self, default_head_pos=[0,1,0]):
@@ -57,6 +61,8 @@ if isCave:
 else:
 	viz.go()
 	viz.collision(viz.ON)
+	viz.phys.enable()
+	
 
 #variable for toggling door
 isDoor = True
@@ -64,69 +70,90 @@ isDoor = True
 # Set up room and put up walls
 room = viz.addChild('lab.osgb')
 
-# Add table
+
 table = viz.addChild('CustomModels/table1.osgb')
+table.collidePlane()
+table.disable(viz.DYNAMICS)
 table.setScale([0.01, 0.0125, 0.01])
 table.setPosition([4.5, 0, 0])
 table.setEuler(90, 0, 0)
 
 
+
 '''''''''RIGHT WALL -- KNAPSACK PROBLEM'''''''''
-# LEFT SHELF
-shelf = viz.addChild('CustomModels/shelf.fbx')
-shelf.setEuler(90, 0, 0)
-shelf.setScale([0.013, 0.0125, 0.01])
-shelf.setPosition([-4.5, 0, -2])
+# Left Box
+leftBox = vizshape.addCube()
+leftBox.collideMesh()
+leftBox.setScale([1, 1.75, 1])
+leftBox.setPosition([-4.7, 0, -2])
+leftBox.color(viz.BLACK)
+leftBox.disable(viz.DYNAMICS)
 
-# MIDDLE SHELF
-shelf = viz.addChild('CustomModels/shelf.fbx')
-shelf.setEuler(90, 0, 0)
-shelf.setScale([0.013, 0.0125, 0.01])
-shelf.setPosition([-4.5, 0, 0.5])
+# Middle Box
+middleBox = vizshape.addCube()
+middleBox.collideMesh()
+middleBox.setScale([1, 1.75, 1])
+middleBox.setPosition([-4.7, 0, 0.5])
+middleBox.color(viz.BLACK)
+middleBox.disable(viz.DYNAMICS)
 
-# RIGHT SHELF
-shelf = viz.addChild('CustomModels/shelf.fbx')
-shelf.setEuler(90, 0, 0)
-shelf.setScale([0.013, 0.0125, 0.01])
-shelf.setPosition([-4.5, 0, 3])
+# Right Box
+rightBox = vizshape.addCube()
+rightBox.collideMesh()
+rightBox.setScale([1, 1.75, 1])
+rightBox.setPosition([-4.7, 0, 3])
+rightBox.color(viz.BLACK)
+rightBox.disable(viz.DYNAMICS)
 
 
 # RED CUBE
 redCube = vizshape.addCube()
+redCube.collideBox()
 redCube.setScale([0.2, 0.2, 0.2])
-redCube.setPosition([-4.63, 1.1, 2.25])
+redCube.setPosition([-4.7, 1.2, 3])
 redCube.color(viz.RED)
 
 # BLUE CUBE
 blueCube = vizshape.addCube()
+blueCube.collideBox()
 blueCube.setScale([0.2, 0.2, 0.2])
-blueCube.setPosition([-4.63, 1.55, 2.6])
+blueCube.setPosition([-4.7, 1.2, 0.5])
 blueCube.color(viz.BLUE)
 
 # GREEN CUBE
 greenCube = vizshape.addCube()
+greenCube.collideBox()
 greenCube.setScale([0.2, 0.2, 0.2])
-greenCube.setPosition([-4.63, 0.65, 0])
+greenCube.setPosition([-4.7, 1.2, -2])
 greenCube.color(viz.GREEN)
 
+'''
 # ORANGE CUBE
 orangeCube = vizshape.addCube()
 orangeCube.setScale([0.2, 0.2, 0.2])
-orangeCube.setPosition([-4.63, 2, -0.2])
+orangeCube.setPosition([-4.83, 2.02, -0.2])
 orangeCube.color(viz.ORANGE)
 
 # BLACK CUBE
 blackCube = vizshape.addCube()
+blackCube.collideBox(density=5)
+
 blackCube.setScale([0.2, 0.2, 0.2])
-blackCube.setPosition([-4.63, 0.22, -2.3])
+blackCube.setPosition([-4.83, 0.24, -2.3])
 blackCube.color(viz.BLACK)
 
 # PURPLE CUBE
 purpleCube = vizshape.addCube()
+purpleCube.collideBox(density=5)
+
 purpleCube.setScale([0.2, 0.2, 0.2])
-purpleCube.setPosition([-4.63, 1.55, -2.8])
+purpleCube.setPosition([-4.83, 1.57, -2.8])
 purpleCube.color(viz.PURPLE)
+'''
 '''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''
+
+
+
 
 
 
@@ -212,9 +239,4 @@ line = drawLine(lineStart, lineEnd)
 #selected = viz.Intersect(lineStart, lineEnd)
 checkHover(lineStart, lineEnd)
 
-'''light = viz.addLight()
-light.color(viz.BLUE)
-light.setPosition(0, 3, 0)
-light.intensity(100)'''
-
-viz.MainView.collision(viz.ON)
+viz.MainView.lookAt(table.getPosition())
