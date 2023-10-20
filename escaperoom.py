@@ -58,6 +58,7 @@ if isCave:
 	joystickTracker = vizconnect.getTracker("dtrack_flystick")
 else:
 	viz.go()
+	viz.collision(viz.ON)
 
 #variable for toggling door
 isDoor = True
@@ -66,18 +67,69 @@ isDoor = True
 room = viz.addChild('lab.osgb')
 
 # Add table
-#table = viz.addChild('CustomModels/table1.osgb')
-#table.setScale([0.01, 0.0125, 0.01])
-#table.setPosition([3, 0, 3])
+table = viz.addChild('CustomModels/table1.osgb')
+table.setScale([0.01, 0.0125, 0.01])
+table.setPosition([4.5, 0, 0])
+table.setEuler(90, 0, 0)
 
-# Add Left Shelf
+
+'''''''''RIGHT WALL -- KNAPSACK PROBLEM'''''''''
+# LEFT SHELF
+shelf = viz.addChild('CustomModels/shelf.fbx')
+shelf.setEuler(90, 0, 0)
+shelf.setScale([0.013, 0.0125, 0.01])
+shelf.setPosition([-4.5, 0, -2])
+
+# MIDDLE SHELF
+shelf = viz.addChild('CustomModels/shelf.fbx')
+shelf.setEuler(90, 0, 0)
+shelf.setScale([0.013, 0.0125, 0.01])
+shelf.setPosition([-4.5, 0, 0.5])
+
+# RIGHT SHELF
+shelf = viz.addChild('CustomModels/shelf.fbx')
+shelf.setEuler(90, 0, 0)
+shelf.setScale([0.013, 0.0125, 0.01])
+shelf.setPosition([-4.5, 0, 3])
 
 
-# Figure out the shelf + scale + texture or model or DIY
-# Import a scale model
-# Decide what our object will be -- which will be a model
-# Try and figure out how to make those objects interactive
-# Color coordinate the objects
+# RED CUBE
+redCube = vizshape.addCube()
+redCube.setScale([0.2, 0.2, 0.2])
+redCube.setPosition([-4.63, 1.1, 2.25])
+redCube.color(viz.RED)
+
+# BLUE CUBE
+blueCube = vizshape.addCube()
+blueCube.setScale([0.2, 0.2, 0.2])
+blueCube.setPosition([-4.63, 1.55, 2.6])
+blueCube.color(viz.BLUE)
+
+# GREEN CUBE
+greenCube = vizshape.addCube()
+greenCube.setScale([0.2, 0.2, 0.2])
+greenCube.setPosition([-4.63, 0.65, 0])
+greenCube.color(viz.GREEN)
+
+# ORANGE CUBE
+orangeCube = vizshape.addCube()
+orangeCube.setScale([0.2, 0.2, 0.2])
+orangeCube.setPosition([-4.63, 2, -0.2])
+orangeCube.color(viz.ORANGE)
+
+# BLACK CUBE
+blackCube = vizshape.addCube()
+blackCube.setScale([0.2, 0.2, 0.2])
+blackCube.setPosition([-4.63, 0.22, -2.3])
+blackCube.color(viz.BLACK)
+
+# PURPLE CUBE
+purpleCube = vizshape.addCube()
+purpleCube.setScale([0.2, 0.2, 0.2])
+purpleCube.setPosition([-4.63, 1.55, -2.8])
+purpleCube.color(viz.PURPLE)
+'''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''
+
 
 
 
@@ -164,5 +216,10 @@ spawnCodeBoxes()
 
 # Testing
 setTextures()
+
+'''light = viz.addLight()
+light.color(viz.BLUE)
+light.setPosition(0, 3, 0)
+light.intensity(100)'''
 
 viz.MainView.collision(viz.ON)
