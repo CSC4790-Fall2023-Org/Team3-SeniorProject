@@ -1,4 +1,4 @@
-﻿import viz
+import viz
 import viztask
 import vizact
 import vizinfo
@@ -43,15 +43,18 @@ class MyDtrackManager():
 			return True
 		else:
 			return False
-			
+
+joystickTracker = None
 #viz.setMultiSample(4)
 viz.fov(80)
 if isCave:
 	import vizconnect
-	CONFIG_FILE = "E:\\VizardProjects\\_CaveConfigFiles\\vizconnect_config_CaveFloor+ART_headnode.py"
+	CONFIG_FILE = "vizconnect_config_CaveFloor+ART_headnode.py"
+	#CONFIG_FILE = ""
 	vizconnect.go(CONFIG_FILE)	
 	dtrack_manager = MyDtrackManager()
 	dtrack_manager.startDefaultHeadPosition()
+	joystickTracker = vizconnect.getTracker("dtrack_flystick")
 else:
 	viz.go()
 	viz.collision(viz.ON)
@@ -202,13 +205,18 @@ createProblem()
 spawnCodeBoxes()
 
 # Establish line
-lineStart = [0,3,0]
-lineEnd = [1,0.1,-2]
-line = drawLine(lineStart, lineEnd)
+#lineStart = [0,3,0]
+#lineEnd = [1,0.1,-2]
+#line = drawLine(lineStart, lineEnd)
+
+# Add callbacks
+#vizact.onupdate(0, checkHover, joystickTracker)
+#vizact.onupdate(0, drawJoystickLine, joystickTracker)
 
 # Testing
 #selected = viz.Intersect(lineStart, lineEnd)
 #checkHover(lineStart, lineEnd)
+setTextures()
 
 '''light = viz.addLight()
 light.color(viz.BLUE)
