@@ -1,9 +1,10 @@
-﻿import viz
+import viz
 import viztask
 import vizact
 import vizinfo
 import vizproximity
 import vizshape
+import vizfx
 from loop import *
 from utilFunctions import *
 
@@ -42,10 +43,8 @@ class MyDtrackManager():
 			return True
 		else:
 			return False
-			
 
 joystickTracker = None
-
 #viz.setMultiSample(4)
 viz.fov(80)
 if isCave:
@@ -215,6 +214,8 @@ spawnCodeBoxes()
 #vizact.onupdate(0, drawJoystickLine, joystickTracker)
 
 # Testing
+#selected = viz.Intersect(lineStart, lineEnd)
+#checkHover(lineStart, lineEnd)
 setTextures()
 
 '''light = viz.addLight()
@@ -222,4 +223,188 @@ light.color(viz.BLUE)
 light.setPosition(0, 3, 0)
 light.intensity(100)'''
 
-viz.MainView.collision(viz.ON)
+'''''''''''''''''''''''''''''LOGIC GATE PROBLEM'''''''''''''''''''''''''''''''''
+def changeTexture():
+	global gateValue
+	object = viz.pick()
+	if object.valid():
+		gateValue = (gateValue + 1) % 3
+		gate.texture(gateTextures[gateValue])
+	wireColor(wire3, GateOutput(gateValue, wire1Value, wire2Value))
+
+def NotGate(c, i):
+	if c == 0:
+		return not i
+	else:
+		return i
+
+def GateOutput(c, i1, i2):
+	if c == 0:
+		return i1 and i2
+	elif c == 1:
+		return i1 or i2
+	else:
+		if i1 == i2:
+			return False
+		else:
+			return True
+
+def objColor(obj, val):
+	if val:
+		obj.color(viz.YELLOW)
+	else:
+		obj.color(viz.WHITE)
+
+andGateTex = viz.addTexture("AndGate.png")
+orGateTex = viz.addTexture("OrGate.png")
+xorGateTex = viz.addTexture("XorGate.png")
+notGateTex = viz.addTexture("NotGate.png")
+gateTextures = [andGateTex, orGateTex, xorGateTex]
+
+light1 = [vizshape.addSphere(), False]
+light1[0].setPosition(5,3.5,1.5)
+light1[0].setScale(.25,.25,.25)
+objColor(light1[0], light1[1])
+
+light2 = [vizshape.addSphere(), True]
+light2[0].setPosition(5,2.75,1.5)
+light2[0].setScale(.25,.25,.25)
+objColor(light2[0], light2[1])
+
+light3 = [vizshape.addSphere(), True]
+light3[0].setPosition(5,2,1.5)
+light3[0].setScale(.25,.25,.25)
+objColor(light3[0], light3[1])
+
+light4 = [vizshape.addSphere(), True]
+light4[0].setPosition(5,1.25,1.5)
+light4[0].setScale(.25,.25,.25)
+objColor(light4[0], light4[1])
+
+light5 = [vizshape.addSphere(), False]
+light5[0].setPosition(5,0.5,1.5)
+light5[0].setScale(.25,.25,.25)
+objColor(light5[0], light5[1])
+
+wire1 = [vizshape.addCylinder(), light1[1]] #[object, boolVal]
+wire1[0].setPosition(5,3.5,2)
+wire1[0].setScale(.1,1,.1)
+wire1[0].setEuler([0,90,0])
+objColor(wire1[0], wire1[1])
+
+wire2 = [vizshape.addCylinder(), light2[1]]
+wire2[0].setPosition(5,2.75,2)
+wire2[0].setScale(.1,1,.1)
+wire2[0].setEuler([0,90,0])
+objColor(wire2[0], wire2[1])
+
+wire3 = [vizshape.addCylinder(), light3[1]]
+wire3[0].setPosition(5,2,2)
+wire3[0].setScale(.1,1,.1)
+wire3[0].setEuler([0,90,0])
+objColor(wire3[0], wire3[1])
+
+wire4 = [vizshape.addCylinder(), light4[1]]
+wire4[0].setPosition(5,1.25,2)
+wire4[0].setScale(.1,1,.1)
+wire4[0].setEuler([0,90,0])
+objColor(wire4[0], wire4[1])
+
+wire5 = [vizshape.addCylinder(), light5[1]]
+wire5[0].setPosition(5,0.5,3.5)
+wire5[0].setScale(.1,4,.1)
+wire5[0].setEuler([0,90,0])
+objColor(wire5[0], wire5[1])
+
+gate1 = [viz.addTexQuad(), 1, wire1[1], wire2[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
+gate1[0].setPosition([4.9,3,2.8])
+gate1[0].setScale(0.75,0.75,0.75)
+gate1[0].setEuler([90,0,180])
+gate1[0].texture(gateTextures[gate1[1]])
+
+wire6 = [vizshape.addCylinder(), GateOutput(gate1[1], gate1[2], gate1[3])]
+wire6[0].setPosition(5,3,4)
+wire6[0].setScale(.1,3,.1)
+wire6[0].setEuler([0,90,0])
+objColor(wire6[0], wire6[1])
+
+gate2 = [viz.addTexQuad(), 0, wire3[1], wire4[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
+gate2[0].setPosition([4.9,1.7,2.7])
+gate2[0].setScale(0.75,0.75,0.75)
+gate2[0].setEuler([90,0,180])
+gate2[0].texture(gateTextures[gate1[2]])
+
+wire7 = [vizshape.addCylinder(), GateOutput(gate2[1], gate2[2], gate2[3])]
+wire7[0].setPosition(5,1.7,4)
+wire7[0].setScale(.1,3,.1)
+wire7[0].setEuler([0,90,0])
+objColor(wire7[0], wire7[1])
+
+wire8 = [vizshape.addCylinder(), wire6[1]]
+wire8[0].setPosition(4.5,3,5)
+wire8[0].setScale(.1,1,.1)
+wire8[0].setEuler([90,90,0])
+objColor(wire8[0], wire8[1])
+
+wire9 = [vizshape.addCylinder(), wire7[1]]
+wire9[0].setPosition(4.5,1.7,5)
+wire9[0].setScale(.1,1,.1)
+wire9[0].setEuler([90,90,0])
+objColor(wire9[0], wire9[1])
+
+wire10 = [vizshape.addCylinder(), wire5[1]]
+wire10[0].setPosition(4.5,0.5,5)
+wire10[0].setScale(.1,1,.1)
+wire10[0].setEuler([90,90,0])
+objColor(wire10[0], wire10[1])
+
+gate3 = [viz.addTexQuad(), 0, wire8[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
+gate3[0].setPosition([3.5,3,4.8])
+gate3[0].setScale(0.75,0.75,0.75)
+gate3[0].setEuler([0,0,180])
+gate3[0].texture(notGateTex)
+
+gate4 = [viz.addTexQuad(), 2, wire9[1], wire10[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
+gate4[0].setPosition([3.5,1.2,4.8])
+gate4[0].setScale(0.75,0.75,0.75)
+gate4[0].setEuler([0,0,180])
+gate4[0].texture(gateTextures[gate4[1]])
+
+wire11 = [vizshape.addCylinder(), NotGate(gate3[1], gate3[2])]
+wire11[0].setPosition(2.8,2.5,5)
+wire11[0].setScale(.1,1.5,.1)
+wire11[0].setEuler([90,35,0])
+objColor(wire11[0], wire11[1])
+
+wire12 = [vizshape.addCylinder(), GateOutput(gate4[1], gate4[2], gate4[3])]
+wire12[0].setPosition(2.8,1.2,5)
+wire12[0].setScale(.1,1,.1)
+wire12[0].setEuler([90,90,0])
+objColor(wire12[0], wire12[1])
+
+gate5 = [viz.addTexQuad(), 1, wire11[1], wire12[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
+gate5[0].setPosition([2,1.5,4.8])
+gate5[0].setScale(0.75,0.75,0.75)
+gate5[0].setEuler([0,0,180])
+gate5[0].texture(gateTextures[gate5[1]])
+
+wire12 = [vizshape.addCylinder(), GateOutput(gate5[1], gate5[2], gate5[3])]
+wire12[0].setPosition(1.5,1.5,5)
+wire12[0].setScale(.1,0.5,.1)
+wire12[0].setEuler([90,90,0])
+objColor(wire12[0], wire12[1])
+
+outlight = [vizshape.addSphere(), wire12[1]]
+outlight[0].setPosition(1,1.5,5)
+outlight[0].setScale(.25,.25,.25)
+objColor(outlight[0], outlight[1])
+
+def moveMushroom():
+	move = vizact.animation(2)
+	mushroom.addAction(move)	
+	
+mushroom = viz.addAvatar('Martial_arts_character.osgb')
+vizact.onkeydown('3', moveMushroom)
+mushroom.setScale([0.5, 0.5, 0.5])
+mushroom.setPosition([4.5, 1, 0])
+mushroom.setEuler(90,0,0)
