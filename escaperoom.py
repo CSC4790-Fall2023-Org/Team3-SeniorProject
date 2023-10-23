@@ -12,6 +12,7 @@ from utilFunctions import *
 isCave = False
 
 ALMOST_ZERO=0.000001
+
 class MyDtrackManager():
 	def __init__(self, default_head_pos=[0,1,0]):
 		self.default_head_pos = default_head_pos
@@ -56,9 +57,10 @@ if isCave:
 	dtrack_manager = MyDtrackManager()
 	dtrack_manager.startDefaultHeadPosition()
 	joystickTracker = vizconnect.getTracker("dtrack_flystick")
+	viz.MainView.collision(viz.ON)
 else:
 	viz.go()
-	viz.MainView.collision
+	viz.MainView.collision(viz.ON)
 
 #variable for toggling door
 isDoor = True
@@ -72,7 +74,7 @@ table.setScale([0.01, 0.0125, 0.01])
 table.setPosition([4.5, 0, 0])
 table.setEuler(90, 0, 0)
 
-''''''''' ABOVE DOOR -- TIMER '''''''''
+''''''''''''''''''''''' ABOVE DOOR -- TIMER '''''''''''''''''''''
 #Load Textures
 tex0 = viz.addTexture('CustomTextures/timer/0.png')
 tex1 = viz.addTexture('CustomTextures/timer/1.png')
@@ -158,9 +160,10 @@ def swap_timer_tex(a1, q1, a2, q2, a3, q3, a4, q4):
 			q4.texture(a4.next())
 		
 timer = viztask.schedule( swap_timer_tex(countUp1, quad1, countUp2, quad2, countUp4, quad4, countUp5, quad5) )
-''''''''' END OF ABOVE DOOR -- TIMER '''''''''
+''''''''''''''''''''''' END OF ABOVE DOOR -- TIMER '''''''''''''''''''''
 
-'''''''''RIGHT WALL -- KNAPSACK PROBLEM'''''''''
+
+''''''''''''''''''''''' RIGHT WALL -- KNAPSACK PROBLEM '''''''''''''''''''''
 # LEFT SHELF
 shelf = viz.addChild('CustomModels/shelf.fbx')
 shelf.setEuler(90, 0, 0)
@@ -215,7 +218,7 @@ purpleCube = vizshape.addCube()
 purpleCube.setScale([0.2, 0.2, 0.2])
 purpleCube.setPosition([-4.63, 1.55, -2.8])
 purpleCube.color(viz.PURPLE)
-'''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''
+'''''''''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''''''''
 
 # Create Wall 1 with door
 # The wall consists of three parts, left of the door, above the door, and right of the door
@@ -226,7 +229,7 @@ if isDoor:
 	door = viz.addTexQuad()
 	door.setScale([1.5,2.5,1])
 	door.setPosition([0,1.25,5])
-	doorCover = viz.addTexture('CustomImages/door.jpg')
+	doorCover = viz.addTexture('CustomTextures/door.jpg')
 	door.texture(doorCover)
 
 # Fill in wall around door
@@ -268,9 +271,9 @@ floor.setScale([10,10,10])
 
 
 # Create textures
-wallCover = viz.addTexture('CustomImages/concreteWall.jpg')
+wallCover = viz.addTexture('CustomTextures/concreteWall.jpg')
 ceilingCover = viz.addTexture('images/tile_slate.jpg')
-floorCover = viz.addTexture('CustomImages/wood.jpg')
+floorCover = viz.addTexture('CustomTextures/wood.jpg')
 
 
 # Cover walls with texture
@@ -303,10 +306,11 @@ spawnCodeBoxes()
 #checkHover(lineStart, lineEnd)
 setTextures()
 
-'''light = viz.addLight()
-light.color(viz.BLUE)
+light = viz.addLight()
+light.color(viz.WHITE)
 light.setPosition(0, 3, 0)
-light.intensity(100)'''
+light.intensity(100)
+
 
 '''''''''''''''''''''''''''''LOGIC GATE PROBLEM'''''''''''''''''''''''''''''''''
 def changeTexture():
@@ -488,8 +492,10 @@ def moveMushroom():
 	move = vizact.animation(2)
 	mushroom.addAction(move)	
 	
-mushroom = viz.addAvatar('Martial_arts_character.osgb')
+mushroom = viz.addAvatar('CustomModels/MushroomMan/Martial_arts_character.osgb')
 vizact.onkeydown('3', moveMushroom)
 mushroom.setScale([0.5, 0.5, 0.5])
 mushroom.setPosition([4.5, 1, 0])
 mushroom.setEuler(90,0,0)
+
+
