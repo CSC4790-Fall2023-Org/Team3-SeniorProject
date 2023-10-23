@@ -45,7 +45,7 @@ def changeTexture():
     object = viz.pick()
     if object.valid():
         counter += 1  # Increment the global counter
-        quad.texture(colors[counter % 7])
+        quad.texture(colors[counter % len(colors)])
     # print(counter) 
 
 # Callback for mouse clicks

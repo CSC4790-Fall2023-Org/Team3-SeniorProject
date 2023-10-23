@@ -1,9 +1,9 @@
-﻿import viz
-import viztask
+﻿import viztask
 import vizact
 import vizinfo
 import vizproximity
 import vizshape
+import vizfx
 
 #viz.setMultiSample(4)
 viz.fov(80)
@@ -20,10 +20,12 @@ table = viz.addChild('CustomModels/table1.osgb')
 table.setScale([0.01, 0.015, 0.01])
 table.setPosition([3, 0, 3])
 
-#
-dog = viz.addChild('CustomModels/shiba.glb.')
-dog.setScale([0, 0, 0])
-dog.setPosition([0, 0, 0])
+#Add light
+mylight = viz.addLight()
+mylight.enable() 
+mylight.position(0, 4, 0) 
+mylight.spread(180) 
+mylight.intensity(2) 
 
 # Add Shelf
 shelf = viz.addChild('CustomModels/shelf.fbx')
