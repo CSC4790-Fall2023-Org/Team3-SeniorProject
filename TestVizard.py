@@ -3,7 +3,6 @@ import vizfx
 import vizshape
 import vizact
 import random
-import vizfx
 
 viz.setMultiSample(4)
 
@@ -191,8 +190,6 @@ wire6[0].setScale(.1,2,.1)
 wire6[0].setPosition(10,9,-5)
 wire6[0].setEuler([0,90,0])
 objColor(wire6[0], wire6[1])
-
-
 
 '''
 Test Logic gate code
