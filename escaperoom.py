@@ -454,7 +454,7 @@ gate3[0].setEuler([0,0,180])
 gate3[0].texture(notGateTex)
 
 gate4 = [viz.addTexQuad(), 2, wire9[1], wire10[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
-gate4[0].setPosition([3.5,1.2,4.8])
+gate4[0].setPosition([3.5,1.2,4.9])
 gate4[0].setScale(0.75,0.75,0.75)
 gate4[0].setEuler([0,0,180])
 gate4[0].texture(gateTextures[gate4[1]])
