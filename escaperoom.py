@@ -269,6 +269,12 @@ floor.setScale([10,10,10])
 # viz.INTERSECT must be turned off for all the room walls so we don't accidentally pick up the floor !!!
 # ---------------------------------
 
+# Add light source
+light = viz.addLight()
+light.enable()
+light.position(0, 3.9, 0)
+light.spread(180)
+light.intensity(2)
 
 # Create textures
 wallCover = viz.addTexture('CustomTextures/concreteWall.jpg')
