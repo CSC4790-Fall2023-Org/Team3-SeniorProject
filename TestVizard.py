@@ -213,4 +213,4 @@ wire3.setEuler([0,90,90])
 wire3Value = False
 
 vizact.onkeydown('r', changeTexture) #ROTATE GATE OPTIONS
-'''
+''''''
