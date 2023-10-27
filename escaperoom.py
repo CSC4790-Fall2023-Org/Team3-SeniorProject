@@ -10,6 +10,8 @@ from utilFunctions import *
 
 isCave = False
 
+viz.phys.enable()
+
 ALMOST_ZERO=0.000001
 class MyDtrackManager():
 	def __init__(self, default_head_pos=[0,1,0]):
@@ -73,60 +75,74 @@ table.setEuler(90, 0, 0)
 
 
 '''''''''RIGHT WALL -- KNAPSACK PROBLEM'''''''''
-# LEFT SHELF
-shelf = viz.addChild('CustomModels/shelf.fbx')
-shelf.setEuler(90, 0, 0)
-shelf.setScale([0.013, 0.0125, 0.01])
-shelf.setPosition([-4.5, 0, -2])
+pillar1 = vizshape.addCylinder()
+pillar1.collideMesh()
+pillar1.setScale([0.5, 1.8, 0.5])
+pillar1.setPosition([-4.5, 0, -3])
 
-# MIDDLE SHELF
-shelf = viz.addChild('CustomModels/shelf.fbx')
-shelf.setEuler(90, 0, 0)
-shelf.setScale([0.013, 0.0125, 0.01])
-shelf.setPosition([-4.5, 0, 0.5])
+pillar2 = vizshape.addCylinder()
+pillar2.collideMesh()
+pillar2.setScale([0.5, 1.8, 0.5])
+pillar2.setPosition([-4.5, 0, -1.5])
 
-# RIGHT SHELF
-shelf = viz.addChild('CustomModels/shelf.fbx')
-shelf.setEuler(90, 0, 0)
-shelf.setScale([0.013, 0.0125, 0.01])
-shelf.setPosition([-4.5, 0, 3])
+pillar3 = vizshape.addCylinder()
+pillar3.collideMesh()
+pillar3.setScale([0.5, 1.8, 0.5])
+pillar3.setPosition([-4.5, 0, -0])
+
+pillar4 = vizshape.addCylinder()
+pillar4.collideMesh()
+pillar4.setScale([0.5, 1.8, 0.5])
+pillar4.setPosition([-4.5, 0, 1.5])
+
+pillar5 = vizshape.addCylinder()
+pillar5.collideMesh()
+pillar5.setScale([0.5, 1.8, 0.5])
+pillar5.setPosition([-4.5, 0, 3])
 
 
 # RED CUBE
 redCube = vizshape.addCube()
-redCube.setScale([0.2, 0.2, 0.2])
-redCube.setPosition([-4.63, 1.1, 2.25])
+redCube.collideBox()
+redCube.setScale([0.15, 0.15, 0.15])
+redCube.setPosition([-4.5, 2, -3])
 redCube.color(viz.RED)
 
 # BLUE CUBE
 blueCube = vizshape.addCube()
-blueCube.setScale([0.2, 0.2, 0.2])
-blueCube.setPosition([-4.63, 1.55, 2.6])
+blueCube.collideBox()
+blueCube.setScale([0.15, 0.15, 0.15])
+blueCube.setPosition([-4.5, 2, -1.5])
 blueCube.color(viz.BLUE)
 
 # GREEN CUBE
 greenCube = vizshape.addCube()
-greenCube.setScale([0.2, 0.2, 0.2])
-greenCube.setPosition([-4.63, 0.65, 0])
+greenCube.collideBox()
+greenCube.setScale([0.15, 0.15, 0.15])
+greenCube.setPosition([-4.5, 2, 0])
 greenCube.color(viz.GREEN)
 
 # ORANGE CUBE
 orangeCube = vizshape.addCube()
-orangeCube.setScale([0.2, 0.2, 0.2])
-orangeCube.setPosition([-4.63, 2, -0.2])
+orangeCube.collideBox()
+orangeCube.setScale([0.15, 0.15, 0.15])
+orangeCube.setPosition([-4.5, 2, 1.5])
 orangeCube.color(viz.ORANGE)
 
 # BLACK CUBE
 blackCube = vizshape.addCube()
-blackCube.setScale([0.2, 0.2, 0.2])
-blackCube.setPosition([-4.63, 0.22, -2.3])
+blackCube.collideBox()
+blackCube.setScale([0.15, 0.15, 0.15])
+blackCube.setPosition([-4.5, 2, 3])
 blackCube.color(viz.BLACK)
 
+'''
 # PURPLE CUBE
 purpleCube = vizshape.addCube()
 purpleCube.setScale([0.2, 0.2, 0.2])
 purpleCube.setPosition([-4.63, 1.55, -2.8])
 purpleCube.color(viz.PURPLE)
+'''
 '''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''
 
 
@@ -176,6 +192,7 @@ floor = viz.addTexQuad()
 floor.setPosition([0,0.001,0])
 floor.setEuler([0,90,0])
 floor.setScale([10,10,10])
+floor.collidePlane()
 
 # ---------------------------------
 # viz.INTERSECT must be turned off for all the room walls so we don't accidentally pick up the floor !!!
