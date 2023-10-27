@@ -77,6 +77,7 @@ table.setPosition([4.5, 0, 0])
 table.setEuler(90, 0, 0)
 
 ''''''''''''''''''''''' ABOVE DOOR -- TIMER '''''''''''''''''''''
+'''
 #Load Textures
 tex0 = viz.addTexture('CustomTextures/timer/0.png')
 tex1 = viz.addTexture('CustomTextures/timer/1.png')
@@ -139,6 +140,7 @@ quad5.setPosition([-1, 3.25, 4.998])  # Put quad in view
 #Start digit at 0
 quad5.texture(tex0)
 	
+
 def swap_timer_tex(a1, q1, a2, q2, a3, q3, a4, q4):
 	counter = 0
 	while True:
@@ -160,8 +162,9 @@ def swap_timer_tex(a1, q1, a2, q2, a3, q3, a4, q4):
 		#increment tens digit of minutes
 		if(counter % 600 == 0):
 			q4.texture(a4.next())
+'''
 		
-timer = viztask.schedule( swap_timer_tex(countUp1, quad1, countUp2, quad2, countUp4, quad4, countUp5, quad5) )
+# timer = viztask.schedule( swap_timer_tex(countUp1, quad1, countUp2, quad2, countUp4, quad4, countUp5, quad5) )
 ''''''''''''''''''''''' END OF ABOVE DOOR -- TIMER '''''''''''''''''''''
 
 '''''''''RIGHT WALL -- KNAPSACK PROBLEM'''''''''
