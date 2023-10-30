@@ -328,10 +328,6 @@ spawnCodeBoxes()
 #checkHover(lineStart, lineEnd)
 setTextures()
 
-light = viz.addLight()
-light.color(viz.WHITE)
-light.setPosition(0, 3, 0)
-light.intensity(100)
 
 
 '''''''''''''''''''''''''''''LOGIC GATE PROBLEM'''''''''''''''''''''''''''''''''
