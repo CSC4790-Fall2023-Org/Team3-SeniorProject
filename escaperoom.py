@@ -1,4 +1,4 @@
-﻿import viz
+import viz
 import viztask
 import vizact
 import vizinfo
@@ -519,3 +519,5 @@ vizact.onkeydown('3', moveMushroom)
 mushroom.setScale([0.5, 0.5, 0.5])
 mushroom.setPosition([4.5, 1, 0])
 mushroom.setEuler(90,0,0)
+
+
