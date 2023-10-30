@@ -73,53 +73,66 @@ table.setEuler(90, 0, 0)
 
 
 '''''''''RIGHT WALL -- KNAPSACK PROBLEM'''''''''
-# LEFT SHELF
-shelf = viz.addChild('CustomModels/shelf.fbx')
-shelf.setEuler(90, 0, 0)
-shelf.setScale([0.013, 0.0125, 0.01])
-shelf.setPosition([-4.5, 0, -2])
+viz.phys.enable()
 
-# MIDDLE SHELF
-shelf = viz.addChild('CustomModels/shelf.fbx')
-shelf.setEuler(90, 0, 0)
-shelf.setScale([0.013, 0.0125, 0.01])
-shelf.setPosition([-4.5, 0, 0.5])
+pillar1 = vizshape.addCylinder()
+pillar1.setPosition(-4.5, 0, -3)
+pillar1.setScale(.5,1.8,.5)
+pillar1.collideMesh()
 
-# RIGHT SHELF
-shelf = viz.addChild('CustomModels/shelf.fbx')
-shelf.setEuler(90, 0, 0)
-shelf.setScale([0.013, 0.0125, 0.01])
-shelf.setPosition([-4.5, 0, 3])
+pillar2 = vizshape.addCylinder()
+pillar2.setPosition(-4.5, 0, -1.5)
+pillar2.setScale(.5,1.8,.5)
+pillar2.collideMesh()
 
+pillar3 = vizshape.addCylinder()
+pillar3.setPosition(-4.5, 0, 0)
+pillar3.setScale(.5,1.8,.5)
+pillar3.collideMesh()
+
+pillar4 = vizshape.addCylinder()
+pillar4.setPosition(-4.5, 0, 1.5)
+pillar4.setScale(.5,1.8,.5)
+pillar4.collideMesh()
+
+pillar5 = vizshape.addCylinder()
+pillar5.setPosition(-4.5, 0, 3)
+pillar5.setScale(.5,1.8,.5)
+pillar5.collideMesh()
 
 # RED CUBE
 redCube = vizshape.addCube()
-redCube.setScale([0.2, 0.2, 0.2])
-redCube.setPosition([-4.63, 1.1, 2.25])
+redCube.collideBox()
+redCube.setScale([0.15, 0.15, 0.15])
+redCube.setPosition([-4.5, 2, -3])
 redCube.color(viz.RED)
-
+'''
 # BLUE CUBE
 blueCube = vizshape.addCube()
+blueCube.collideBox()
 blueCube.setScale([0.2, 0.2, 0.2])
-blueCube.setPosition([-4.63, 1.55, 2.6])
+blueCube.setPosition([-4.5, 1, -1])
 blueCube.color(viz.BLUE)
 
 # GREEN CUBE
 greenCube = vizshape.addCube()
+greenCube.collideBox()
 greenCube.setScale([0.2, 0.2, 0.2])
-greenCube.setPosition([-4.63, 0.65, 0])
+greenCube.setPosition([-4.5, 1, 0])
 greenCube.color(viz.GREEN)
 
 # ORANGE CUBE
 orangeCube = vizshape.addCube()
+orangeCube.collideBox()
 orangeCube.setScale([0.2, 0.2, 0.2])
-orangeCube.setPosition([-4.63, 2, -0.2])
+orangeCube.setPosition([-4.5, 1, 1])
 orangeCube.color(viz.ORANGE)
 
 # BLACK CUBE
 blackCube = vizshape.addCube()
+blackCube.collideBox()
 blackCube.setScale([0.2, 0.2, 0.2])
-blackCube.setPosition([-4.63, 0.22, -2.3])
+blackCube.setPosition([-4.5, 1, 2])
 blackCube.color(viz.BLACK)
 
 # PURPLE CUBE
@@ -127,11 +140,8 @@ purpleCube = vizshape.addCube()
 purpleCube.setScale([0.2, 0.2, 0.2])
 purpleCube.setPosition([-4.63, 1.55, -2.8])
 purpleCube.color(viz.PURPLE)
+'''
 '''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''
-
-
-
-
 # Create Wall 1 with door
 # The wall consists of three parts, left of the door, above the door, and right of the door
 # Alternatively door could be overlaid on a singular instance of the wall, however this gives the option to have 
