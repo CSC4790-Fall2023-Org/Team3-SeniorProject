@@ -100,7 +100,6 @@ pillar5.collideMesh()
 pillar5.setScale([0.5, 1.8, 0.5])
 pillar5.setPosition([-4.5, 0, 3])
 
-
 # RED CUBE
 redCube = vizshape.addCube()
 redCube.collideBox()
@@ -136,7 +135,6 @@ blackCube.setScale([0.15, 0.15, 0.15])
 blackCube.setPosition([-4.5, 2, 3])
 blackCube.color(viz.BLACK)
 
-'''
 # PURPLE CUBE
 purpleCube = vizshape.addCube()
 purpleCube.setScale([0.2, 0.2, 0.2])
@@ -144,10 +142,6 @@ purpleCube.setPosition([-4.63, 1.55, -2.8])
 purpleCube.color(viz.PURPLE)
 '''
 '''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''
-
-
-
-
 # Create Wall 1 with door
 # The wall consists of three parts, left of the door, above the door, and right of the door
 # Alternatively door could be overlaid on a singular instance of the wall, however this gives the option to have 
