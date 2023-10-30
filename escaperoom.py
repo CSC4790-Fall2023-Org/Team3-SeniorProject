@@ -2,6 +2,7 @@ import viz
 import viztask
 import vizact
 import vizinfo
+import vizmat
 import vizproximity
 import vizshape
 import vizfx
@@ -13,6 +14,7 @@ isCave = False
 viz.phys.enable()
 
 ALMOST_ZERO=0.000001
+
 class MyDtrackManager():
 	def __init__(self, default_head_pos=[0,1,0]):
 		self.default_head_pos = default_head_pos
@@ -57,9 +59,10 @@ if isCave:
 	dtrack_manager = MyDtrackManager()
 	dtrack_manager.startDefaultHeadPosition()
 	joystickTracker = vizconnect.getTracker("dtrack_flystick")
+	viz.MainView.collision(viz.ON)
 else:
 	viz.go()
-	viz.collision(viz.ON)
+	viz.MainView.collision(viz.ON)
 
 #variable for toggling door
 isDoor = True
@@ -73,8 +76,96 @@ table.setScale([0.01, 0.0125, 0.01])
 table.setPosition([4.5, 0, 0])
 table.setEuler(90, 0, 0)
 
+''''''''''''''''''''''' ABOVE DOOR -- TIMER '''''''''''''''''''''
+#Load Textures
+tex0 = viz.addTexture('CustomTextures/timer/0.png')
+tex1 = viz.addTexture('CustomTextures/timer/1.png')
+tex2 = viz.addTexture('CustomTextures/timer/2.png')
+tex3 = viz.addTexture('CustomTextures/timer/3.png')
+tex4 = viz.addTexture('CustomTextures/timer/4.png')
+tex5 = viz.addTexture('CustomTextures/timer/5.png')
+tex6 = viz.addTexture('CustomTextures/timer/6.png')
+tex7 = viz.addTexture('CustomTextures/timer/7.png')
+tex8 = viz.addTexture('CustomTextures/timer/8.png')
+tex9 = viz.addTexture('CustomTextures/timer/9.png')
+colon = viz.addTexture('CustomTextures/timer/colon.png')
+white1 = viz.addTexture('CustomTextures/timer/white1.jpg')
 
-####################RIGHT WALL -- KNAPSACK PROBLEM##################
+#Add textures to an array, array numbers correspond with Quad# (3 is colon)
+countUp1 = viz.cycle([tex1, tex2, tex3, tex4, tex5, tex6, tex7, tex8, tex9, tex0])
+countUp2 = viz.cycle([tex1, tex2, tex3, tex4, tex5, tex0])
+countUp4 = viz.cycle([tex1, tex2, tex3, tex4, tex5, tex6, tex7, tex8, tex9, tex0])
+countUp5 = viz.cycle([tex1, tex2, tex3, tex4, tex5, tex6, tex7, tex8, tex9, tex0])
+
+#Add a background to mount the clock on 
+back = viz.addTexQuad()
+back.setScale([2.5,0.6,0.5])
+back.setPosition([0, 3.25, 4.999])  # Put quad in view
+#Start digit at 0
+back.texture(white1)
+
+
+#Ones seconds digit
+quad1 = viz.addTexQuad()
+quad1.setScale([0.3,0.3,0.3])
+quad1.setPosition([1, 3.25, 4.998])  # Put quad in view
+#Start digit at 0
+quad1.texture(tex0)
+
+#Tens seconds digit
+quad2 = viz.addTexQuad()
+quad2.setScale([0.3,0.3,0.3])
+quad2.setPosition([0.5, 3.25, 4.998])  # Put quad in view
+#Start digit at 0
+quad2.texture(tex0)
+
+#Colon
+quad3 = viz.addTexQuad()
+quad3.setScale([0.3,0.3,0.3])
+quad3.setPosition([0, 3.25, 4.998])  # Put quad in view
+quad3.texture(colon)
+
+#Ones minutes digit
+quad4 = viz.addTexQuad()
+quad4.setScale([0.3,0.3,0.3])
+quad4.setPosition([-0.5, 3.25, 4.998])  # Put quad in view
+#Start digit at 0
+quad4.texture(tex0)
+
+#Tens minutes digit
+quad5= viz.addTexQuad()
+quad5.setScale([0.3,0.3,0.3])
+quad5.setPosition([-1, 3.25, 4.998])  # Put quad in view
+#Start digit at 0
+quad5.texture(tex0)
+	
+def swap_timer_tex(a1, q1, a2, q2, a3, q3, a4, q4):
+	counter = 0
+	while True:
+		yield viztask.waitTime(1)
+		counter = counter + 1
+		#print(counter)
+		
+		#increment ones digit of seconds
+		q1.texture(a1.next())
+		
+		#increment tens digits of seconds
+		if(counter % 10 == 0):
+			q2.texture(a2.next())
+		
+		#increment ones digit of minutes
+		if(counter % 60 == 0):
+			q3.texture(a3.next())
+		
+		#increment tens digit of minutes
+		if(counter % 600 == 0):
+			q4.texture(a4.next())
+		
+timer = viztask.schedule( swap_timer_tex(countUp1, quad1, countUp2, quad2, countUp4, quad4, countUp5, quad5) )
+''''''''''''''''''''''' END OF ABOVE DOOR -- TIMER '''''''''''''''''''''
+
+
+'''''''''RIGHT WALL -- KNAPSACK PROBLEM'''''''''
 pillar1 = vizshape.addCylinder()
 pillar1.collideMesh()
 pillar1.setScale([0.5, 1.8, 0.5])
@@ -99,6 +190,7 @@ pillar5 = vizshape.addCylinder()
 pillar5.collideMesh()
 pillar5.setScale([0.5, 1.8, 0.5])
 pillar5.setPosition([-4.5, 0, 3])
+
 
 # RED CUBE
 redCube = vizshape.addCube()
@@ -135,13 +227,15 @@ blackCube.setScale([0.15, 0.15, 0.15])
 blackCube.setPosition([-4.5, 2, 3])
 blackCube.color(viz.BLACK)
 
+'''
 # PURPLE CUBE
 purpleCube = vizshape.addCube()
 purpleCube.setScale([0.2, 0.2, 0.2])
 purpleCube.setPosition([-4.63, 1.55, -2.8])
 purpleCube.color(viz.PURPLE)
+'''
+'''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''
 
-#########################END OF RIGHT WALL -- KNAPSACK PROBLEM########################
 # Create Wall 1 with door
 # The wall consists of three parts, left of the door, above the door, and right of the door
 # Alternatively door could be overlaid on a singular instance of the wall, however this gives the option to have 
@@ -151,7 +245,7 @@ if isDoor:
 	door = viz.addTexQuad()
 	door.setScale([1.5,2.5,1])
 	door.setPosition([0,1.25,5])
-	doorCover = viz.addTexture('CustomImages/door.jpg')
+	doorCover = viz.addTexture('CustomTextures/door.jpg')
 	door.texture(doorCover)
 
 # Fill in wall around door
@@ -186,17 +280,22 @@ floor = viz.addTexQuad()
 floor.setPosition([0,0.001,0])
 floor.setEuler([0,90,0])
 floor.setScale([10,10,10])
-floor.collidePlane()
 
 # ---------------------------------
 # viz.INTERSECT must be turned off for all the room walls so we don't accidentally pick up the floor !!!
 # ---------------------------------
 
+# Add light source
+light = viz.addLight()
+light.enable()
+light.position(0, 3.9, 0)
+light.spread(180)
+light.intensity(2)
 
 # Create textures
-wallCover = viz.addTexture('CustomImages/concreteWall.jpg')
+wallCover = viz.addTexture('CustomTextures/concreteWall.jpg')
 ceilingCover = viz.addTexture('images/tile_slate.jpg')
-floorCover = viz.addTexture('CustomImages/wood.jpg')
+floorCover = viz.addTexture('CustomTextures/wood.jpg')
 
 
 # Cover walls with texture
@@ -234,7 +333,8 @@ light.color(viz.WHITE)
 light.setPosition(0, 3, 0)
 light.intensity(100)
 
-#####################################LOGIC GATE PROBLEM##############################
+
+'''''''''''''''''''''''''''''LOGIC GATE PROBLEM'''''''''''''''''''''''''''''''''
 def changeTexture():
 	global gateValue
 	object = viz.pick()
@@ -265,11 +365,11 @@ def objColor(obj, val):
 		obj.color(viz.YELLOW)
 	else:
 		obj.color(viz.WHITE)
-
-andGateTex = viz.addTexture("AndGate.png")
-orGateTex = viz.addTexture("OrGate.png")
-xorGateTex = viz.addTexture("XorGate.png")
-notGateTex = viz.addTexture("NotGate.png")
+		
+andGateTex = viz.addTexture("CustomTextures/logic-symbols/AndGate.png")
+orGateTex = viz.addTexture("CustomTextures/logic-symbols/OrGate.png")
+xorGateTex = viz.addTexture("CustomTextures/logic-symbols/XorGate.png")
+notGateTex = viz.addTexture("CustomTextures/logic-symbols/NotGate.png")
 gateTextures = [andGateTex, orGateTex, xorGateTex]
 
 light1 = [vizshape.addSphere(), False]
@@ -414,8 +514,10 @@ def moveMushroom():
 	move = vizact.animation(2)
 	mushroom.addAction(move)	
 	
-mushroom = viz.addAvatar('Martial_arts_character.osgb')
+mushroom = viz.addAvatar('CustomModels/MushroomMan/Martial_arts_character.osgb')
 vizact.onkeydown('3', moveMushroom)
 mushroom.setScale([0.5, 0.5, 0.5])
 mushroom.setPosition([4.5, 1, 0])
 mushroom.setEuler(90,0,0)
+
+

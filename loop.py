@@ -87,7 +87,7 @@ def setTextures():
 	global box3
 	global box4
 	
-	newBox = vizshape.addBox(splitFaces=True)
+	#newBox = vizshape.addBox(splitFaces=True)
 	
 	init = viz.addTexture('CustomImages/codeSolutions/init.jpg')
 	sol1 = viz.addTexture('CustomImages/codeSolutions/sol1.jpg')
@@ -99,7 +99,13 @@ def setTextures():
 	slot3.texture(sol2)
 	slot4.texture(sol3)
 	
-	box1.texture(init)
-	box2.texture(sol1)
-	box3.texture(sol2)
-	box4.texture(sol3)
+	#testtex = viz.addTexture('image1.jpg')
+	
+	box1.color(5,5,5)
+	box1.texture(init, node='top')
+	box2.color(5,5,5)
+	box2.texture(sol1, node='top')
+	box3.color(5,5,5)
+	box3.texture(sol2, node='top')
+	box4.color(5,5,5)
+	box4.texture(sol3, node='top')
