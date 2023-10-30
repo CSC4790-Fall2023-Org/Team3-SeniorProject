@@ -74,7 +74,7 @@ table.setPosition([4.5, 0, 0])
 table.setEuler(90, 0, 0)
 
 
-'''''''''RIGHT WALL -- KNAPSACK PROBLEM'''''''''
+####################RIGHT WALL -- KNAPSACK PROBLEM##################
 pillar1 = vizshape.addCylinder()
 pillar1.collideMesh()
 pillar1.setScale([0.5, 1.8, 0.5])
@@ -140,8 +140,8 @@ purpleCube = vizshape.addCube()
 purpleCube.setScale([0.2, 0.2, 0.2])
 purpleCube.setPosition([-4.63, 1.55, -2.8])
 purpleCube.color(viz.PURPLE)
-'''
-'''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''
+
+#########################END OF RIGHT WALL -- KNAPSACK PROBLEM########################
 # Create Wall 1 with door
 # The wall consists of three parts, left of the door, above the door, and right of the door
 # Alternatively door could be overlaid on a singular instance of the wall, however this gives the option to have 
@@ -229,12 +229,12 @@ spawnCodeBoxes()
 #checkHover(lineStart, lineEnd)
 setTextures()
 
-'''light = viz.addLight()
-light.color(viz.BLUE)
+light = viz.addLight()
+light.color(viz.WHITE)
 light.setPosition(0, 3, 0)
-light.intensity(100)'''
+light.intensity(100)
 
-'''''''''''''''''''''''''''''LOGIC GATE PROBLEM'''''''''''''''''''''''''''''''''
+#####################################LOGIC GATE PROBLEM##############################
 def changeTexture():
 	global gateValue
 	object = viz.pick()
