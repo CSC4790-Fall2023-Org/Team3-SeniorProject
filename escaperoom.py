@@ -10,6 +10,8 @@ from utilFunctions import *
 
 isCave = False
 
+viz.phys.enable()
+
 ALMOST_ZERO=0.000001
 class MyDtrackManager():
 	def __init__(self, default_head_pos=[0,1,0]):
@@ -73,32 +75,30 @@ table.setEuler(90, 0, 0)
 
 
 '''''''''RIGHT WALL -- KNAPSACK PROBLEM'''''''''
-viz.phys.enable()
-
 pillar1 = vizshape.addCylinder()
-pillar1.setPosition(-4.5, 0, -3)
-pillar1.setScale(.5,1.8,.5)
 pillar1.collideMesh()
+pillar1.setScale([0.5, 1.8, 0.5])
+pillar1.setPosition([-4.5, 0, -3])
 
 pillar2 = vizshape.addCylinder()
-pillar2.setPosition(-4.5, 0, -1.5)
-pillar2.setScale(.5,1.8,.5)
 pillar2.collideMesh()
+pillar2.setScale([0.5, 1.8, 0.5])
+pillar2.setPosition([-4.5, 0, -1.5])
 
 pillar3 = vizshape.addCylinder()
-pillar3.setPosition(-4.5, 0, 0)
-pillar3.setScale(.5,1.8,.5)
 pillar3.collideMesh()
+pillar3.setScale([0.5, 1.8, 0.5])
+pillar3.setPosition([-4.5, 0, -0])
 
 pillar4 = vizshape.addCylinder()
-pillar4.setPosition(-4.5, 0, 1.5)
-pillar4.setScale(.5,1.8,.5)
 pillar4.collideMesh()
+pillar4.setScale([0.5, 1.8, 0.5])
+pillar4.setPosition([-4.5, 0, 1.5])
 
 pillar5 = vizshape.addCylinder()
-pillar5.setPosition(-4.5, 0, 3)
-pillar5.setScale(.5,1.8,.5)
 pillar5.collideMesh()
+pillar5.setScale([0.5, 1.8, 0.5])
+pillar5.setPosition([-4.5, 0, 3])
 
 # RED CUBE
 redCube = vizshape.addCube()
@@ -106,33 +106,33 @@ redCube.collideBox()
 redCube.setScale([0.15, 0.15, 0.15])
 redCube.setPosition([-4.5, 2, -3])
 redCube.color(viz.RED)
-'''
+
 # BLUE CUBE
 blueCube = vizshape.addCube()
 blueCube.collideBox()
-blueCube.setScale([0.2, 0.2, 0.2])
-blueCube.setPosition([-4.5, 1, -1])
+blueCube.setScale([0.15, 0.15, 0.15])
+blueCube.setPosition([-4.5, 2, -1.5])
 blueCube.color(viz.BLUE)
 
 # GREEN CUBE
 greenCube = vizshape.addCube()
 greenCube.collideBox()
-greenCube.setScale([0.2, 0.2, 0.2])
-greenCube.setPosition([-4.5, 1, 0])
+greenCube.setScale([0.15, 0.15, 0.15])
+greenCube.setPosition([-4.5, 2, 0])
 greenCube.color(viz.GREEN)
 
 # ORANGE CUBE
 orangeCube = vizshape.addCube()
 orangeCube.collideBox()
-orangeCube.setScale([0.2, 0.2, 0.2])
-orangeCube.setPosition([-4.5, 1, 1])
+orangeCube.setScale([0.15, 0.15, 0.15])
+orangeCube.setPosition([-4.5, 2, 1.5])
 orangeCube.color(viz.ORANGE)
 
 # BLACK CUBE
 blackCube = vizshape.addCube()
 blackCube.collideBox()
-blackCube.setScale([0.2, 0.2, 0.2])
-blackCube.setPosition([-4.5, 1, 2])
+blackCube.setScale([0.15, 0.15, 0.15])
+blackCube.setPosition([-4.5, 2, 3])
 blackCube.color(viz.BLACK)
 
 # PURPLE CUBE
@@ -186,6 +186,7 @@ floor = viz.addTexQuad()
 floor.setPosition([0,0.001,0])
 floor.setEuler([0,90,0])
 floor.setScale([10,10,10])
+floor.collidePlane()
 
 # ---------------------------------
 # viz.INTERSECT must be turned off for all the room walls so we don't accidentally pick up the floor !!!
