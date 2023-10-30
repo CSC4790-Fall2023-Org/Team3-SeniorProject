@@ -6,6 +6,7 @@ In order, the symbols are AND, NAND, NOR, NOT, OR, XOR, XNOR
 import viz
 import vizact
 import vizinfo
+import vizmat
 
 viz.setMultiSample(4)
 viz.fov(60)
@@ -29,25 +30,22 @@ xorImage = viz.addTexture('CustomTextures/xor.png')
 xnorImage = viz.addTexture('CustomTextures/xnor.png')
 
 # Variable declarations
-counter = 0
-colors = [andImage, nandImage, norImage, notImage, orImage, xorImage, xnorImage]
+colors1 =  viz.cycle([andImage, nandImage, norImage, notImage, orImage, xorImage, xnorImage])
 
 # Create surface to wrap the texture on
-quad = viz.addTexQuad()
-quad.setScale([1.5,1,1])
-quad.setPosition([0, 2, 3])  # Put quad in view
+quad1 = viz.addTexQuad()
+quad1.setScale([1.5,1,1])
+quad1.setPosition([0, 2, 3])  # Put quad in view
 
 # Wrap initial texture on quad
-quad.texture(andImage)
+quad1.texture(andImage)
 
-def changeTexture():
-    global counter  # Declare counter as global
+def changeTexture(texArr, texQuad):
     object = viz.pick()
     if object.valid():
-        counter += 1  # Increment the global counter
-        quad.texture(colors[counter % len(colors)])
-    # print(counter) 
+        texQuad.texture(texArr.next())
 
 # Callback for mouse clicks
 # First argument can be viz.MOUSEBUTTON_LEFT, viz.MOUSEBUTTON_RIGHT, or viz.MOUSEBUTTON_MIDDLE
-vizact.onmousedown(viz.MOUSEBUTTON_LEFT, changeTexture)
+vizact.onmousedown(viz.MOUSEBUTTON_LEFT, lambda: changeTexture(colors1, quad1))
+
