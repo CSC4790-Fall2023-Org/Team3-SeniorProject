@@ -191,13 +191,13 @@ pillar5.collideMesh()
 pillar5.setScale([0.5, 1.8, 0.5])
 pillar5.setPosition([-4.5, 0, 3])
 
-
 # RED CUBE
 redCube = vizshape.addCube()
 redCube.collideBox()
 redCube.setScale([0.15, 0.15, 0.15])
 redCube.setPosition([-4.5, 2, -3])
 redCube.color(viz.RED)
+redCube.density = 1
 
 # BLUE CUBE
 blueCube = vizshape.addCube()
@@ -205,6 +205,7 @@ blueCube.collideBox()
 blueCube.setScale([0.15, 0.15, 0.15])
 blueCube.setPosition([-4.5, 2, -1.5])
 blueCube.color(viz.BLUE)
+blueCube.density = 2
 
 # GREEN CUBE
 greenCube = vizshape.addCube()
@@ -212,6 +213,7 @@ greenCube.collideBox()
 greenCube.setScale([0.15, 0.15, 0.15])
 greenCube.setPosition([-4.5, 2, 0])
 greenCube.color(viz.GREEN)
+greenCube.density = 3
 
 # ORANGE CUBE
 orangeCube = vizshape.addCube()
@@ -219,6 +221,7 @@ orangeCube.collideBox()
 orangeCube.setScale([0.15, 0.15, 0.15])
 orangeCube.setPosition([-4.5, 2, 1.5])
 orangeCube.color(viz.ORANGE)
+orangeCube.density = 4
 
 # BLACK CUBE
 blackCube = vizshape.addCube()
@@ -226,6 +229,28 @@ blackCube.collideBox()
 blackCube.setScale([0.15, 0.15, 0.15])
 blackCube.setPosition([-4.5, 2, 3])
 blackCube.color(viz.BLACK)
+blackCube.density = 5
+
+arrow = viz.addChild('arrow.wrl')
+arrow.setScale([0.3,0.3,0.3])
+arrow.visible(viz.OFF)
+
+densityDisplay = viz.addText('',pos = [0, 0, 0])
+densityDisplay.setScale([0.25,0.25,0.25])
+densityDisplay.setEuler([-90,0,0])
+densityDisplay.color(viz.BLACK)
+densityDisplay.alignment(viz.ALIGN_CENTER_BOTTOM)
+
+def printWeight():
+    object = viz.pick()
+    if object.valid() and (object in [redCube, blueCube, greenCube, orangeCube, blackCube]):
+        objPos = object.getPosition()
+        objPos[1] += .2
+        
+        densityDisplay.setPosition(objPos)
+        densityDisplay.message('Weight: ' + str(object.density))
+    
+vizact.onmousedown(viz.MOUSEBUTTON_LEFT, printWeight)
 
 '''
 # PURPLE CUBE
