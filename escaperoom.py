@@ -303,9 +303,13 @@ spawnCodeBoxes()
 #lineEnd = [1,0.1,-2]
 #line = drawLine(lineStart, lineEnd)
 
+isPressed = {pressed, notPressed}
+
 # Add callbacks
 #vizact.onupdate(0, checkHover, joystickTracker)
-#vizact.onupdate(0, drawJoystickLine, joystickTracker)
+vizact.onupdate(0, drawJoystickLine, joystickTracker)
+#vizact.onupdate(1, checkPress, trigger, isPressed)
+vizact.onupdate(2, triggerCheck, joystickTracker)
 
 # Testing
 #selected = viz.Intersect(lineStart, lineEnd)

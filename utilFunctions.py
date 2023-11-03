@@ -19,17 +19,33 @@ def checkHover(joystickTracker):
 	if hovered.valid:
 		hovered.object.color(viz.BLUE)
 		
-def setParent(parent, lineStart, lineEnd):
-	hovered = viz.intersect(lineStart, lineEnd)
-	if hovered.valid:
-		hovered.object.setParent(parent)	
+#def setParent(parent, lineStart, lineEnd):
+#	hovered = viz.intersect(lineStart, lineEnd)
+#	if hovered.valid:
+#		hovered.object.setParent(parent)	
 
 line = None
+lineStart = None
+lineEnd = None
+
 def drawJoystickLine(joystickTracker):
 	global line
+	global lineStart
+	global lineEnd
+	
 	if line is not None:
 		line.remove()
 	lineStart = joystickTracker.getPosition()
 	direction = joystickTracker.getMatrix().getForward()
 	lineEnd = vizmat.MoveAlongVector(lineStart, direction, 50)
 	line = drawLine(lineStart, lineEnd)
+	
+def triggerCheck(joystickTracker):
+	global lineStart
+	global lineEnd
+	global line
+	
+	if checkPress(trigger):
+		hovered = viz.intersect(lineStart, lineEnd)
+		if hovered.valid:
+			hovered.object.setParent(line)

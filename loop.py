@@ -10,7 +10,7 @@ def __init__(self, normal, node, name, node_path, name_path):
 	
 def createProblem():
 	
-	# Create and place code slots
+	# Create and place code slots and sensors
 	global slot1
 	global slot2
 	global slot3
@@ -56,10 +56,12 @@ def createProblem():
 	
 	return
 
+# Initialize boxes and prox sensors
 box1 = vizshape.addBox(splitFaces=True)
 box2 = vizshape.addBox(splitFaces=True)
 box3 = vizshape.addBox(splitFaces=True)
 box4 = vizshape.addBox(splitFaces=True)
+
 
 def spawnCodeBoxes():
 	
