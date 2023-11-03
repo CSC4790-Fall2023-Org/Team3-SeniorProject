@@ -11,6 +11,8 @@ from utilFunctions import *
 
 isCave = False
 
+viz.phys.enable()
+
 ALMOST_ZERO=0.000001
 
 class MyDtrackManager():
@@ -163,62 +165,101 @@ timer = viztask.schedule( swap_timer_tex(countUp1, quad1, countUp2, quad2, count
 ''''''''''''''''''''''' END OF ABOVE DOOR -- TIMER '''''''''''''''''''''
 
 
-''''''''''''''''''''''' RIGHT WALL -- KNAPSACK PROBLEM '''''''''''''''''''''
-# LEFT SHELF
-shelf = viz.addChild('CustomModels/shelf.fbx')
-shelf.setEuler(90, 0, 0)
-shelf.setScale([0.013, 0.0125, 0.01])
-shelf.setPosition([-4.5, 0, -2])
+'''''''''RIGHT WALL -- KNAPSACK PROBLEM'''''''''
+pillar1 = vizshape.addCylinder()
+pillar1.collideMesh()
+pillar1.setScale([0.5, 1.8, 0.5])
+pillar1.setPosition([-4.5, 0, -3])
 
-# MIDDLE SHELF
-shelf = viz.addChild('CustomModels/shelf.fbx')
-shelf.setEuler(90, 0, 0)
-shelf.setScale([0.013, 0.0125, 0.01])
-shelf.setPosition([-4.5, 0, 0.5])
+pillar2 = vizshape.addCylinder()
+pillar2.collideMesh()
+pillar2.setScale([0.5, 1.8, 0.5])
+pillar2.setPosition([-4.5, 0, -1.5])
 
-# RIGHT SHELF
-shelf = viz.addChild('CustomModels/shelf.fbx')
-shelf.setEuler(90, 0, 0)
-shelf.setScale([0.013, 0.0125, 0.01])
-shelf.setPosition([-4.5, 0, 3])
+pillar3 = vizshape.addCylinder()
+pillar3.collideMesh()
+pillar3.setScale([0.5, 1.8, 0.5])
+pillar3.setPosition([-4.5, 0, -0])
 
+pillar4 = vizshape.addCylinder()
+pillar4.collideMesh()
+pillar4.setScale([0.5, 1.8, 0.5])
+pillar4.setPosition([-4.5, 0, 1.5])
+
+pillar5 = vizshape.addCylinder()
+pillar5.collideMesh()
+pillar5.setScale([0.5, 1.8, 0.5])
+pillar5.setPosition([-4.5, 0, 3])
 
 # RED CUBE
 redCube = vizshape.addCube()
-redCube.setScale([0.2, 0.2, 0.2])
-redCube.setPosition([-4.63, 1.1, 2.25])
+redCube.collideBox()
+redCube.setScale([0.15, 0.15, 0.15])
+redCube.setPosition([-4.5, 2, -3])
 redCube.color(viz.RED)
+redCube.density = 1
 
 # BLUE CUBE
 blueCube = vizshape.addCube()
-blueCube.setScale([0.2, 0.2, 0.2])
-blueCube.setPosition([-4.63, 1.55, 2.6])
+blueCube.collideBox()
+blueCube.setScale([0.15, 0.15, 0.15])
+blueCube.setPosition([-4.5, 2, -1.5])
 blueCube.color(viz.BLUE)
+blueCube.density = 2
 
 # GREEN CUBE
 greenCube = vizshape.addCube()
-greenCube.setScale([0.2, 0.2, 0.2])
-greenCube.setPosition([-4.63, 0.65, 0])
+greenCube.collideBox()
+greenCube.setScale([0.15, 0.15, 0.15])
+greenCube.setPosition([-4.5, 2, 0])
 greenCube.color(viz.GREEN)
+greenCube.density = 3
 
 # ORANGE CUBE
 orangeCube = vizshape.addCube()
-orangeCube.setScale([0.2, 0.2, 0.2])
-orangeCube.setPosition([-4.63, 2, -0.2])
+orangeCube.collideBox()
+orangeCube.setScale([0.15, 0.15, 0.15])
+orangeCube.setPosition([-4.5, 2, 1.5])
 orangeCube.color(viz.ORANGE)
+orangeCube.density = 4
 
 # BLACK CUBE
 blackCube = vizshape.addCube()
-blackCube.setScale([0.2, 0.2, 0.2])
-blackCube.setPosition([-4.63, 0.22, -2.3])
+blackCube.collideBox()
+blackCube.setScale([0.15, 0.15, 0.15])
+blackCube.setPosition([-4.5, 2, 3])
 blackCube.color(viz.BLACK)
+blackCube.density = 5
 
+arrow = viz.addChild('arrow.wrl')
+arrow.setScale([0.3,0.3,0.3])
+arrow.visible(viz.OFF)
+
+densityDisplay = viz.addText('',pos = [0, 0, 0])
+densityDisplay.setScale([0.25,0.25,0.25])
+densityDisplay.setEuler([-90,0,0])
+densityDisplay.color(viz.BLACK)
+densityDisplay.alignment(viz.ALIGN_CENTER_BOTTOM)
+
+def printWeight():
+    object = viz.pick()
+    if object.valid() and (object in [redCube, blueCube, greenCube, orangeCube, blackCube]):
+        objPos = object.getPosition()
+        objPos[1] += .2
+        
+        densityDisplay.setPosition(objPos)
+        densityDisplay.message('Weight: ' + str(object.density))
+    
+vizact.onmousedown(viz.MOUSEBUTTON_LEFT, printWeight)
+
+'''
 # PURPLE CUBE
 purpleCube = vizshape.addCube()
 purpleCube.setScale([0.2, 0.2, 0.2])
 purpleCube.setPosition([-4.63, 1.55, -2.8])
 purpleCube.color(viz.PURPLE)
-'''''''''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''''''''
+'''
+'''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''
 
 # Create Wall 1 with door
 # The wall consists of three parts, left of the door, above the door, and right of the door
@@ -316,10 +357,6 @@ vizact.onupdate(2, triggerCheck, joystickTracker)
 #checkHover(lineStart, lineEnd)
 setTextures()
 
-light = viz.addLight()
-light.color(viz.WHITE)
-light.setPosition(0, 3, 0)
-light.intensity(100)
 
 
 '''''''''''''''''''''''''''''LOGIC GATE PROBLEM'''''''''''''''''''''''''''''''''
