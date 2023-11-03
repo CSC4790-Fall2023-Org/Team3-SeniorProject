@@ -5,9 +5,16 @@ import vizinfo
 import vizproximity
 import vizshape
 
+def __init__(self, normal, node, name, node_path, name_path):
+	self.normal
+	
 def createProblem():
 	
 	# Create and place code slots
+	global slot1
+	global slot2
+	global slot3
+	global slot4
 	slot1 = viz.addTexQuad()
 	slot2 = viz.addTexQuad()
 	slot3 = viz.addTexQuad()
@@ -15,12 +22,16 @@ def createProblem():
 	
 	slot1.setPosition([-1, 3.4, -4.9])
 	slot1.setScale([7,0.6,0.5])
+	slot1.setEuler([180,0,0])
 	slot2.setPosition([-1, 2.6, -4.9])
 	slot2.setScale([7,0.6,0.5])
+	slot2.setEuler([180,0,0])
 	slot3.setPosition([-1, 1.8, -4.9])
 	slot3.setScale([7,0.6,0.5])
+	slot3.setEuler([180,0,0])
 	slot4.setPosition([-1, 1, -4.9])
 	slot4.setScale([7,0.6,0.5])
+	slot4.setEuler([180,0,0])
 	
 	# Create chest
 	wallBack = viz.addTexQuad()
@@ -44,17 +55,57 @@ def createProblem():
 	lid.setEuler([0, 90, 0])
 	
 	return
-	
+
+box1 = vizshape.addBox(splitFaces=True)
+box2 = vizshape.addBox(splitFaces=True)
+box3 = vizshape.addBox(splitFaces=True)
+box4 = vizshape.addBox(splitFaces=True)
+
 def spawnCodeBoxes():
 	
-	global testItem
-	testItem = vizshape.addBox()
-	testItem.setPosition([1,0.1,-2])
-	testItem.color(viz.RED)
+	global box1
+	global box2
+	global box3
+	global box4
+	
+	box1.setPosition([1,0.1,-2])
+	box2.setPosition([1,0.1,2])
+	box3.setPosition([-2,0.1,-2])
+	box4.setPosition([-2,0.1,2])
+	
+	box1.color(viz.BLACK)
+	box2.color(viz.BLACK)
+	box3.color(viz.BLACK)
+	box4.color(viz.BLACK)
 	
 	return
 	
-def checkHover(lineStart, lineEnd):
+def setTextures():
 	
-	hovered = viz.Intersect(lineStart, lineEnd)
-	hovered.object.color = (viz.BLUE)
+	global box1
+	global box2
+	global box3
+	global box4
+	
+	#newBox = vizshape.addBox(splitFaces=True)
+	
+	init = viz.addTexture('CustomImages/codeSolutions/init.jpg')
+	sol1 = viz.addTexture('CustomImages/codeSolutions/sol1.jpg')
+	sol2 = viz.addTexture('CustomImages/codeSolutions/sol2.jpg')
+	sol3 = viz.addTexture('CustomImages/codeSolutions/sol3.jpg')
+	
+	slot1.texture(init)
+	slot2.texture(sol1)
+	slot3.texture(sol2)
+	slot4.texture(sol3)
+	
+	#testtex = viz.addTexture('image1.jpg')
+	
+	box1.color(5,5,5)
+	box1.texture(init, node='top')
+	box2.color(5,5,5)
+	box2.texture(sol1, node='top')
+	box3.color(5,5,5)
+	box3.texture(sol2, node='top')
+	box4.color(5,5,5)
+	box4.texture(sol3, node='top')
