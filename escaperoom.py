@@ -275,6 +275,10 @@ def printWeight():
     
 vizact.onmousedown(viz.MOUSEBUTTON_LEFT, printWeight)
 
+# Add knapsack table
+knapsackTable = viz.addChild('CustomModels/table1.osgb')
+knapsackTable.setScale([0.01, 0.0125, 0.01])
+knapsackTable.setPosition([-2, 0, 4.4])
 '''''''''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''
 
 # Create Wall 1 with door
