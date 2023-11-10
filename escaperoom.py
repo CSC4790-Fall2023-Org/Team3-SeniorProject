@@ -435,10 +435,10 @@ def checkBox4Position():
 				box4Placed = True
 
 # Add callbacks
-if not box1Placed: vizact.onupdate(0, checkBox1Position)
-if not box2Placed: vizact.onupdate(1, checkBox2Position)
-if not box3Placed: vizact.onupdate(2, checkBox3Position)
-if not box4Placed: vizact.onupdate(3, checkBox4Position)		
+if not box1Placed: vizact.onupdate(11, checkBox1Position)
+if not box2Placed: vizact.onupdate(12, checkBox2Position)
+if not box3Placed: vizact.onupdate(13, checkBox3Position)
+if not box4Placed: vizact.onupdate(14, checkBox4Position)		
 
 #setTextures()
 
@@ -468,7 +468,6 @@ def joystickCallback(tool):
 #	vizact.onsensordown(joystickTracker, 1, tool.grabAndHold())
 
 viz.fov(80)
-arrow = vizshape.addArrow(length=0.2,color=viz.BLUE)
 if isCave:
 	import vizconnect
 	CONFIG_FILE = "newConfig.py"
@@ -476,20 +475,27 @@ if isCave:
 	dtrack_manager = MyDtrackManager()
 	dtrack_manager.startDefaultHeadPosition()
 	joystickTracker = vizconnect.getTracker("dtrack_flystick")
-	arrowLink = viz.link(joystickTracker, arrow)
-	arrowLink.postMultLinkable(viz.MainView)
-	viz.link(arrowLink, tool)
-	tool.setUpdateFunction(joystickCallback)
-#	grabberWrapper = vizconnect.addTool(raw=tool, name='joystick', make='Virtual', model='Grabber')
-#	grabberWrapper.setParent(joystickTracker)
-#	vizact.onupdate(4, joystickCallback)
-#	rawInput['flystick'] = joystickTracker.getRaw()
-#	rawProxy.setCallback(tool, tool.grabAndHold, 1)
+#	arrowLink = viz.link(joystickTracker, arrow)
+#	arrowLink.postMultLinkable(viz.MainView)
+#	viz.link(arrowLink, tool)
+#	tool.setUpdateFunction(joystickCallback)
+
+	viz.onupdate(0, positionCallback, box1, True)
+	viz.onupdate(1, positionCallback, box2, True)
+	viz.onupdate(2, positionCallback, box3, True)
+	viz.onupdate(3, positionCallback, box4, True)
+	viz.onupdate(4, positionCallback, redCube, False)
+	viz.onupdate(5, positionCallback, greenCube, False)
+	viz.onupdate(6, positionCallback, blackCube, False)
+	viz.onupdate(7, positionCallback, orangeCube, False)
+	viz.onupdate(8, positionCallback, blueCube, False)
+	
 	viz.MainView.collision(viz.ON)
 else:
 	from vizconnect.util import virtual_trackers
 	mouseTracker = virtual_trackers.ScrollWheel(followMouse = True)
 	mouseTracker.distance = 3
+	arrow = vizshape.addArrow(length=0.2,color=viz.BLUE)
 	arrowLink = viz.link(mouseTracker, arrow)
 	arrowLink.postMultLinkable(viz.MainView)
 	viz.link(arrowLink,tool)
@@ -684,4 +690,16 @@ mushroom.setScale([0.5, 0.5, 0.5])
 mushroom.setPosition([4.5, 1, 0])
 mushroom.setEuler(90,0,0)
 
-
+def positionCallback(item, isBox):
+	userPosition = viz.MainView.getPosition()
+	itemPosition = item.getPosition()
+	if isBox:
+		if userPosition[0] > itemPosition[0] - 1 and userPosition[0] > itemPosition[0] + 1:
+			if userPosition[2] > itemPosition[2] - 1 and userPosition[2] > itemPosition[2] + 1:
+				if joystickTracker.isButtonDown(0):
+					tool.grabAndHold()
+	else:
+		if userPosition[0] > itemPosition[0] - 0.5 and userPosition[0] > itemPosition[0] + 0.5:
+			if userPosition[2] > itemPosition[2] - 0.5 and userPosition[2] > itemPosition[2] + 0.5:
+				if joystickTracker.isButtonDown(0):
+					tool.grabAndHold()
