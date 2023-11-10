@@ -243,16 +243,18 @@ blackCube.color(viz.BLACK)
 blackCube.density = 2
 blackCube.label = '0111'
 
+
 '''
 # PURPLE CUBE
 purpleCube = vizshape.addCube()
 purpleCube.collideBox()
 purpleCube.setScale([0.2, 0.2, 0.2])
-purpleCube.setPosition([1, 2, 0])
+purpleCube.setPosition([-2, 2, 4.4])
 purpleCube.color(viz.PURPLE)
 purpleCube.density = 2
 purpleCube.label = '1100'
 '''
+
 
 arrow = viz.addChild('arrow.wrl')
 arrow.setScale([0.3,0.3,0.3])
@@ -275,11 +277,13 @@ def printWeight():
     
 vizact.onmousedown(viz.MOUSEBUTTON_LEFT, printWeight)
 
-# Add knapsack table
-knapsackTable = viz.addChild('CustomModels/table1.osgb')
-knapsackTable.setScale([0.01, 0.0125, 0.01])
-knapsackTable.setPosition([-2, 0, 4.4])
-knapsackTable.collideMesh()
+# Add knapsack box
+knapsackBox = vizshape.addCube()
+knapsackBox.setPosition([-2, 0, 4.4])
+knapsackBox.setEuler([90, 0, 0])
+
+# def checkKnap():
+	
 
 '''''''''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''
 
