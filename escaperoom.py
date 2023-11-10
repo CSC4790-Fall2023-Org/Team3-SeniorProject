@@ -277,6 +277,7 @@ def printWeight():
     
 vizact.onmousedown(viz.MOUSEBUTTON_LEFT, printWeight)
 
+<<<<<<< HEAD
 # Add knapsack box
 knapsackBox = vizshape.addCube()
 knapsackBox.setPosition([-2, 0, 4.4])
@@ -286,6 +287,16 @@ knapsackBox.setEuler([90, 0, 0])
 	
 
 '''''''''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''
+=======
+'''
+# PURPLE CUBE
+purpleCube = vizshape.addCube()
+purpleCube.setScale([0.2, 0.2, 0.2])
+purpleCube.setPosition([-4.63, 1.55, -2.8])
+purpleCube.color(viz.PURPLE)
+'''
+'''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''
+>>>>>>> Matt
 
 # Create Wall 1 with door
 # The wall consists of three parts, left of the door, above the door, and right of the door
@@ -332,7 +343,6 @@ floor = viz.addTexQuad()
 floor.setPosition([0,0.001,0])
 floor.setEuler([0,90,0])
 floor.setScale([10,10,10])
-floor.collidePlane()
 
 
 wallOneLeft.collidePlane()
