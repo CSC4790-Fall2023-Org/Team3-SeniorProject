@@ -199,7 +199,7 @@ pillar5.setPosition([-4.5, 2, 3])
 redCube = vizshape.addCube()
 redCube.collideBox(0.15,0.15,0.15)
 redCube.setScale([0.15, 0.15, 0.15])
-redCube.setPosition([-4.5, 3, -3])
+#redCube.setPosition([-4.5, 3, -3])
 redCube.color(viz.RED)
 redCube.density = 2
 redCube.label = '0110'
@@ -208,7 +208,7 @@ redCube.label = '0110'
 blueCube = vizshape.addCube()
 blueCube.collideBox(0.15,0.15,0.15)
 blueCube.setScale([0.15, 0.15, 0.15])
-blueCube.setPosition([-4.5, 3, -1.5])
+#blueCube.setPosition([-4.5, 3, -1.5])
 blueCube.color(viz.BLUE)
 blueCube.density = 3
 blueCube.label = '0101'
@@ -217,7 +217,7 @@ blueCube.label = '0101'
 greenCube = vizshape.addCube()
 greenCube.collideBox(0.15,0.15,0.15)
 greenCube.setScale([0.15, 0.15, 0.15])
-greenCube.setPosition([-4.5, 3, 0])
+#greenCube.setPosition([-4.5, 3, 0])
 greenCube.color(viz.GREEN)
 greenCube.density = 4
 greenCube.label = '1010'
@@ -226,7 +226,7 @@ greenCube.label = '1010'
 orangeCube = vizshape.addCube()
 orangeCube.collideBox(0.15,0.15,0.15)
 orangeCube.setScale([0.15, 0.15, 0.15])
-orangeCube.setPosition([-4.5, 3, 1.5])
+#orangeCube.setPosition([-4.5, 3, 1.5])
 orangeCube.color(viz.ORANGE)
 orangeCube.density = 1
 orangeCube.label = '0011'
@@ -235,7 +235,7 @@ orangeCube.label = '0011'
 blackCube = vizshape.addCube()
 blackCube.collideBox(0.15,0.15,0.15)
 blackCube.setScale([0.15, 0.15, 0.15])
-blackCube.setPosition([-4.5, 3, 3])
+#blackCube.setPosition([-4.5, 3, 3])
 blackCube.color(viz.BLACK)
 blackCube.density = 5
 blackCube.label = '1100'
@@ -245,7 +245,7 @@ blackCube.label = '1100'
 purpleCube = vizshape.addCube()
 purpleCube.collideBox(0.15,0.15,0.15)
 purpleCube.setScale([0.15, 0.15, 0.15])
-purpleCube.setPosition([-2, 2, 4.4])
+#purpleCube.setPosition([-2, 2, 4.4])
 purpleCube.color(viz.PURPLE)
 purpleCube.density = 2
 purpleCube.label = '0111'
@@ -272,6 +272,65 @@ knapsackTable = vizshape.addCube()
 knapsackTable.setPosition([-2, .5, 4.4])
 knapsackTable.setScale([1.6, 1, 1])
 knapsackTable.collideBox(1.6, 1, 1)
+
+# Check Knapsack Problem
+vizact.onupdate(0, checkHover, joystickTracker)
+
+def checkKnapsack():
+	redPos = redCube.getPosition()
+	orangePos = orangeCube.getPosition() # yellow cube
+	greenPos = greenCube.getPosition()
+	bluePos = blueCube.getPosition()
+	purplePos = purpleCube.getPosition()
+	blackPos = blackCube.getPosition()
+	
+	# Helper function to see if a position is within the bounds of our table
+	def onTable(position):
+		#If X is off to the left or right, return false
+		if(position[0] < -2.75 or position[0] > -1.25):
+			return False
+		#If Z is too far forward or back, return false
+		if(position[2] < 3.95 or position[2] > 4.85):
+			return False
+			
+		#Fix this bottom part to make sure that it has to be on the surface! (or at least close enough)
+		#If Y is not on the table top itself (Can't just hover it over the table) return false
+		if(position[1] > 2 or position[1] < 1):
+			return False
+		return True
+		
+	#If there's an incorrect block on the table, return False
+	if(onTable(redPos) or onTable(orangePos) or onTable(bluePos) or onTable(blackPos)):
+		return False
+	#If the right pair of blocks is on the table and no others from above, return true
+	if(onTable(greenPos) and onTable(purplePos)):
+		return True
+	#If you've reached here, you only have one correct block or no blocks on the table at all
+	return False
+
+##############################
+# Testing checkKnapsack Function
+redCube.setPosition([-4.5, 3, -3]) #OG
+#redCube.setPosition([-2, 2.5, 4.4])
+
+orangeCube.setPosition([-4.5, 3, 1.5]) #OG
+#orangeCube.setPosition([-2, 4, 4.4])
+
+greenCube.setPosition([-4.5, 3, 0]) #OG
+#greenCube.setPosition([-2, 3, 4.4])
+
+blueCube.setPosition([-4.5, 3, -1.5]) #OG
+#blueCube.setPosition([-2, 2, 4.4])
+
+purpleCube.setPosition([-2, 2, 4.4]) #OG
+#purpleCube.setPosition([-2, 2, 4.4])
+
+blackCube.setPosition([-4.5, 3, 3]) #OG
+#blackCube.setPosition([-2, 3.5, 4.4])
+##############################
+
+print(checkKnapsack()) #seeing what it returns
+#vizact.onupdate(0, checkKnapsack()) attempt at callback
 
 '''''''''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''
 
