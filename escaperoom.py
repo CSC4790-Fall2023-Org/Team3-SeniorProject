@@ -462,7 +462,7 @@ light.intensity(100)
 
 #viz.setOption('viz.display.stencil',1)
 
-objects = [box1, box2, box3, box4, redCube, blueCube, greenCube, orangeCube, blackCube]
+objects = [box1, box2, box3, box4, redCube, blueCube, greenCube, orangeCube, blackCube, purpleCube]
 
 usingPhysics=False
 from tools import grabber
@@ -480,6 +480,7 @@ from vizconnect.util import virtual_trackers
 mouseTracker = virtual_trackers.ScrollWheel(followMouse = True)
 mouseTracker.distance = 1.4
 arrow = vizshape.addArrow(length=0.2,color=viz.BLUE)
+arrow.collideNone()
 arrowLink = viz.link(mouseTracker,arrow)
 arrowLink.postMultLinkable(viz.MainView)
 viz.link(arrowLink,tool)
