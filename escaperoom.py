@@ -480,6 +480,7 @@ from vizconnect.util import virtual_trackers
 mouseTracker = virtual_trackers.ScrollWheel(followMouse = True)
 mouseTracker.distance = 1.4
 arrow = vizshape.addArrow(length=0.2,color=viz.BLUE)
+arrow.collideNone()
 arrowLink = viz.link(mouseTracker,arrow)
 arrowLink.postMultLinkable(viz.MainView)
 viz.link(arrowLink,tool)
