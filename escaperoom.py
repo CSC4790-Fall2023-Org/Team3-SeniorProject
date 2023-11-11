@@ -462,7 +462,7 @@ light.intensity(100)
 
 #viz.setOption('viz.display.stencil',1)
 
-objects = [box1, box2, box3, box4, redCube, blueCube, greenCube, orangeCube, blackCube]
+objects = [box1, box2, box3, box4, redCube, blueCube, greenCube, orangeCube, blackCube, purpleCube]
 
 usingPhysics=False
 from tools import grabber
