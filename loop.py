@@ -8,6 +8,11 @@ import vizshape
 def __init__(self, normal, node, name, node_path, name_path):
 	self.normal
 	
+slot1 = viz.addTexQuad()
+slot2 = viz.addTexQuad()
+slot3 = viz.addTexQuad()
+slot4 = viz.addTexQuad()
+	
 def createProblem():
 	
 	# Create and place code slots
@@ -15,10 +20,6 @@ def createProblem():
 	global slot2
 	global slot3
 	global slot4
-	slot1 = viz.addTexQuad()
-	slot2 = viz.addTexQuad()
-	slot3 = viz.addTexQuad()
-	slot4 = viz.addTexQuad()
 	
 	slot1.setPosition([-1, 3.4, -4.9])
 	slot1.setScale([7,0.6,0.5])
@@ -32,6 +33,8 @@ def createProblem():
 	slot4.setPosition([-1, 1, -4.9])
 	slot4.setScale([7,0.6,0.5])
 	slot4.setEuler([180,0,0])
+	
+	#slotSensor = vizproximity.Sensor(vizproximity.Box([8,6,2],center=[-1,2,-4.9]),source=plantMarker)
 	
 	# Create chest
 	wallBack = viz.addTexQuad()
@@ -56,10 +59,10 @@ def createProblem():
 	
 	return
 
-box1 = vizshape.addBox(splitFaces=True)
-box2 = vizshape.addBox(splitFaces=True)
-box3 = vizshape.addBox(splitFaces=True)
-box4 = vizshape.addBox(splitFaces=True)
+#box1 = vizshape.addBox(splitFaces=True)
+#box2 = vizshape.addBox(splitFaces=True)
+#box3 = vizshape.addBox(splitFaces=True)
+#box4 = vizshape.addBox(splitFaces=True)
 
 def spawnCodeBoxes():
 	
@@ -82,10 +85,10 @@ def spawnCodeBoxes():
 	
 def setTextures():
 	
-	global box1
-	global box2
-	global box3
-	global box4
+#	global box1
+#	global box2
+#	global box3
+#	global box4
 	
 	#newBox = vizshape.addBox(splitFaces=True)
 	
@@ -101,11 +104,11 @@ def setTextures():
 	
 	#testtex = viz.addTexture('image1.jpg')
 	
-	box1.color(5,5,5)
-	box1.texture(init, node='top')
-	box2.color(5,5,5)
-	box2.texture(sol1, node='top')
-	box3.color(5,5,5)
-	box3.texture(sol2, node='top')
-	box4.color(5,5,5)
-	box4.texture(sol3, node='top')
+#	box1.color(5,5,5)
+#	box1.texture(init, node='top')
+#	box2.color(5,5,5)
+#	box2.texture(sol1, node='top')
+#	box3.color(5,5,5)
+#	box3.texture(sol2, node='top')
+#	box4.color(5,5,5)
+#	box4.texture(sol3, node='top')

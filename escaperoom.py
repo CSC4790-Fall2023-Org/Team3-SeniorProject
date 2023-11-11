@@ -6,6 +6,7 @@ import vizmat
 import vizproximity
 import vizshape
 import vizfx
+import tools
 from loop import *
 from utilFunctions import *
 
@@ -407,8 +408,37 @@ ceiling.texture(ceilingCover)
 floor.texture(floorCover)
 
 # Spawn loop problem structure
+box1 = vizshape.addBox(splitFaces=True)
+box2 = vizshape.addBox(splitFaces=True)
+box3 = vizshape.addBox(splitFaces=True)
+box4 = vizshape.addBox(splitFaces=True)
+
+box1.setPosition([1,1,-2])
+box2.setPosition([1,1,2])
+box3.setPosition([-2,1,-2])
+box4.setPosition([-2,1,2])
+
+box1.color(viz.BLACK)
+box2.color(viz.BLACK)
+box3.color(viz.BLACK)
+box4.color(viz.BLACK)
+
+init = viz.addTexture('CustomImages/codeSolutions/init.jpg')
+sol1 = viz.addTexture('CustomImages/codeSolutions/sol1.jpg')
+sol2 = viz.addTexture('CustomImages/codeSolutions/sol2.jpg')
+sol3 = viz.addTexture('CustomImages/codeSolutions/sol3.jpg')
+
+box1.color(5,5,5)
+box1.texture(init, node='top')
+box2.color(5,5,5)
+box2.texture(sol1, node='top')
+box3.color(5,5,5)
+box3.texture(sol2, node='top')
+box4.color(5,5,5)
+box4.texture(sol3, node='top')
+
 createProblem()
-spawnCodeBoxes()
+#spawnCodeBoxes()
 
 # Establish line
 #lineStart = [0,3,0]
@@ -424,11 +454,35 @@ spawnCodeBoxes()
 #checkHover(lineStart, lineEnd)
 setTextures()
 
+
 light = viz.addLight()
 light.color(viz.WHITE)
 light.setPosition(0, 3, 0)
 light.intensity(100)
 
+#viz.setOption('viz.display.stencil',1)
+
+objects = [box1, box2, box3, box4, redCube, blueCube, greenCube, orangeCube, blackCube]
+
+usingPhysics=False
+from tools import grabber
+from tools import highlighter
+tool = grabber.Grabber(usingPhysics=usingPhysics, usingSprings=usingPhysics, highlightMode=highlighter.MODE_OUTLINE)
+tool.setItems(objects)
+
+def updateGrabber(tool):
+    state = viz.mouse.getState()
+    if state & viz. MOUSEBUTTON_LEFT:
+        tool.grabAndHold()
+tool.setUpdateFunction(updateGrabber)
+
+from vizconnect.util import virtual_trackers
+mouseTracker = virtual_trackers.ScrollWheel(followMouse = True)
+mouseTracker.distance = 1.4
+arrow = vizshape.addArrow(length=0.2,color=viz.BLUE)
+arrowLink = viz.link(mouseTracker,arrow)
+arrowLink.postMultLinkable(viz.MainView)
+viz.link(arrowLink,tool)
 
 '''''''''''''''''''''''''''''LOGIC GATE PROBLEM'''''''''''''''''''''''''''''''''
 def changeTexture():
