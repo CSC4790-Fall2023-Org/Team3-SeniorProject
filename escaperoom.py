@@ -273,6 +273,50 @@ knapsackTable.setPosition([-2, .5, 4.4])
 knapsackTable.setScale([1.6, 1, 1])
 knapsackTable.collideBox(1.6, 1, 1)
 
+def checkKnapsack():
+	redPos = redCube.getPosition()
+	orangePos = orangeCube.getPosition() # yellow cube
+	greenPos = greenCube.getPosition()
+	bluePos = blueCube.getPosition()
+	purplePos = purpleCube.getPosition()
+	blackPos = blackCube.getPosition()
+	
+	# Helper function to see if a position is within the bounds of our table
+	def onTable(position):
+		#If X is off to the left or right, return false
+		if(position[0] < -2.75 or position[0] > -1.25):
+			return False
+		#If Z is too far forward or back, return false
+		if(position[2] < 3.95 or position[2] > 4.85):
+			return False
+			
+		#Fix this bottom part to make sure that it has to be on the surface! (or at least close enough)
+		#If Y is not on the table top itself (Can't just hover it over the table) return false
+		if(position[1] > 2 or position[1] < 1):
+			return False
+		return True
+		
+	#If there's an incorrect block on the table, return False
+	if(onTable(redPos) or onTable(orangePos) or onTable(bluePos) or onTable(blackPos)):
+		return False
+	#If the right pair of blocks is on the table and no others from above, return true
+	if(onTable(greenPos) and onTable(purplePos)):
+		return True
+	#If you've reached here, you only have one correct block or no blocks on the table at all
+	return False
+
+#add knapsack out light
+knapOutLight = vizshape.addSphere()
+knapOutLight.setPosition(1,2.25,5)
+knapOutLight.setScale(.25,.25,.25)
+
+def changeLightColor():
+	if checkKnapsack():
+		knapOutLight.color(viz.YELLOW)
+	else:
+		knapOutLight.color(viz.WHITE)
+vizact.onupdate(0, changeLightColor)
+
 '''''''''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''
 
 # Create Wall 1 with door
@@ -557,10 +601,10 @@ wire12[0].setScale(.1,0.5,.1)
 wire12[0].setEuler([90,90,0])
 objColor(wire12[0], wire12[1])
 
-outlight = [vizshape.addSphere(), wire12[1]]
-outlight[0].setPosition(1,1.5,5)
-outlight[0].setScale(.25,.25,.25)
-objColor(outlight[0], outlight[1])
+logicOutlight = [vizshape.addSphere(), wire12[1]]
+logicOutlight[0].setPosition(1,1.5,5)
+logicOutlight[0].setScale(.25,.25,.25)
+objColor(logicOutlight[0], logicOutlight[1])
 
 
 
