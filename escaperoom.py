@@ -68,9 +68,6 @@ else:
 #variable for toggling door
 isDoor = True
 
-# Set up room and put up walls
-room = viz.addChild('lab.osgb')
-
 # Add table
 table = viz.addChild('CustomModels/table1.osgb')
 table.setScale([0.01, 0.0125, 0.01])
@@ -102,6 +99,7 @@ countUp5 = viz.cycle([tex1, tex2, tex3, tex4, tex5, tex6, tex7, tex8, tex9, tex0
 back = viz.addTexQuad()
 back.setScale([2.5,0.6,0.5])
 back.setPosition([0, 3.25, 4.999])  # Put quad in view
+
 #Start digit at 0
 back.texture(white1)
 
@@ -110,6 +108,7 @@ back.texture(white1)
 quad1 = viz.addTexQuad()
 quad1.setScale([0.3,0.3,0.3])
 quad1.setPosition([1, 3.25, 4.998])  # Put quad in view
+
 #Start digit at 0
 quad1.texture(tex0)
 
@@ -117,6 +116,7 @@ quad1.texture(tex0)
 quad2 = viz.addTexQuad()
 quad2.setScale([0.3,0.3,0.3])
 quad2.setPosition([0.5, 3.25, 4.998])  # Put quad in view
+
 #Start digit at 0
 quad2.texture(tex0)
 
@@ -130,6 +130,7 @@ quad3.texture(colon)
 quad4 = viz.addTexQuad()
 quad4.setScale([0.3,0.3,0.3])
 quad4.setPosition([-0.5, 3.25, 4.998])  # Put quad in view
+
 #Start digit at 0
 quad4.texture(tex0)
 
@@ -137,6 +138,7 @@ quad4.texture(tex0)
 quad5= viz.addTexQuad()
 quad5.setScale([0.3,0.3,0.3])
 quad5.setPosition([-1, 3.25, 4.998])  # Put quad in view
+
 #Start digit at 0
 quad5.texture(tex0)
 	
@@ -167,74 +169,87 @@ timer = viztask.schedule( swap_timer_tex(countUp1, quad1, countUp2, quad2, count
 
 
 '''''''''RIGHT WALL -- KNAPSACK PROBLEM'''''''''
+
 pillar1 = vizshape.addCylinder()
-pillar1.collideMesh()
-pillar1.setScale([0.5, 1.8, 0.5])
-pillar1.setPosition([-4.5, 0, -3])
+pillar1.collideBox(0.5, 1, 0.5)
+pillar1.setScale([0.5, 1, 0.5])
+pillar1.setPosition([-4.5, 2, -3])
 
 pillar2 = vizshape.addCylinder()
-pillar2.collideMesh()
-pillar2.setScale([0.5, 1.8, 0.5])
-pillar2.setPosition([-4.5, 0, -1.5])
+pillar2.collideBox(0.5, 1, 0.5)
+pillar2.setScale([0.5, 1, 0.5])
+pillar2.setPosition([-4.5, 2, -1.5])
 
 pillar3 = vizshape.addCylinder()
-pillar3.collideMesh()
-pillar3.setScale([0.5, 1.8, 0.5])
-pillar3.setPosition([-4.5, 0, -0])
+pillar3.collideBox(0.5, 1, 0.5)
+pillar3.setScale([0.5, 1, 0.5])
+pillar3.setPosition([-4.5, 2, -0])
 
 pillar4 = vizshape.addCylinder()
-pillar4.collideMesh()
-pillar4.setScale([0.5, 1.8, 0.5])
-pillar4.setPosition([-4.5, 0, 1.5])
+pillar4.collideBox(0.5, 1, 0.5)
+pillar4.setScale([0.5, 1, 0.5])
+pillar4.setPosition([-4.5, 2, 1.5])
 
 pillar5 = vizshape.addCylinder()
-pillar5.collideMesh()
-pillar5.setScale([0.5, 1.8, 0.5])
-pillar5.setPosition([-4.5, 0, 3])
+pillar5.collideBox(0.5, 1, 0.5)
+pillar5.setScale([0.5, 1, 0.5])
+pillar5.setPosition([-4.5, 2, 3])
+
 
 # RED CUBE
 redCube = vizshape.addCube()
-redCube.collideBox()
+redCube.collideBox(0.15,0.15,0.15)
 redCube.setScale([0.15, 0.15, 0.15])
-redCube.setPosition([-4.5, 2, -3])
+redCube.setPosition([-4.5, 3, -3])
 redCube.color(viz.RED)
-redCube.density = 1
+redCube.density = 2
+redCube.label = '0110'
 
 # BLUE CUBE
 blueCube = vizshape.addCube()
-blueCube.collideBox()
+blueCube.collideBox(0.15,0.15,0.15)
 blueCube.setScale([0.15, 0.15, 0.15])
-blueCube.setPosition([-4.5, 2, -1.5])
+blueCube.setPosition([-4.5, 3, -1.5])
 blueCube.color(viz.BLUE)
-blueCube.density = 2
+blueCube.density = 3
+blueCube.label = '0101'
 
 # GREEN CUBE
 greenCube = vizshape.addCube()
-greenCube.collideBox()
+greenCube.collideBox(0.15,0.15,0.15)
 greenCube.setScale([0.15, 0.15, 0.15])
-greenCube.setPosition([-4.5, 2, 0])
+greenCube.setPosition([-4.5, 3, 0])
 greenCube.color(viz.GREEN)
-greenCube.density = 3
+greenCube.density = 4
+greenCube.label = '1010'
 
 # ORANGE CUBE
 orangeCube = vizshape.addCube()
-orangeCube.collideBox()
+orangeCube.collideBox(0.15,0.15,0.15)
 orangeCube.setScale([0.15, 0.15, 0.15])
-orangeCube.setPosition([-4.5, 2, 1.5])
+orangeCube.setPosition([-4.5, 3, 1.5])
 orangeCube.color(viz.ORANGE)
-orangeCube.density = 4
+orangeCube.density = 1
+orangeCube.label = '0011'
 
 # BLACK CUBE
 blackCube = vizshape.addCube()
-blackCube.collideBox()
+blackCube.collideBox(0.15,0.15,0.15)
 blackCube.setScale([0.15, 0.15, 0.15])
-blackCube.setPosition([-4.5, 2, 3])
+blackCube.setPosition([-4.5, 3, 3])
 blackCube.color(viz.BLACK)
 blackCube.density = 5
+blackCube.label = '1100'
 
-arrow = viz.addChild('arrow.wrl')
-arrow.setScale([0.3,0.3,0.3])
-arrow.visible(viz.OFF)
+
+# PURPLE CUBE
+purpleCube = vizshape.addCube()
+purpleCube.collideBox(0.15,0.15,0.15)
+purpleCube.setScale([0.15, 0.15, 0.15])
+purpleCube.setPosition([-2, 2, 4.4])
+purpleCube.color(viz.PURPLE)
+purpleCube.density = 2
+purpleCube.label = '0111'
 
 densityDisplay = viz.addText('',pos = [0, 0, 0])
 densityDisplay.setScale([0.25,0.25,0.25])
@@ -244,23 +259,66 @@ densityDisplay.alignment(viz.ALIGN_CENTER_BOTTOM)
 
 def printWeight():
     object = viz.pick()
-    if object.valid() and (object in [redCube, blueCube, greenCube, orangeCube, blackCube]):
+    if object.valid() and (object in [redCube, blueCube, greenCube, orangeCube, blackCube, purpleCube]):
         objPos = object.getPosition()
-        objPos[1] += .2
+        objPos[1] += .3
         
         densityDisplay.setPosition(objPos)
-        densityDisplay.message('Weight: ' + str(object.density))
+        densityDisplay.message('Weight: ' + str(object.density) + '\nValue: ' + str(object.label))
     
 vizact.onmousedown(viz.MOUSEBUTTON_LEFT, printWeight)
 
-'''
-# PURPLE CUBE
-purpleCube = vizshape.addCube()
-purpleCube.setScale([0.2, 0.2, 0.2])
-purpleCube.setPosition([-4.63, 1.55, -2.8])
-purpleCube.color(viz.PURPLE)
-'''
-'''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''
+# Add knapsack table
+knapsackTable = vizshape.addCube()
+knapsackTable.setPosition([-2, .5, 4.4])
+knapsackTable.setScale([1.6, 1, 1])
+knapsackTable.collideBox(1.6, 1, 1)
+
+def checkKnapsack():
+	redPos = redCube.getPosition()
+	orangePos = orangeCube.getPosition() # yellow cube
+	greenPos = greenCube.getPosition()
+	bluePos = blueCube.getPosition()
+	purplePos = purpleCube.getPosition()
+	blackPos = blackCube.getPosition()
+	
+	# Helper function to see if a position is within the bounds of our table
+	def onTable(position):
+		#If X is off to the left or right, return false
+		if(position[0] < -2.75 or position[0] > -1.25):
+			return False
+		#If Z is too far forward or back, return false
+		if(position[2] < 3.95 or position[2] > 4.85):
+			return False
+			
+		#Fix this bottom part to make sure that it has to be on the surface! (or at least close enough)
+		#If Y is not on the table top itself (Can't just hover it over the table) return false
+		if(position[1] > 2 or position[1] < 1):
+			return False
+		return True
+		
+	#If there's an incorrect block on the table, return False
+	if(onTable(redPos) or onTable(orangePos) or onTable(bluePos) or onTable(blackPos)):
+		return False
+	#If the right pair of blocks is on the table and no others from above, return true
+	if(onTable(greenPos) and onTable(purplePos)):
+		return True
+	#If you've reached here, you only have one correct block or no blocks on the table at all
+	return False
+
+#add knapsack out light
+knapOutLight = vizshape.addSphere()
+knapOutLight.setPosition(1,2.25,5)
+knapOutLight.setScale(.25,.25,.25)
+
+def changeLightColor():
+	if checkKnapsack():
+		knapOutLight.color(viz.YELLOW)
+	else:
+		knapOutLight.color(viz.WHITE)
+vizact.onupdate(0, changeLightColor)
+
+'''''''''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''
 
 # Create Wall 1 with door
 # The wall consists of three parts, left of the door, above the door, and right of the door
@@ -273,6 +331,7 @@ if isDoor:
 	door.setPosition([0,1.25,5])
 	doorCover = viz.addTexture('CustomTextures/door.jpg')
 	door.texture(doorCover)
+
 
 # Fill in wall around door
 wallOneLeft = viz.addTexQuad()
@@ -303,9 +362,21 @@ ceiling.setPosition([0,4,0])
 ceiling.setEuler([0,90,0])
 ceiling.setScale([10,10,10])
 floor = viz.addTexQuad()
-floor.setPosition([0,0.001,0])
+floor.setPosition([0,0,0])
 floor.setEuler([0,90,0])
 floor.setScale([10,10,10])
+floor.collidePlane()
+
+
+wallOneLeft.collidePlane(0,1,0,0)
+wallOneRight.collidePlane(0,1,0,0)
+wallOneAbove.collidePlane(0,1,0,0)
+
+wallTwo.collidePlane(0,1,0,0)
+wallThree.collidePlane(0,1,0,0)
+wallFour.collidePlane(0,1,0,0)
+
+ceiling.collidePlane()
 
 # ---------------------------------
 # viz.INTERSECT must be turned off for all the room walls so we don't accidentally pick up the floor !!!
@@ -382,6 +453,12 @@ createProblem()
 #selected = viz.Intersect(lineStart, lineEnd)
 #checkHover(lineStart, lineEnd)
 setTextures()
+
+
+light = viz.addLight()
+light.color(viz.WHITE)
+light.setPosition(0, 3, 0)
+light.intensity(100)
 
 #viz.setOption('viz.display.stencil',1)
 
@@ -578,10 +655,12 @@ wire12[0].setScale(.1,0.5,.1)
 wire12[0].setEuler([90,90,0])
 objColor(wire12[0], wire12[1])
 
-outlight = [vizshape.addSphere(), wire12[1]]
-outlight[0].setPosition(1,1.5,5)
-outlight[0].setScale(.25,.25,.25)
-objColor(outlight[0], outlight[1])
+logicOutlight = [vizshape.addSphere(), wire12[1]]
+logicOutlight[0].setPosition(1,1.5,5)
+logicOutlight[0].setScale(.25,.25,.25)
+objColor(logicOutlight[0], logicOutlight[1])
+
+
 
 def moveMushroom():
 	move = vizact.animation(2)
