@@ -65,9 +65,6 @@ else:
 	viz.go()
 	viz.MainView.collision(viz.ON)
 
-#variable for toggling door
-isDoor = True
-
 # Add table
 table = viz.addChild('CustomModels/table1.osgb')
 table.setScale([0.01, 0.0125, 0.01])
@@ -219,6 +216,7 @@ greenCube = vizshape.addCube()
 greenCube.collideBox(0.15,0.15,0.15)
 greenCube.setScale([0.15, 0.15, 0.15])
 greenCube.setPosition([-4.5, 3, 0])
+#greenCube.setPosition([-2, 3, 4.4])
 greenCube.color(viz.GREEN)
 greenCube.density = 4
 greenCube.label = '1010'
@@ -310,6 +308,7 @@ def checkKnapsack():
 knapOutLight = vizshape.addSphere()
 knapOutLight.setPosition(1,2.25,5)
 knapOutLight.setScale(.25,.25,.25)
+knapOutLight.label = False
 
 def changeLightColor():
 	if checkKnapsack():
@@ -324,13 +323,7 @@ vizact.onupdate(0, changeLightColor)
 # The wall consists of three parts, left of the door, above the door, and right of the door
 # Alternatively door could be overlaid on a singular instance of the wall, however this gives the option to have 
 	# an event derender the door and create an openning to pass to another room
-
-if isDoor: 
-	door = viz.addTexQuad()
-	door.setScale([1.5,2.5,1])
-	door.setPosition([0,1.25,5])
-	doorCover = viz.addTexture('CustomTextures/door.jpg')
-	door.texture(doorCover)
+	
 
 
 # Fill in wall around door
@@ -673,4 +666,22 @@ mushroom.setScale([0.5, 0.5, 0.5])
 mushroom.setPosition([4.5, 1, 0])
 mushroom.setEuler(90,0,0)
 
+#Checking all lights to open door
+door = viz.addTexQuad()
+door.setScale([1.5,2.5,1])
+door.setPosition([0,1.25,5])
+doorCover = viz.addTexture('CustomTextures/door.jpg')
+door.texture(doorCover)
+def checkLights():
+	global door
+	if checkKnapsack() and logicOutlight[1]:
+		door.remove()
+	else:
+		door.remove()
+		door = viz.addTexQuad()
+		door.setScale([1.5,2.5,1])
+		door.setPosition([0,1.25,5])
+		doorCover = viz.addTexture('CustomTextures/door.jpg')
+		door.texture(doorCover)
 
+vizact.onupdate(0, checkLights)
