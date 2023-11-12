@@ -445,7 +445,6 @@ createProblem()
 # Testing
 #selected = viz.Intersect(lineStart, lineEnd)
 #checkHover(lineStart, lineEnd)
-setTextures()
 
 
 light = viz.addLight()
