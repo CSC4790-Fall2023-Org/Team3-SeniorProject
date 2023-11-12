@@ -214,3 +214,8 @@ wire3Value = False
 
 vizact.onkeydown('r', changeTexture) #ROTATE GATE OPTIONS
 '''
+
+
+Table = vizshape.addCube()
+Table.setPosition(0, .5, -3)
+
