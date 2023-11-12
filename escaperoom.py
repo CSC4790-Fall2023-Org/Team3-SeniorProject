@@ -6,6 +6,7 @@ import vizmat
 import vizproximity
 import vizshape
 import vizfx
+import tools
 from loop import *
 from utilFunctions import *
 
@@ -274,6 +275,50 @@ knapsackTable.setPosition([-2, .5, 4.4])
 knapsackTable.setScale([1.6, 1, 1])
 knapsackTable.collideBox(1.6, 1, 1)
 
+def checkKnapsack():
+	redPos = redCube.getPosition()
+	orangePos = orangeCube.getPosition() # yellow cube
+	greenPos = greenCube.getPosition()
+	bluePos = blueCube.getPosition()
+	purplePos = purpleCube.getPosition()
+	blackPos = blackCube.getPosition()
+	
+	# Helper function to see if a position is within the bounds of our table
+	def onTable(position):
+		#If X is off to the left or right, return false
+		if(position[0] < -2.75 or position[0] > -1.25):
+			return False
+		#If Z is too far forward or back, return false
+		if(position[2] < 3.95 or position[2] > 4.85):
+			return False
+			
+		#Fix this bottom part to make sure that it has to be on the surface! (or at least close enough)
+		#If Y is not on the table top itself (Can't just hover it over the table) return false
+		if(position[1] > 2 or position[1] < 1):
+			return False
+		return True
+		
+	#If there's an incorrect block on the table, return False
+	if(onTable(redPos) or onTable(orangePos) or onTable(bluePos) or onTable(blackPos)):
+		return False
+	#If the right pair of blocks is on the table and no others from above, return true
+	if(onTable(greenPos) and onTable(purplePos)):
+		return True
+	#If you've reached here, you only have one correct block or no blocks on the table at all
+	return False
+
+#add knapsack out light
+knapOutLight = vizshape.addSphere()
+knapOutLight.setPosition(1,2.25,5)
+knapOutLight.setScale(.25,.25,.25)
+
+def changeLightColor():
+	if checkKnapsack():
+		knapOutLight.color(viz.YELLOW)
+	else:
+		knapOutLight.color(viz.WHITE)
+vizact.onupdate(0, changeLightColor)
+
 '''''''''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''
 
 # Create Wall 1 with door
@@ -364,8 +409,37 @@ ceiling.texture(ceilingCover)
 floor.texture(floorCover)
 
 # Spawn loop problem structure
+box1 = vizshape.addBox(splitFaces=True)
+box2 = vizshape.addBox(splitFaces=True)
+box3 = vizshape.addBox(splitFaces=True)
+box4 = vizshape.addBox(splitFaces=True)
+
+box1.setPosition([1,1,-2])
+box2.setPosition([1,1,2])
+box3.setPosition([-2,1,-2])
+box4.setPosition([-2,1,2])
+
+box1.color(viz.BLACK)
+box2.color(viz.BLACK)
+box3.color(viz.BLACK)
+box4.color(viz.BLACK)
+
+init = viz.addTexture('CustomImages/codeSolutions/init.jpg')
+sol1 = viz.addTexture('CustomImages/codeSolutions/sol1.jpg')
+sol2 = viz.addTexture('CustomImages/codeSolutions/sol2.jpg')
+sol3 = viz.addTexture('CustomImages/codeSolutions/sol3.jpg')
+
+box1.color(5,5,5)
+box1.texture(init, node='top')
+box2.color(5,5,5)
+box2.texture(sol1, node='top')
+box3.color(5,5,5)
+box3.texture(sol2, node='top')
+box4.color(5,5,5)
+box4.texture(sol3, node='top')
+
 createProblem()
-spawnCodeBoxes()
+#spawnCodeBoxes()
 
 # Establish line
 #lineStart = [0,3,0]
@@ -381,11 +455,36 @@ spawnCodeBoxes()
 #checkHover(lineStart, lineEnd)
 setTextures()
 
+
 light = viz.addLight()
 light.color(viz.WHITE)
 light.setPosition(0, 3, 0)
 light.intensity(100)
 
+#viz.setOption('viz.display.stencil',1)
+
+objects = [box1, box2, box3, box4, redCube, blueCube, greenCube, orangeCube, blackCube, purpleCube]
+
+usingPhysics=False
+from tools import grabber
+from tools import highlighter
+tool = grabber.Grabber(usingPhysics=usingPhysics, usingSprings=usingPhysics, highlightMode=highlighter.MODE_OUTLINE)
+tool.setItems(objects)
+
+def updateGrabber(tool):
+    state = viz.mouse.getState()
+    if state & viz. MOUSEBUTTON_LEFT:
+        tool.grabAndHold()
+tool.setUpdateFunction(updateGrabber)
+
+from vizconnect.util import virtual_trackers
+mouseTracker = virtual_trackers.ScrollWheel(followMouse = True)
+mouseTracker.distance = 1.4
+arrow = vizshape.addArrow(length=0.2,color=viz.BLUE)
+arrow.collideNone()
+arrowLink = viz.link(mouseTracker,arrow)
+arrowLink.postMultLinkable(viz.MainView)
+viz.link(arrowLink,tool)
 
 '''''''''''''''''''''''''''''LOGIC GATE PROBLEM'''''''''''''''''''''''''''''''''
 def changeTexture():
@@ -558,10 +657,10 @@ wire12[0].setScale(.1,0.5,.1)
 wire12[0].setEuler([90,90,0])
 objColor(wire12[0], wire12[1])
 
-outlight = [vizshape.addSphere(), wire12[1]]
-outlight[0].setPosition(1,1.5,5)
-outlight[0].setScale(.25,.25,.25)
-objColor(outlight[0], outlight[1])
+logicOutlight = [vizshape.addSphere(), wire12[1]]
+logicOutlight[0].setPosition(1,1.5,5)
+logicOutlight[0].setScale(.25,.25,.25)
+objColor(logicOutlight[0], logicOutlight[1])
 
 
 
