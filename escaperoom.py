@@ -50,20 +50,6 @@ class MyDtrackManager():
 			return False
 
 joystickTracker = None
-#viz.setMultiSample(4)
-viz.fov(80)
-if isCave:
-	import vizconnect
-	CONFIG_FILE = "vizconnect_config_CaveFloor+ART_headnode.py"
-	#CONFIG_FILE = ""
-	vizconnect.go(CONFIG_FILE)	
-	dtrack_manager = MyDtrackManager()
-	dtrack_manager.startDefaultHeadPosition()
-	joystickTracker = vizconnect.getTracker("dtrack_flystick")
-	viz.MainView.collision(viz.ON)
-else:
-	viz.go()
-	viz.MainView.collision(viz.ON)
 
 # Add table
 table = viz.addChild('CustomModels/table1.osgb')
@@ -401,6 +387,25 @@ ceiling.texture(ceilingCover)
 floor.texture(floorCover)
 
 # Spawn loop problem structure
+# Spawn loop problem structure
+slot1 = viz.addTexQuad()
+slot2 = viz.addTexQuad()
+slot3 = viz.addTexQuad()
+slot4 = viz.addTexQuad()
+
+slot1.setPosition([-1, 3.4, -4.9])
+slot1.setScale([7,0.6,0.5])
+slot1.setEuler([180,0,0])
+slot2.setPosition([-1, 2.6, -4.9])
+slot2.setScale([7,0.6,0.5])
+slot2.setEuler([180,0,0])
+slot3.setPosition([-1, 1.8, -4.9])
+slot3.setScale([7,0.6,0.5])
+slot3.setEuler([180,0,0])
+slot4.setPosition([-1, 1, -4.9])
+slot4.setScale([7,0.6,0.5])
+slot4.setEuler([180,0,0])
+
 box1 = vizshape.addBox(splitFaces=True)
 box2 = vizshape.addBox(splitFaces=True)
 box3 = vizshape.addBox(splitFaces=True)
@@ -410,6 +415,11 @@ box1.setPosition([1,1,-2])
 box2.setPosition([1,1,2])
 box3.setPosition([-2,1,-2])
 box4.setPosition([-2,1,2])
+
+box1.setScale([0.5,0.5,0.5])
+box2.setScale([0.5,0.5,0.5])
+box3.setScale([0.5,0.5,0.5])
+box4.setScale([0.5,0.5,0.5])
 
 box1.color(viz.BLACK)
 box2.color(viz.BLACK)
@@ -422,60 +432,144 @@ sol2 = viz.addTexture('CustomImages/codeSolutions/sol2.jpg')
 sol3 = viz.addTexture('CustomImages/codeSolutions/sol3.jpg')
 
 box1.color(5,5,5)
-box1.texture(init, node='top')
+box1.texture(init)
 box2.color(5,5,5)
-box2.texture(sol1, node='top')
+box2.texture(sol1)
 box3.color(5,5,5)
-box3.texture(sol2, node='top')
+box3.texture(sol2)
 box4.color(5,5,5)
-box4.texture(sol3, node='top')
+box4.texture(sol3)
 
 createProblem()
-#spawnCodeBoxes()
 
-# Establish line
-#lineStart = [0,3,0]
-#lineEnd = [1,0.1,-2]
-#line = drawLine(lineStart, lineEnd)
+box1Placed = False
+box2Placed = False
+box3Placed = False
+box4Placed = False
+
+def checkBox1Position():
+	box1Position = box1.getPosition()
+	if box1Position[0] > -4 and box1Position[0] < 2:
+		if box1Position[1] > 3.2 and box1Position[1] < 3.8:
+			if box1Position[2] < -4.6:
+				slot1.texture(init)
+				if isCave:
+					box1.remove()
+				box1Placed = True
+				
+def checkBox2Position():
+	box2Position = box2.getPosition()
+	if box2Position[0] > -4 and box2Position[0] < 2:
+		if box2Position[1] > 2.3 and box2Position[1] < 3:
+			if box2Position[2] < -4.6:
+				slot2.texture(sol1)
+				if isCave:
+					box2.remove()
+				box2Placed = True
+				
+def checkBox3Position():
+	box3Position = box3.getPosition()
+	if box3Position[0] > -4 and box3Position[0] < 2:
+		if box3Position[1] > 1.5 and box3Position[1] < 2.1:
+			if box3Position[2] < -4.6:
+				slot3.texture(sol2)
+				if isCave:
+					box3.remove()
+				box3Placed = True
+				
+def checkBox4Position():
+	box4Position = box4.getPosition()
+	if box4Position[0] > -4 and box4Position[0] < 2:
+		if box4Position[1] < 1.3:
+			if box4Position[2] < -4.6:
+				slot4.texture(sol3)
+				if isCave:
+					box4.remove()
+				box4Placed = True
 
 # Add callbacks
-#vizact.onupdate(0, checkHover, joystickTracker)
-#vizact.onupdate(0, drawJoystickLine, joystickTracker)
-
-# Testing
-#selected = viz.Intersect(lineStart, lineEnd)
-#checkHover(lineStart, lineEnd)
-
+if not box1Placed: vizact.onupdate(11, checkBox1Position)
+if not box2Placed: vizact.onupdate(12, checkBox2Position)
+if not box3Placed: vizact.onupdate(13, checkBox3Position)
+if not box4Placed: vizact.onupdate(14, checkBox4Position)
 
 light = viz.addLight()
 light.color(viz.WHITE)
 light.setPosition(0, 3, 0)
 light.intensity(100)
 
-#viz.setOption('viz.display.stencil',1)
-
 objects = [box1, box2, box3, box4, redCube, blueCube, greenCube, orangeCube, blackCube, purpleCube]
 
-usingPhysics=False
-from tools import grabber
-from tools import highlighter
-tool = grabber.Grabber(usingPhysics=usingPhysics, usingSprings=usingPhysics, highlightMode=highlighter.MODE_OUTLINE)
-tool.setItems(objects)
-
-def updateGrabber(tool):
+def updateMouseGrabber(tool):
     state = viz.mouse.getState()
     if state & viz. MOUSEBUTTON_LEFT:
         tool.grabAndHold()
-tool.setUpdateFunction(updateGrabber)
 
-from vizconnect.util import virtual_trackers
-mouseTracker = virtual_trackers.ScrollWheel(followMouse = True)
-mouseTracker.distance = 1.4
-arrow = vizshape.addArrow(length=0.2,color=viz.BLUE)
-arrow.collideNone()
-arrowLink = viz.link(mouseTracker,arrow)
-arrowLink.postMultLinkable(viz.MainView)
-viz.link(arrowLink,tool)
+def positionCallback(item, isBox):
+	userPosition = viz.MainView.getPosition()
+	userDirection = viz.MainView.getMatrix().getForward()
+	interactionDot = vizmat.MoveAlongVector(userPosition, userDirection, 2)
+	yEuler = -1 * joystickTracker.getEuler()[1]
+	dotPos = [interactionDot[0], interactionDot[1] * (yEuler/30) + 1, interactionDot[2]]
+	dot.setPosition(dotPos)
+	itemPosition = item.getPosition()
+	if isBox:
+		if dotPos[0] > itemPosition[0] - 0.3 and dotPos[0] < itemPosition[0] + 0.3:
+			if dotPos[1] > itemPosition[1] - 0.3 and dotPos[1] < itemPosition[1] + 0.3:
+				if dotPos[2] > itemPosition[2] - 0.3 and dotPos[2] < itemPosition[2] + 0.3:
+					rawInput = vizconnect.getConfiguration().getRawDict("input")['flystick']
+					if rawInput.isButtonDown(0):
+						item.setPosition(dot.getPosition())
+
+	else:
+		if userPosition[0] > interactionDot[0] - 0.1 and interactionDot[0] < itemPosition[0] + 0.1:
+			if interactionDot[1] > itemPosition[1] - 0.1 and interactionDot[1] < itemPosition[1] + 0.1:
+				if userPosition[2] > interactionDot[2] - 0.1 and interactionDot[2] < itemPosition[2] + 0.1:
+					rawInput = vizconnect.getConfiguration().getRawDict("input")['flystick']
+					if rawInput.isButtonDown(0):
+						item.setPosition(dot.getPosition())
+						
+viz.fov(80)
+if isCave:
+	import vizconnect
+	CONFIG_FILE = "vizconnect_config_CaveFloor+ART_headnode.py"
+	vizconnect.go(CONFIG_FILE)	
+	dtrack_manager = MyDtrackManager()
+	dtrack_manager.startDefaultHeadPosition()
+	joystickTracker = vizconnect.getTracker("dtrack_flystick")
+
+	dot = vizshape.addSphere()
+	dot.setScale([0.1, 0.1, 0.1])
+
+	vizact.onupdate(0, positionCallback, box1, True)
+	vizact.onupdate(1, positionCallback, box2, True)
+	vizact.onupdate(2, positionCallback, box3, True)
+	vizact.onupdate(3, positionCallback, box4, True)
+	vizact.onupdate(4, positionCallback, redCube, False)
+	vizact.onupdate(5, positionCallback, greenCube, False)
+	vizact.onupdate(6, positionCallback, blackCube, False)
+	vizact.onupdate(7, positionCallback, orangeCube, False)
+	vizact.onupdate(8, positionCallback, blueCube, False)
+	
+	viz.MainView.collision(viz.ON)
+	
+else:
+	from vizconnect.util import virtual_trackers
+	usingPhysics=False
+	from tools import grabber
+	from tools import highlighter
+	tool = grabber.Grabber(usingPhysics=usingPhysics, usingSprings=usingPhysics, highlightMode=highlighter.MODE_OUTLINE)
+	tool.setItems(objects)
+	mouseTracker = virtual_trackers.ScrollWheel(followMouse = True)
+	mouseTracker.distance = 3
+	arrow = vizshape.addArrow(length=0.2,color=viz.BLUE)
+	arrowLink = viz.link(mouseTracker, arrow)
+	arrowLink.postMultLinkable(viz.MainView)
+	viz.link(arrowLink,tool)
+	tool.setUpdateFunction(updateMouseGrabber)
+	viz.go()
+	viz.MainView.collision(viz.ON)
+	
 
 '''''''''''''''''''''''''''''LOGIC GATE PROBLEM'''''''''''''''''''''''''''''''''
 def changeTexture():
