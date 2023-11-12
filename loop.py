@@ -38,7 +38,7 @@ def createProblem():
 	wallLeft = viz.addTexQuad()
 	wallRight = viz.addTexQuad()
 	wallFront = viz.addTexQuad()
-	lid = viz.addTexQuad()
+	# lid = viz.addTexQuad()
 	
 	wallBack.setPosition([3.6, 0, -4.8])
 	wallBack.setScale([2, 1.5, 1.5])
@@ -50,9 +50,9 @@ def createProblem():
 	wallRight.setEuler([90, 0, 0])
 	wallFront.setPosition([3.6, 0, -3.8])
 	wallFront.setScale([2, 1.5, 1.5])
-	lid.setPosition([3.6, 0.75, -4.3])
-	lid.setScale([2, 1, 1.5])
-	lid.setEuler([0, 90, 0])
+	# lid.setPosition([3.6, 0.75, -4.3])
+	# lid.setScale([2, 1, 1.5])
+	# lid.setEuler([0, 90, 0])
 	
 	return
 
