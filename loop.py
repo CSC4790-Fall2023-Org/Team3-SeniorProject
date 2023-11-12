@@ -83,33 +83,3 @@ def spawnCodeBoxes():
 	box4.color(viz.BLACK)
 	
 	return
-	
-def setTextures():
-	
-#	global box1
-#	global box2
-#	global box3
-#	global box4
-	
-	#newBox = vizshape.addBox(splitFaces=True)
-	
-	init = viz.addTexture('CustomImages/codeSolutions/init.jpg')
-	sol1 = viz.addTexture('CustomImages/codeSolutions/sol1.jpg')
-	sol2 = viz.addTexture('CustomImages/codeSolutions/sol2.jpg')
-	sol3 = viz.addTexture('CustomImages/codeSolutions/sol3.jpg')
-	
-	slot1.texture(init)
-	slot2.texture(sol1)
-	slot3.texture(sol2)
-	slot4.texture(sol3)
-	
-	#testtex = viz.addTexture('image1.jpg')
-	
-#	box1.color(5,5,5)
-#	box1.texture(init, node='top')
-#	box2.color(5,5,5)
-#	box2.texture(sol1, node='top')
-#	box3.color(5,5,5)
-#	box3.texture(sol2, node='top')
-#	box4.color(5,5,5)
-#	box4.texture(sol3, node='top')

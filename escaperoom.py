@@ -49,20 +49,21 @@ class MyDtrackManager():
 		else:
 			return False
 
+joystickTracker = None
 #viz.setMultiSample(4)
-#viz.fov(80)
-#if isCave:
-#	import vizconnect
-#	CONFIG_FILE = "vizconnect_config_CaveFloor+ART_headnode.py"
-#	#CONFIG_FILE = ""
-#	vizconnect.go(CONFIG_FILE)	
-#	dtrack_manager = MyDtrackManager()
-#	dtrack_manager.startDefaultHeadPosition()
-#	joystickTracker = vizconnect.getTracker("dtrack_flystick")
-#	viz.MainView.collision(viz.ON)
-#else:
-#	viz.go()
-#	viz.MainView.collision(viz.ON)
+viz.fov(80)
+if isCave:
+	import vizconnect
+	CONFIG_FILE = "vizconnect_config_CaveFloor+ART_headnode.py"
+	#CONFIG_FILE = ""
+	vizconnect.go(CONFIG_FILE)	
+	dtrack_manager = MyDtrackManager()
+	dtrack_manager.startDefaultHeadPosition()
+	joystickTracker = vizconnect.getTracker("dtrack_flystick")
+	viz.MainView.collision(viz.ON)
+else:
+	viz.go()
+	viz.MainView.collision(viz.ON)
 
 # Add table
 table = viz.addChild('CustomModels/table1.osgb')
@@ -248,7 +249,7 @@ purpleCube.color(viz.PURPLE)
 purpleCube.density = 2
 purpleCube.label = '0111'
 
-densityDisplay = viz.addText('',pos = [0, -10, 0])
+densityDisplay = viz.addText('',pos = [0, 0, 0])
 densityDisplay.setScale([0.25,0.25,0.25])
 densityDisplay.setEuler([-90,0,0])
 densityDisplay.color(viz.BLACK)
@@ -400,24 +401,6 @@ ceiling.texture(ceilingCover)
 floor.texture(floorCover)
 
 # Spawn loop problem structure
-slot1 = viz.addTexQuad()
-slot2 = viz.addTexQuad()
-slot3 = viz.addTexQuad()
-slot4 = viz.addTexQuad()
-
-slot1.setPosition([-1, 3.4, -4.9])
-slot1.setScale([7,0.6,0.5])
-slot1.setEuler([180,0,0])
-slot2.setPosition([-1, 2.6, -4.9])
-slot2.setScale([7,0.6,0.5])
-slot2.setEuler([180,0,0])
-slot3.setPosition([-1, 1.8, -4.9])
-slot3.setScale([7,0.6,0.5])
-slot3.setEuler([180,0,0])
-slot4.setPosition([-1, 1, -4.9])
-slot4.setScale([7,0.6,0.5])
-slot4.setEuler([180,0,0])
-
 box1 = vizshape.addBox(splitFaces=True)
 box2 = vizshape.addBox(splitFaces=True)
 box3 = vizshape.addBox(splitFaces=True)
@@ -427,11 +410,6 @@ box1.setPosition([1,1,-2])
 box2.setPosition([1,1,2])
 box3.setPosition([-2,1,-2])
 box4.setPosition([-2,1,2])
-
-box1.setScale([0.5,0.5,0.5])
-box2.setScale([0.5,0.5,0.5])
-box3.setScale([0.5,0.5,0.5])
-box4.setScale([0.5,0.5,0.5])
 
 box1.color(viz.BLACK)
 box2.color(viz.BLACK)
@@ -444,13 +422,13 @@ sol2 = viz.addTexture('CustomImages/codeSolutions/sol2.jpg')
 sol3 = viz.addTexture('CustomImages/codeSolutions/sol3.jpg')
 
 box1.color(5,5,5)
-box1.texture(init)
+box1.texture(init, node='top')
 box2.color(5,5,5)
-box2.texture(sol1)
+box2.texture(sol1, node='top')
 box3.color(5,5,5)
-box3.texture(sol2)
+box3.texture(sol2, node='top')
 box4.color(5,5,5)
-box4.texture(sol3)
+box4.texture(sol3, node='top')
 
 createProblem()
 
@@ -496,10 +474,8 @@ def checkBox4Position():
 				box4Placed = True
 
 # Add callbacks
-if not box1Placed: vizact.onupdate(11, checkBox1Position)
-if not box2Placed: vizact.onupdate(12, checkBox2Position)
-if not box3Placed: vizact.onupdate(13, checkBox3Position)
-if not box4Placed: vizact.onupdate(14, checkBox4Position)		
+#vizact.onupdate(0, checkHover, joystickTracker)
+#vizact.onupdate(0, drawJoystickLine, joystickTracker)
 
 light = viz.addLight()
 light.color(viz.WHITE)
@@ -512,6 +488,7 @@ def updateMouseGrabber(tool):
     state = viz.mouse.getState()
     if state & viz. MOUSEBUTTON_LEFT:
         tool.grabAndHold()
+tool.setUpdateFunction(updateGrabber)
 
 def positionCallback(item, isBox):
 	userPosition = viz.MainView.getPosition()
@@ -765,7 +742,6 @@ mushroom = viz.addAvatar('CustomModels/MushroomMan/Martial_arts_character.osgb')
 vizact.onkeydown('3', moveMushroom)
 mushroom.setScale([0.5, 0.5, 0.5])
 mushroom.setPosition([4.5, 1, 0])
-
 mushroom.setEuler(90,0,0)
 
 #Checking all lights to open door
