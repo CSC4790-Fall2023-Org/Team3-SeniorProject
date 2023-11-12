@@ -7,10 +7,11 @@ import vizproximity
 import vizshape
 import vizfx
 import tools
+import time
 from loop import *
 from utilFunctions import *
 
-isCave = False
+isCave = True
 
 viz.phys.enable()
 
@@ -393,17 +394,17 @@ slot2 = viz.addTexQuad()
 slot3 = viz.addTexQuad()
 slot4 = viz.addTexQuad()
 
-slot1.setPosition([-1, 3.4, -4.9])
-slot1.setScale([7,0.6,0.5])
+slot1.setPosition([-1, 2, -4.9])
+slot1.setScale([7,0.39,0.5])
 slot1.setEuler([180,0,0])
-slot2.setPosition([-1, 2.6, -4.9])
-slot2.setScale([7,0.6,0.5])
+slot2.setPosition([-1, 1.53, -4.9])
+slot2.setScale([7,0.39,0.5])
 slot2.setEuler([180,0,0])
-slot3.setPosition([-1, 1.8, -4.9])
-slot3.setScale([7,0.6,0.5])
+slot3.setPosition([-1, 1.08, -4.9])
+slot3.setScale([7,0.39,0.5])
 slot3.setEuler([180,0,0])
-slot4.setPosition([-1, 1, -4.9])
-slot4.setScale([7,0.6,0.5])
+slot4.setPosition([-1, 0.6, -4.9])
+slot4.setScale([7,0.39,0.5])
 slot4.setEuler([180,0,0])
 
 box1 = vizshape.addBox(splitFaces=True)
@@ -425,6 +426,11 @@ box1.color(viz.BLACK)
 box2.color(viz.BLACK)
 box3.color(viz.BLACK)
 box4.color(viz.BLACK)
+
+box1.collideBox([0.5,0.5,0.5])
+box2.collideBox([0.5,0.5,0.5])
+box3.collideBox([0.5,0.5,0.5])
+box4.collideBox([0.5,0.5,0.5])
 
 init = viz.addTexture('CustomImages/codeSolutions/init.jpg')
 sol1 = viz.addTexture('CustomImages/codeSolutions/sol1.jpg')
@@ -450,7 +456,7 @@ box4Placed = False
 def checkBox1Position():
 	box1Position = box1.getPosition()
 	if box1Position[0] > -4 and box1Position[0] < 2:
-		if box1Position[1] > 3.2 and box1Position[1] < 3.8:
+		if box1Position[1] > 1.8 and box1Position[1] < 2.4:
 			if box1Position[2] < -4.6:
 				slot1.texture(init)
 				if isCave:
@@ -460,7 +466,7 @@ def checkBox1Position():
 def checkBox2Position():
 	box2Position = box2.getPosition()
 	if box2Position[0] > -4 and box2Position[0] < 2:
-		if box2Position[1] > 2.3 and box2Position[1] < 3:
+		if box2Position[1] > 1.33 and box2Position[1] < 1.83:
 			if box2Position[2] < -4.6:
 				slot2.texture(sol1)
 				if isCave:
@@ -470,7 +476,7 @@ def checkBox2Position():
 def checkBox3Position():
 	box3Position = box3.getPosition()
 	if box3Position[0] > -4 and box3Position[0] < 2:
-		if box3Position[1] > 1.5 and box3Position[1] < 2.1:
+		if box3Position[1] > 0.88 and box3Position[1] < 1.28:
 			if box3Position[2] < -4.6:
 				slot3.texture(sol2)
 				if isCave:
@@ -480,7 +486,7 @@ def checkBox3Position():
 def checkBox4Position():
 	box4Position = box4.getPosition()
 	if box4Position[0] > -4 and box4Position[0] < 2:
-		if box4Position[1] < 1.3:
+		if box4Position[1] < 0.8:
 			if box4Position[2] < -4.6:
 				slot4.texture(sol3)
 				if isCave:
@@ -499,13 +505,19 @@ light.setPosition(0, 3, 0)
 light.intensity(100)
 
 objects = [box1, box2, box3, box4, redCube, blueCube, greenCube, orangeCube, blackCube, purpleCube]
+objectHeld = False
 
 def updateMouseGrabber(tool):
     state = viz.mouse.getState()
     if state & viz. MOUSEBUTTON_LEFT:
         tool.grabAndHold()
 
-def positionCallback(item, isBox):
+# 0 is box
+# 1 is cube
+# 2 is gate
+def positionCallback(item, itemType, gateArray = 0):
+	global objectHeld
+	
 	userPosition = viz.MainView.getPosition()
 	userDirection = viz.MainView.getMatrix().getForward()
 	interactionDot = vizmat.MoveAlongVector(userPosition, userDirection, 2)
@@ -513,72 +525,36 @@ def positionCallback(item, isBox):
 	dotPos = [interactionDot[0], interactionDot[1] * (yEuler/30) + 1, interactionDot[2]]
 	dot.setPosition(dotPos)
 	itemPosition = item.getPosition()
-	if isBox:
-		if dotPos[0] > itemPosition[0] - 0.3 and dotPos[0] < itemPosition[0] + 0.3:
-			if dotPos[1] > itemPosition[1] - 0.3 and dotPos[1] < itemPosition[1] + 0.3:
-				if dotPos[2] > itemPosition[2] - 0.3 and dotPos[2] < itemPosition[2] + 0.3:
-					rawInput = vizconnect.getConfiguration().getRawDict("input")['flystick']
+#	if itemType == 2:
+#		print(itemPosition)
+#		print(dotPos)
+	if dotPos[0] > itemPosition[0] - 0.3 and dotPos[0] < itemPosition[0] + 0.3:
+		if dotPos[1] > itemPosition[1] - 0.3 and dotPos[1] < itemPosition[1] + 0.3:
+			if dotPos[2] > itemPosition[2] - 0.3 and dotPos[2] < itemPosition[2] + 0.3:
+				rawInput = vizconnect.getConfiguration().getRawDict("input")['flystick']
+				if itemType != 2: # boxes and cubes
+					if rawInput.isButtonDown(0) and not objectHeld:
+						objectHeld = True
+						item.setPosition(dotPos)
+						item.collideNone()
+					else:
+						objectHeld = False
+						if itemType == 0:
+							item.collideBox([0.5,0.5,0.5])
+						elif itemType == 1:
+							item.collideBox([0.15,0.15,0.15])
+				else: # gates
 					if rawInput.isButtonDown(0):
-						item.setPosition(dot.getPosition())
-
-	else:
-		if userPosition[0] > interactionDot[0] - 0.1 and interactionDot[0] < itemPosition[0] + 0.1:
-			if interactionDot[1] > itemPosition[1] - 0.1 and interactionDot[1] < itemPosition[1] + 0.1:
-				if userPosition[2] > interactionDot[2] - 0.1 and interactionDot[2] < itemPosition[2] + 0.1:
-					rawInput = vizconnect.getConfiguration().getRawDict("input")['flystick']
-					if rawInput.isButtonDown(0):
-						item.setPosition(dot.getPosition())
+						print("gate check")
+						time.sleep(0.2)
+						changeTexture(gateArray)
 						
-viz.fov(80)
-if isCave:
-	import vizconnect
-	CONFIG_FILE = "vizconnect_config_CaveFloor+ART_headnode.py"
-	vizconnect.go(CONFIG_FILE)	
-	dtrack_manager = MyDtrackManager()
-	dtrack_manager.startDefaultHeadPosition()
-	joystickTracker = vizconnect.getTracker("dtrack_flystick")
-
-	dot = vizshape.addSphere()
-	dot.setScale([0.1, 0.1, 0.1])
-
-	vizact.onupdate(0, positionCallback, box1, True)
-	vizact.onupdate(1, positionCallback, box2, True)
-	vizact.onupdate(2, positionCallback, box3, True)
-	vizact.onupdate(3, positionCallback, box4, True)
-	vizact.onupdate(4, positionCallback, redCube, False)
-	vizact.onupdate(5, positionCallback, greenCube, False)
-	vizact.onupdate(6, positionCallback, blackCube, False)
-	vizact.onupdate(7, positionCallback, orangeCube, False)
-	vizact.onupdate(8, positionCallback, blueCube, False)
-	
-	viz.MainView.collision(viz.ON)
-	
-else:
-	from vizconnect.util import virtual_trackers
-	usingPhysics=False
-	from tools import grabber
-	from tools import highlighter
-	tool = grabber.Grabber(usingPhysics=usingPhysics, usingSprings=usingPhysics, highlightMode=highlighter.MODE_OUTLINE)
-	tool.setItems(objects)
-	mouseTracker = virtual_trackers.ScrollWheel(followMouse = True)
-	mouseTracker.distance = 3
-	arrow = vizshape.addArrow(length=0.2,color=viz.BLUE)
-	arrowLink = viz.link(mouseTracker, arrow)
-	arrowLink.postMultLinkable(viz.MainView)
-	viz.link(arrowLink,tool)
-	tool.setUpdateFunction(updateMouseGrabber)
-	viz.go()
-	viz.MainView.collision(viz.ON)
-	
 
 '''''''''''''''''''''''''''''LOGIC GATE PROBLEM'''''''''''''''''''''''''''''''''
-def changeTexture():
-	global gateValue
-	object = viz.pick()
-	if object.valid():
-		gateValue = (gateValue + 1) % 3
-		gate.texture(gateTextures[gateValue])
-	wireColor(wire3, GateOutput(gateValue, wire1Value, wire2Value))
+def changeTexture(gateArr):
+	gateArr[1] = (gateArr[1] + 1) % 3
+	gateArr[0].texture(gateTextures[gateArr[1]])
+#	wireColor(wire3, GateOutput(gateArr[1], wire1Value, wire2Value))
 
 def NotGate(c, i):
 	if c == 0:
@@ -747,7 +723,51 @@ logicOutlight[0].setPosition(1,1.5,5)
 logicOutlight[0].setScale(.25,.25,.25)
 objColor(logicOutlight[0], logicOutlight[1])
 
+viz.fov(80)
+if isCave:
+	import vizconnect
+	CONFIG_FILE = "vizconnect_config_CaveFloor+ART_headnode.py"
+	vizconnect.go(CONFIG_FILE)	
+	dtrack_manager = MyDtrackManager()
+	dtrack_manager.startDefaultHeadPosition()
+	joystickTracker = vizconnect.getTracker("dtrack_flystick")
 
+	dot = vizshape.addSphere()
+	dot.setScale([0.1, 0.1, 0.1])
+
+	vizact.onupdate(0, positionCallback, box1, 0)
+	vizact.onupdate(1, positionCallback, box2, 0)
+	vizact.onupdate(2, positionCallback, box3, 0)
+	vizact.onupdate(3, positionCallback, box4, 0)
+	vizact.onupdate(4, positionCallback, redCube, 1)
+	vizact.onupdate(5, positionCallback, greenCube, 1)
+	vizact.onupdate(6, positionCallback, blackCube, 1)
+	vizact.onupdate(7, positionCallback, orangeCube, 1)
+	vizact.onupdate(8, positionCallback, blueCube, 1)
+	vizact.onupdate(9, positionCallback, gate1[0], 2, gate1)
+	vizact.onupdate(9, positionCallback, gate2[0], 2, gate2)
+	vizact.onupdate(9, positionCallback, gate3[0], 2, gate3)
+	vizact.onupdate(9, positionCallback, gate4[0], 2, gate4)
+	vizact.onupdate(9, positionCallback, gate5[0], 2, gate5)
+	
+	viz.MainView.collision(viz.ON)
+	
+else:
+	from vizconnect.util import virtual_trackers
+	usingPhysics=False
+	from tools import grabber
+	from tools import highlighter
+	tool = grabber.Grabber(usingPhysics=usingPhysics, usingSprings=usingPhysics, highlightMode=highlighter.MODE_OUTLINE)
+	tool.setItems(objects)
+	mouseTracker = virtual_trackers.ScrollWheel(followMouse = True)
+	mouseTracker.distance = 3
+	arrow = vizshape.addArrow(length=0.2,color=viz.BLUE)
+	arrowLink = viz.link(mouseTracker, arrow)
+	arrowLink.postMultLinkable(viz.MainView)
+	viz.link(arrowLink,tool)
+	tool.setUpdateFunction(updateMouseGrabber)
+	viz.go()
+	viz.MainView.collision(viz.ON)			
 
 def moveMushroom():
 	move = vizact.animation(2)
