@@ -467,10 +467,44 @@ def joystickCallback(tool):
 
 #	vizact.onsensordown(joystickTracker, 1, tool.grabAndHold())
 
+CONFIG_FILE = "E:\\VizardProjects\\_CaveConfigFiles\\vizconnect_config_CaveFloor+ART_headnode.py"
+vizconnect.go(CONFIG_FILE)	
+dtrack_manager = MyDtrackManager()
+dtrack_manager.startDefaultHeadPosition()
+joystickTracker = vizconnect.getTracker("dtrack_flystick")
+dot = vizshape.addSphere()
+dot.setScale([0.1, 0.1, 0.1])
+def positionCallback(item, isBox):
+	#print(joystickTracker.getPosition())
+	userPosition = viz.MainView.getPosition()
+	userDirection = viz.MainView.getMatrix().getForward()
+	interactionDot = vizmat.MoveAlongVector(userPosition, userDirection, 2)
+	dot.setPosition(interactionDot)
+	itemPosition = item.getPosition()
+	if isBox:
+		#print(interactionDot)
+		#print(itemPosition)
+		if interactionDot[0] > itemPosition[0] - 0.2 and interactionDot[0] < itemPosition[0] + 0.2:
+			if interactionDot[1] > itemPosition[1] - 0.2 and interactionDot[1] < itemPosition[1] + 0.2:
+				rawInput = vizconnect.getConfiguration().getRawDict("input")['flystick']
+				if rawInput.isButtonDown(0):
+					item.setParent(dot)
+				else:
+					if dot in item.getParents():
+						print("button up")
+						item.removeParent(dot)
+	else:
+		if userPosition[0] > interactionDot[0] - 0.1 and interactionDot[0] < itemPosition[0] + 0.1:
+			if userPosition[2] > interactionDot[2] - 0.1 and interactionDot[2] < itemPosition[2] + 0.1:
+				rawInput = vizconnect.getConfiguration().getRawDict("input")['flystick']
+				if rawInput.isButtonDown(0):
+					print("no check")
+					item.setParent(interactionDot)
+					
 viz.fov(80)
 if isCave:
 	import vizconnect
-	CONFIG_FILE = "newConfig.py"
+	CONFIG_FILE = "vizconnect_config_CaveFloor+ART_headnode.py"
 	vizconnect.go(CONFIG_FILE)	
 	dtrack_manager = MyDtrackManager()
 	dtrack_manager.startDefaultHeadPosition()
@@ -480,15 +514,15 @@ if isCave:
 #	viz.link(arrowLink, tool)
 #	tool.setUpdateFunction(joystickCallback)
 
-	viz.onupdate(0, positionCallback, box1, True)
-	viz.onupdate(1, positionCallback, box2, True)
-	viz.onupdate(2, positionCallback, box3, True)
-	viz.onupdate(3, positionCallback, box4, True)
-	viz.onupdate(4, positionCallback, redCube, False)
-	viz.onupdate(5, positionCallback, greenCube, False)
-	viz.onupdate(6, positionCallback, blackCube, False)
-	viz.onupdate(7, positionCallback, orangeCube, False)
-	viz.onupdate(8, positionCallback, blueCube, False)
+	vizact.onupdate(0, positionCallback, box1, True)
+	vizact.onupdate(1, positionCallback, box2, True)
+	vizact.onupdate(2, positionCallback, box3, True)
+	vizact.onupdate(3, positionCallback, box4, True)
+	vizact.onupdate(4, positionCallback, redCube, False)
+	vizact.onupdate(5, positionCallback, greenCube, False)
+	vizact.onupdate(6, positionCallback, blackCube, False)
+	vizact.onupdate(7, positionCallback, orangeCube, False)
+	vizact.onupdate(8, positionCallback, blueCube, False)
 	
 	viz.MainView.collision(viz.ON)
 else:
@@ -689,17 +723,3 @@ vizact.onkeydown('3', moveMushroom)
 mushroom.setScale([0.5, 0.5, 0.5])
 mushroom.setPosition([4.5, 1, 0])
 mushroom.setEuler(90,0,0)
-
-def positionCallback(item, isBox):
-	userPosition = viz.MainView.getPosition()
-	itemPosition = item.getPosition()
-	if isBox:
-		if userPosition[0] > itemPosition[0] - 1 and userPosition[0] > itemPosition[0] + 1:
-			if userPosition[2] > itemPosition[2] - 1 and userPosition[2] > itemPosition[2] + 1:
-				if joystickTracker.isButtonDown(0):
-					tool.grabAndHold()
-	else:
-		if userPosition[0] > itemPosition[0] - 0.5 and userPosition[0] > itemPosition[0] + 0.5:
-			if userPosition[2] > itemPosition[2] - 0.5 and userPosition[2] > itemPosition[2] + 0.5:
-				if joystickTracker.isButtonDown(0):
-					tool.grabAndHold()
