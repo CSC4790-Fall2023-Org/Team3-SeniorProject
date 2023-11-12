@@ -50,20 +50,6 @@ class MyDtrackManager():
 			return False
 
 joystickTracker = None
-#viz.setMultiSample(4)
-viz.fov(80)
-if isCave:
-	import vizconnect
-	CONFIG_FILE = "vizconnect_config_CaveFloor+ART_headnode.py"
-	#CONFIG_FILE = ""
-	vizconnect.go(CONFIG_FILE)	
-	dtrack_manager = MyDtrackManager()
-	dtrack_manager.startDefaultHeadPosition()
-	joystickTracker = vizconnect.getTracker("dtrack_flystick")
-	viz.MainView.collision(viz.ON)
-else:
-	viz.go()
-	viz.MainView.collision(viz.ON)
 
 # Add table
 table = viz.addChild('CustomModels/table1.osgb')
@@ -401,6 +387,25 @@ ceiling.texture(ceilingCover)
 floor.texture(floorCover)
 
 # Spawn loop problem structure
+# Spawn loop problem structure
+slot1 = viz.addTexQuad()
+slot2 = viz.addTexQuad()
+slot3 = viz.addTexQuad()
+slot4 = viz.addTexQuad()
+
+slot1.setPosition([-1, 3.4, -4.9])
+slot1.setScale([7,0.6,0.5])
+slot1.setEuler([180,0,0])
+slot2.setPosition([-1, 2.6, -4.9])
+slot2.setScale([7,0.6,0.5])
+slot2.setEuler([180,0,0])
+slot3.setPosition([-1, 1.8, -4.9])
+slot3.setScale([7,0.6,0.5])
+slot3.setEuler([180,0,0])
+slot4.setPosition([-1, 1, -4.9])
+slot4.setScale([7,0.6,0.5])
+slot4.setEuler([180,0,0])
+
 box1 = vizshape.addBox(splitFaces=True)
 box2 = vizshape.addBox(splitFaces=True)
 box3 = vizshape.addBox(splitFaces=True)
@@ -410,6 +415,11 @@ box1.setPosition([1,1,-2])
 box2.setPosition([1,1,2])
 box3.setPosition([-2,1,-2])
 box4.setPosition([-2,1,2])
+
+box1.setScale([0.5,0.5,0.5])
+box2.setScale([0.5,0.5,0.5])
+box3.setScale([0.5,0.5,0.5])
+box4.setScale([0.5,0.5,0.5])
 
 box1.color(viz.BLACK)
 box2.color(viz.BLACK)
@@ -422,13 +432,13 @@ sol2 = viz.addTexture('CustomImages/codeSolutions/sol2.jpg')
 sol3 = viz.addTexture('CustomImages/codeSolutions/sol3.jpg')
 
 box1.color(5,5,5)
-box1.texture(init, node='top')
+box1.texture(init)
 box2.color(5,5,5)
-box2.texture(sol1, node='top')
+box2.texture(sol1)
 box3.color(5,5,5)
-box3.texture(sol2, node='top')
+box3.texture(sol2)
 box4.color(5,5,5)
-box4.texture(sol3, node='top')
+box4.texture(sol3)
 
 createProblem()
 
@@ -443,7 +453,8 @@ def checkBox1Position():
 		if box1Position[1] > 3.2 and box1Position[1] < 3.8:
 			if box1Position[2] < -4.6:
 				slot1.texture(init)
-				box1.remove()
+				if isCave:
+					box1.remove()
 				box1Placed = True
 				
 def checkBox2Position():
@@ -452,7 +463,8 @@ def checkBox2Position():
 		if box2Position[1] > 2.3 and box2Position[1] < 3:
 			if box2Position[2] < -4.6:
 				slot2.texture(sol1)
-				box2.remove()
+				if isCave:
+					box2.remove()
 				box2Placed = True
 				
 def checkBox3Position():
@@ -461,7 +473,8 @@ def checkBox3Position():
 		if box3Position[1] > 1.5 and box3Position[1] < 2.1:
 			if box3Position[2] < -4.6:
 				slot3.texture(sol2)
-				box3.remove()
+				if isCave:
+					box3.remove()
 				box3Placed = True
 				
 def checkBox4Position():
@@ -470,12 +483,15 @@ def checkBox4Position():
 		if box4Position[1] < 1.3:
 			if box4Position[2] < -4.6:
 				slot4.texture(sol3)
-				box4.remove()
+				if isCave:
+					box4.remove()
 				box4Placed = True
 
 # Add callbacks
-#vizact.onupdate(0, checkHover, joystickTracker)
-#vizact.onupdate(0, drawJoystickLine, joystickTracker)
+if not box1Placed: vizact.onupdate(11, checkBox1Position)
+if not box2Placed: vizact.onupdate(12, checkBox2Position)
+if not box3Placed: vizact.onupdate(13, checkBox3Position)
+if not box4Placed: vizact.onupdate(14, checkBox4Position)
 
 light = viz.addLight()
 light.color(viz.WHITE)
@@ -488,7 +504,6 @@ def updateMouseGrabber(tool):
     state = viz.mouse.getState()
     if state & viz. MOUSEBUTTON_LEFT:
         tool.grabAndHold()
-tool.setUpdateFunction(updateGrabber)
 
 def positionCallback(item, isBox):
 	userPosition = viz.MainView.getPosition()
