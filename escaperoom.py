@@ -684,4 +684,4 @@ def checkLights():
 		doorCover = viz.addTexture('CustomTextures/door.jpg')
 		door.texture(doorCover)
 
-vizact.onupdate(0, checkLights)
+#vizact.onupdate(0, checkLights)
