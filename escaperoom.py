@@ -364,6 +364,11 @@ box2.setPosition([1,1,2])
 box3.setPosition([-2,1,-2])
 box4.setPosition([-2,1,2])
 
+box1.setScale([0.5,0.5,0.5])
+box2.setScale([0.5,0.5,0.5])
+box3.setScale([0.5,0.5,0.5])
+box4.setScale([0.5,0.5,0.5])
+
 box1.color(viz.BLACK)
 box2.color(viz.BLACK)
 box3.color(viz.BLACK)
@@ -375,13 +380,13 @@ sol2 = viz.addTexture('CustomImages/codeSolutions/sol2.jpg')
 sol3 = viz.addTexture('CustomImages/codeSolutions/sol3.jpg')
 
 box1.color(5,5,5)
-box1.texture(init, node='top')
+box1.texture(init)
 box2.color(5,5,5)
-box2.texture(sol1, node='top')
+box2.texture(sol1)
 box3.color(5,5,5)
-box3.texture(sol2, node='top')
+box3.texture(sol2)
 box4.color(5,5,5)
-box4.texture(sol3, node='top')
+box4.texture(sol3)
 
 createProblem()
 #spawnCodeBoxes()
@@ -460,10 +465,10 @@ def updateMouseGrabber():
     if state & viz. MOUSEBUTTON_LEFT:
         tool.grabAndHold()
 
-def joystickCallback(tool):
-	rawInput = vizconnect.getConfiguration().getRawDict("input")['flystick']
-	if rawInput.isButtonDown(0):
-		tool.grabAndHold()
+#def joystickCallback(tool):
+#	rawInput = vizconnect.getConfiguration().getRawDict("input")['flystick']
+#	if rawInput.isButtonDown(0):
+#		tool.grabAndHold()
 
 #	vizact.onsensordown(joystickTracker, 1, tool.grabAndHold())
 
@@ -474,37 +479,43 @@ dtrack_manager.startDefaultHeadPosition()
 joystickTracker = vizconnect.getTracker("dtrack_flystick")
 dot = vizshape.addSphere()
 dot.setScale([0.1, 0.1, 0.1])
+
 def positionCallback(item, isBox):
 	#print(joystickTracker.getPosition())
 	userPosition = viz.MainView.getPosition()
 	userDirection = viz.MainView.getMatrix().getForward()
 	interactionDot = vizmat.MoveAlongVector(userPosition, userDirection, 2)
-	dot.setPosition(interactionDot)
+	yEuler = -1 * joystickTracker.getEuler()[1]
+	dotPos = [interactionDot[0], interactionDot[1] * (yEuler/30) + 1, interactionDot[2]]
+	dot.setPosition(dotPos)
+#	viewpointEuler = viz.MainView.getEuler()
+#	print(viewpointEuler)
+#	dotEuler = viewpointEuler * 1.5
+#	dot.setEuler(dotEuler)
 	itemPosition = item.getPosition()
 	if isBox:
-		#print(interactionDot)
 		#print(itemPosition)
-		if interactionDot[0] > itemPosition[0] - 0.2 and interactionDot[0] < itemPosition[0] + 0.2:
-			if interactionDot[1] > itemPosition[1] - 0.2 and interactionDot[1] < itemPosition[1] + 0.2:
-				rawInput = vizconnect.getConfiguration().getRawDict("input")['flystick']
-				if rawInput.isButtonDown(0):
-					item.setParent(dot)
-				else:
-					if dot in item.getParents():
-						print("button up")
-						item.removeParent(dot)
+		if dotPos[0] > itemPosition[0] - 0.3 and dotPos[0] < itemPosition[0] + 0.3:
+			if dotPos[1] > itemPosition[1] - 0.3 and dotPos[1] < itemPosition[1] + 0.3:
+				if dotPos[2] > itemPosition[2] - 0.3 and dotPos[2] < itemPosition[2] + 0.3:
+					rawInput = vizconnect.getConfiguration().getRawDict("input")['flystick']
+					if rawInput.isButtonDown(0):
+						item.setPosition(dot.getPosition())
+#				else:
+#					if dot in item.getParents():
+#						print("button up")
 	else:
 		if userPosition[0] > interactionDot[0] - 0.1 and interactionDot[0] < itemPosition[0] + 0.1:
-			if userPosition[2] > interactionDot[2] - 0.1 and interactionDot[2] < itemPosition[2] + 0.1:
-				rawInput = vizconnect.getConfiguration().getRawDict("input")['flystick']
-				if rawInput.isButtonDown(0):
-					print("no check")
-					item.setParent(interactionDot)
-					
+			if interactionDot[1] > itemPosition[1] - 0.1 and interactionDot[1] < itemPosition[1] + 0.1:
+				if userPosition[2] > interactionDot[2] - 0.1 and interactionDot[2] < itemPosition[2] + 0.1:
+					rawInput = vizconnect.getConfiguration().getRawDict("input")['flystick']
+					if rawInput.isButtonDown(0):
+						item.setPosition(dot.getPosition())
+						
 viz.fov(80)
 if isCave:
 	import vizconnect
-	CONFIG_FILE = "vizconnect_config_CaveFloor+ART_headnode.py"
+	CONFIG_FILE = "E:\\VizardProjects\\_CaveConfigFiles\\vizconnect_config_CaveFloor+ART_headnode.py"
 	vizconnect.go(CONFIG_FILE)	
 	dtrack_manager = MyDtrackManager()
 	dtrack_manager.startDefaultHeadPosition()

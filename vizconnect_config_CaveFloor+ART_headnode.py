@@ -678,11 +678,7 @@ def initAvatars(initFlag=vizconnect.INIT_INDEPENDENT, initList=None):
 				def appliedGetData():
 					#VC: set the mappings for the gestures
 					if rawInput['flystick'].isButtonDown(0):# make=ART, model=Flystick, name=flystick, signal=Button 0
-						#print("button")
-						
 						return (hand.GESTURE_FIST, False, False)# GESTURE_FIST
-					#else:
-						#print("no button")
 					#VC: end gesture mappings
 					return (hand.GESTURE_FLAT_HAND,False,False)
 				sensor.getData = appliedGetData
