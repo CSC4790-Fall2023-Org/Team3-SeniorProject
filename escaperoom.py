@@ -11,7 +11,7 @@ import time
 from loop import *
 from utilFunctions import *
 
-isCave = False
+isCave = True
 
 viz.phys.enable()
 
@@ -388,7 +388,6 @@ ceiling.texture(ceilingCover)
 floor.texture(floorCover)
 
 # Spawn loop problem structure
-# Spawn loop problem structure
 slot1 = viz.addTexQuad()
 slot2 = viz.addTexQuad()
 slot3 = viz.addTexQuad()
@@ -494,10 +493,10 @@ def checkBox4Position():
 				box4Placed = True
 
 # Add callbacks
-if not box1Placed: vizact.onupdate(11, checkBox1Position)
-if not box2Placed: vizact.onupdate(12, checkBox2Position)
-if not box3Placed: vizact.onupdate(13, checkBox3Position)
-if not box4Placed: vizact.onupdate(14, checkBox4Position)
+if not box1Placed: vizact.onupdate(15, checkBox1Position)
+if not box2Placed: vizact.onupdate(16, checkBox2Position)
+if not box3Placed: vizact.onupdate(17, checkBox3Position)
+if not box4Placed: vizact.onupdate(18, checkBox4Position)
 
 light = viz.addLight()
 light.color(viz.WHITE)
@@ -525,12 +524,10 @@ def positionCallback(item, itemType, gateArray = 0):
 	dotPos = [interactionDot[0], interactionDot[1] * (yEuler/30) + 1, interactionDot[2]]
 	dot.setPosition(dotPos)
 	itemPosition = item.getPosition()
-#	if itemType == 2:
-#		print(itemPosition)
-#		print(dotPos)
 	if dotPos[0] > itemPosition[0] - 0.3 and dotPos[0] < itemPosition[0] + 0.3:
 		if dotPos[1] > itemPosition[1] - 0.3 and dotPos[1] < itemPosition[1] + 0.3:
 			if dotPos[2] > itemPosition[2] - 0.3 and dotPos[2] < itemPosition[2] + 0.3:
+				#dot.color(3,3,3)
 				rawInput = vizconnect.getConfiguration().getRawDict("input")['flystick']
 				if itemType != 2: # boxes and cubes
 					if rawInput.isButtonDown(0) and not objectHeld:
@@ -539,6 +536,7 @@ def positionCallback(item, itemType, gateArray = 0):
 						item.collideNone()
 					else:
 						objectHeld = False
+						#dot.color(0,0,0)
 						if itemType == 0:
 							item.collideBox([0.5,0.5,0.5])
 						elif itemType == 1:
@@ -554,7 +552,6 @@ def positionCallback(item, itemType, gateArray = 0):
 def changeTexture(gateArr):
 	gateArr[1] = (gateArr[1] + 1) % 3
 	gateArr[0].texture(gateTextures[gateArr[1]])
-#	wireColor(wire3, GateOutput(gateArr[1], wire1Value, wire2Value))
 
 def NotGate(c, i):
 	if c == 0:
@@ -728,12 +725,15 @@ if isCave:
 	import vizconnect
 	CONFIG_FILE = "vizconnect_config_CaveFloor+ART_headnode.py"
 	vizconnect.go(CONFIG_FILE)	
+	vizconnect.getAvatar().getAttachmentPoint("l_hand").getNode3d().remove()
+	vizconnect.getAvatar().getAttachmentPoint("r_hand").getNode3d().remove()
 	dtrack_manager = MyDtrackManager()
 	dtrack_manager.startDefaultHeadPosition()
 	joystickTracker = vizconnect.getTracker("dtrack_flystick")
 
 	dot = vizshape.addSphere()
 	dot.setScale([0.1, 0.1, 0.1])
+	dot.color(0,0,0)
 
 	vizact.onupdate(0, positionCallback, box1, 0)
 	vizact.onupdate(1, positionCallback, box2, 0)
@@ -744,11 +744,12 @@ if isCave:
 	vizact.onupdate(6, positionCallback, blackCube, 1)
 	vizact.onupdate(7, positionCallback, orangeCube, 1)
 	vizact.onupdate(8, positionCallback, blueCube, 1)
-	vizact.onupdate(9, positionCallback, gate1[0], 2, gate1)
-	vizact.onupdate(9, positionCallback, gate2[0], 2, gate2)
-	vizact.onupdate(9, positionCallback, gate3[0], 2, gate3)
-	vizact.onupdate(9, positionCallback, gate4[0], 2, gate4)
-	vizact.onupdate(9, positionCallback, gate5[0], 2, gate5)
+	vizact.onupdate(9, positionCallback, purpleCube, 1)
+	vizact.onupdate(10, positionCallback, gate1[0], 2, gate1)
+	vizact.onupdate(11, positionCallback, gate2[0], 2, gate2)
+	vizact.onupdate(12, positionCallback, gate3[0], 2, gate3)
+	vizact.onupdate(13, positionCallback, gate4[0], 2, gate4)
+	vizact.onupdate(14, positionCallback, gate5[0], 2, gate5)
 	
 	viz.MainView.collision(viz.ON)
 	
@@ -790,17 +791,7 @@ def checkLights():
 	global door
 	if checkKnapsack() and logicOutlight[1]:
 		if box1Placed is False and box2Placed is False and box3Placed is False and box4Placed is False:
-			print("NO")
 			door.remove()
-			'''
-	else:
-		door.remove()
-		door = viz.addTexQuad()
-		door.setScale([1.5,2.5,1])
-		door.setPosition([0,1.25,5])
-		doorCover = viz.addTexture('CustomTextures/door.jpg')
-		door.texture(doorCover)
-		'''
 	
 
 vizact.onupdate(23, checkLights)
@@ -826,5 +817,3 @@ knapValues.texture(knapLimitTex)
 knapValues.setScale([1.4, 1.1, 1.1])
 knapValues.setPosition([-2,2.1,4.95])
 knapValues.setEuler([0, 0, 270])
-
-
