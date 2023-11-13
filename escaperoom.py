@@ -11,7 +11,7 @@ import time
 from loop import *
 from utilFunctions import *
 
-isCave = True
+isCave = False
 
 viz.phys.enable()
 
@@ -179,6 +179,15 @@ pillar5.collideBox(0.5, 1, 0.5)
 pillar5.setScale([0.5, 1, 0.5])
 pillar5.setPosition([-4.5, 2, 3])
 
+def getCubeDescription(cubeName):
+	cubeDesc = '\nWeight: ' + str(cubeName.density) + '\nValue: ' + str(cubeName.label)
+	return cubeDesc
+
+def getCubeTextPosition(cubeName):
+	textPos = cubeName.getPosition()
+	textPos[1] -= 1
+	return textPos
+	
 
 # RED CUBE
 redCube = vizshape.addCube()
@@ -189,6 +198,7 @@ redCube.color(viz.RED)
 redCube.density = 2
 redCube.label = '0110'
 
+
 # BLUE CUBE
 blueCube = vizshape.addCube()
 blueCube.collideBox(0.15,0.15,0.15)
@@ -198,15 +208,16 @@ blueCube.color(viz.BLUE)
 blueCube.density = 3
 blueCube.label = '0101'
 
+
 # GREEN CUBE
 greenCube = vizshape.addCube()
 greenCube.collideBox(0.15,0.15,0.15)
 greenCube.setScale([0.15, 0.15, 0.15])
 greenCube.setPosition([-4.5, 3, 0])
-#greenCube.setPosition([-2, 3, 4.4])
 greenCube.color(viz.GREEN)
 greenCube.density = 4
 greenCube.label = '1010'
+
 
 # ORANGE CUBE
 orangeCube = vizshape.addCube()
@@ -216,6 +227,7 @@ orangeCube.setPosition([-4.5, 3, 1.5])
 orangeCube.color(viz.ORANGE)
 orangeCube.density = 1
 orangeCube.label = '0011'
+
 
 # BLACK CUBE
 blackCube = vizshape.addCube()
@@ -236,6 +248,7 @@ purpleCube.color(viz.PURPLE)
 purpleCube.density = 2
 purpleCube.label = '0111'
 
+'''
 densityDisplay = viz.addText('',pos = [0, 0, 0])
 densityDisplay.setScale([0.25,0.25,0.25])
 densityDisplay.setEuler([-90,0,0])
@@ -252,6 +265,7 @@ def printWeight():
         densityDisplay.message('Weight: ' + str(object.density) + '\nValue: ' + str(object.label))
     
 vizact.onmousedown(viz.MOUSEBUTTON_LEFT, printWeight)
+'''
 
 # Add knapsack table
 knapsackTable = vizshape.addCube()
