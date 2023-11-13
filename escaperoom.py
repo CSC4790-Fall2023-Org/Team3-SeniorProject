@@ -11,7 +11,7 @@ import time
 from loop import *
 from utilFunctions import *
 
-isCave = True
+isCave = False
 
 viz.phys.enable()
 
@@ -251,7 +251,7 @@ def printWeight():
         densityDisplay.setPosition(objPos)
         densityDisplay.message('Weight: ' + str(object.density) + '\nValue: ' + str(object.label))
     
-vizact.onmousedown(viz.MOUSEBUTTON_LEFT, printWeight)
+vizact.onmousedown(viz.MOUSEBUTTON_RIGHT, printWeight)
 
 # Add knapsack table
 knapsackTable = vizshape.addCube()
@@ -785,10 +785,14 @@ door.setScale([1.5,2.5,1])
 door.setPosition([0,1.25,5])
 doorCover = viz.addTexture('CustomTextures/door.jpg')
 door.texture(doorCover)
+
 def checkLights():
 	global door
 	if checkKnapsack() and logicOutlight[1]:
-		door.remove()
+		if box1Placed is False and box2Placed is False and box3Placed is False and box4Placed is False:
+			print("NO")
+			door.remove()
+			'''
 	else:
 		door.remove()
 		door = viz.addTexQuad()
@@ -796,5 +800,31 @@ def checkLights():
 		door.setPosition([0,1.25,5])
 		doorCover = viz.addTexture('CustomTextures/door.jpg')
 		door.texture(doorCover)
+		'''
+	
 
-#vizact.onupdate(0, checkLights)
+vizact.onupdate(23, checkLights)
+
+
+knapValuesTex = viz.addTexture('CustomImages/KnapValuesVisual.jpg')
+knapValues = viz.addTexQuad()
+knapValues.texture(knapValuesTex)
+knapValues.setScale([2, 1.5, 1.5])
+knapValues.setPosition([-4.95,2.5,-1.5])
+knapValues.setEuler([270, 0, 0])
+
+knapWeightsTex = viz.addTexture('CustomImages/KnapWeightsVisual.jpg')
+knapWeights = viz.addTexQuad()
+knapWeights.texture(knapWeightsTex)
+knapWeights.setScale([2, 1.5, 1.5])
+knapWeights.setPosition([-4.95,2.5,1.5])
+knapWeights.setEuler([270, 0, 0])
+
+knapLimitTex = viz.addTexture('CustomImages/KnapLimitVisual.jpg')
+knapValues = viz.addTexQuad()
+knapValues.texture(knapLimitTex)
+knapValues.setScale([1.4, 1.1, 1.1])
+knapValues.setPosition([-2,2.1,4.95])
+knapValues.setEuler([0, 0, 270])
+
+
