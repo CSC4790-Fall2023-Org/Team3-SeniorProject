@@ -676,12 +676,5 @@ def checkLights():
 	global door
 	if checkKnapsack() and logicOutlight[1]:
 		door.remove()
-	else:
-		door.remove()
-		door = viz.addTexQuad()
-		door.setScale([1.5,2.5,1])
-		door.setPosition([0,1.25,5])
-		doorCover = viz.addTexture('CustomTextures/door.jpg')
-		door.texture(doorCover)
 
 vizact.onupdate(0, checkLights)
