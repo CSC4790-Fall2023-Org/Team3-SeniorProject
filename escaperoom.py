@@ -7,10 +7,11 @@ import vizproximity
 import vizshape
 import vizfx
 import tools
+import time
 from loop import *
 from utilFunctions import *
 
-isCave = False
+isCave = True
 
 viz.phys.enable()
 
@@ -50,23 +51,6 @@ class MyDtrackManager():
 			return False
 
 joystickTracker = None
-#viz.setMultiSample(4)
-viz.fov(80)
-if isCave:
-	import vizconnect
-	CONFIG_FILE = "vizconnect_config_CaveFloor+ART_headnode.py"
-	#CONFIG_FILE = ""
-	vizconnect.go(CONFIG_FILE)	
-	dtrack_manager = MyDtrackManager()
-	dtrack_manager.startDefaultHeadPosition()
-	joystickTracker = vizconnect.getTracker("dtrack_flystick")
-	viz.MainView.collision(viz.ON)
-else:
-	viz.go()
-	viz.MainView.collision(viz.ON)
-
-#variable for toggling door
-isDoor = True
 
 # Add table
 table = viz.addChild('CustomModels/table1.osgb')
@@ -219,6 +203,7 @@ greenCube = vizshape.addCube()
 greenCube.collideBox(0.15,0.15,0.15)
 greenCube.setScale([0.15, 0.15, 0.15])
 greenCube.setPosition([-4.5, 3, 0])
+#greenCube.setPosition([-2, 3, 4.4])
 greenCube.color(viz.GREEN)
 greenCube.density = 4
 greenCube.label = '1010'
@@ -310,6 +295,7 @@ def checkKnapsack():
 knapOutLight = vizshape.addSphere()
 knapOutLight.setPosition(1,2.25,5)
 knapOutLight.setScale(.25,.25,.25)
+knapOutLight.label = False
 
 def changeLightColor():
 	if checkKnapsack():
@@ -324,13 +310,7 @@ vizact.onupdate(0, changeLightColor)
 # The wall consists of three parts, left of the door, above the door, and right of the door
 # Alternatively door could be overlaid on a singular instance of the wall, however this gives the option to have 
 	# an event derender the door and create an openning to pass to another room
-
-if isDoor: 
-	door = viz.addTexQuad()
-	door.setScale([1.5,2.5,1])
-	door.setPosition([0,1.25,5])
-	doorCover = viz.addTexture('CustomTextures/door.jpg')
-	door.texture(doorCover)
+	
 
 
 # Fill in wall around door
@@ -408,6 +388,25 @@ ceiling.texture(ceilingCover)
 floor.texture(floorCover)
 
 # Spawn loop problem structure
+# Spawn loop problem structure
+slot1 = viz.addTexQuad()
+slot2 = viz.addTexQuad()
+slot3 = viz.addTexQuad()
+slot4 = viz.addTexQuad()
+
+slot1.setPosition([-1, 2, -4.9])
+slot1.setScale([7,0.39,0.5])
+slot1.setEuler([180,0,0])
+slot2.setPosition([-1, 1.53, -4.9])
+slot2.setScale([7,0.39,0.5])
+slot2.setEuler([180,0,0])
+slot3.setPosition([-1, 1.08, -4.9])
+slot3.setScale([7,0.39,0.5])
+slot3.setEuler([180,0,0])
+slot4.setPosition([-1, 0.6, -4.9])
+slot4.setScale([7,0.39,0.5])
+slot4.setEuler([180,0,0])
+
 box1 = vizshape.addBox(splitFaces=True)
 box2 = vizshape.addBox(splitFaces=True)
 box3 = vizshape.addBox(splitFaces=True)
@@ -418,10 +417,20 @@ box2.setPosition([1,1,2])
 box3.setPosition([-2,1,-2])
 box4.setPosition([-2,1,2])
 
+box1.setScale([0.5,0.5,0.5])
+box2.setScale([0.5,0.5,0.5])
+box3.setScale([0.5,0.5,0.5])
+box4.setScale([0.5,0.5,0.5])
+
 box1.color(viz.BLACK)
 box2.color(viz.BLACK)
 box3.color(viz.BLACK)
 box4.color(viz.BLACK)
+
+box1.collideBox([0.5,0.5,0.5])
+box2.collideBox([0.5,0.5,0.5])
+box3.collideBox([0.5,0.5,0.5])
+box4.collideBox([0.5,0.5,0.5])
 
 init = viz.addTexture('CustomImages/codeSolutions/init.jpg')
 sol1 = viz.addTexture('CustomImages/codeSolutions/sol1.jpg')
@@ -429,70 +438,123 @@ sol2 = viz.addTexture('CustomImages/codeSolutions/sol2.jpg')
 sol3 = viz.addTexture('CustomImages/codeSolutions/sol3.jpg')
 
 box1.color(5,5,5)
-box1.texture(init, node='top')
+box1.texture(init)
 box2.color(5,5,5)
-box2.texture(sol1, node='top')
+box2.texture(sol1)
 box3.color(5,5,5)
-box3.texture(sol2, node='top')
+box3.texture(sol2)
 box4.color(5,5,5)
-box4.texture(sol3, node='top')
+box4.texture(sol3)
 
 createProblem()
-#spawnCodeBoxes()
 
-# Establish line
-#lineStart = [0,3,0]
-#lineEnd = [1,0.1,-2]
-#line = drawLine(lineStart, lineEnd)
+box1Placed = False
+box2Placed = False
+box3Placed = False
+box4Placed = False
+
+def checkBox1Position():
+	box1Position = box1.getPosition()
+	if box1Position[0] > -4 and box1Position[0] < 2:
+		if box1Position[1] > 1.8 and box1Position[1] < 2.4:
+			if box1Position[2] < -4.6:
+				slot1.texture(init)
+				if isCave:
+					box1.remove()
+				box1Placed = True
+				
+def checkBox2Position():
+	box2Position = box2.getPosition()
+	if box2Position[0] > -4 and box2Position[0] < 2:
+		if box2Position[1] > 1.33 and box2Position[1] < 1.83:
+			if box2Position[2] < -4.6:
+				slot2.texture(sol1)
+				if isCave:
+					box2.remove()
+				box2Placed = True
+				
+def checkBox3Position():
+	box3Position = box3.getPosition()
+	if box3Position[0] > -4 and box3Position[0] < 2:
+		if box3Position[1] > 0.88 and box3Position[1] < 1.28:
+			if box3Position[2] < -4.6:
+				slot3.texture(sol2)
+				if isCave:
+					box3.remove()
+				box3Placed = True
+				
+def checkBox4Position():
+	box4Position = box4.getPosition()
+	if box4Position[0] > -4 and box4Position[0] < 2:
+		if box4Position[1] < 0.8:
+			if box4Position[2] < -4.6:
+				slot4.texture(sol3)
+				if isCave:
+					box4.remove()
+				box4Placed = True
 
 # Add callbacks
-#vizact.onupdate(0, checkHover, joystickTracker)
-#vizact.onupdate(0, drawJoystickLine, joystickTracker)
-
-# Testing
-#selected = viz.Intersect(lineStart, lineEnd)
-#checkHover(lineStart, lineEnd)
-setTextures()
-
+if not box1Placed: vizact.onupdate(11, checkBox1Position)
+if not box2Placed: vizact.onupdate(12, checkBox2Position)
+if not box3Placed: vizact.onupdate(13, checkBox3Position)
+if not box4Placed: vizact.onupdate(14, checkBox4Position)
 
 light = viz.addLight()
 light.color(viz.WHITE)
 light.setPosition(0, 3, 0)
 light.intensity(100)
 
-#viz.setOption('viz.display.stencil',1)
-
 objects = [box1, box2, box3, box4, redCube, blueCube, greenCube, orangeCube, blackCube, purpleCube]
+objectHeld = False
 
-usingPhysics=False
-from tools import grabber
-from tools import highlighter
-tool = grabber.Grabber(usingPhysics=usingPhysics, usingSprings=usingPhysics, highlightMode=highlighter.MODE_OUTLINE)
-tool.setItems(objects)
-
-def updateGrabber(tool):
+def updateMouseGrabber(tool):
     state = viz.mouse.getState()
     if state & viz. MOUSEBUTTON_LEFT:
         tool.grabAndHold()
-tool.setUpdateFunction(updateGrabber)
 
-from vizconnect.util import virtual_trackers
-mouseTracker = virtual_trackers.ScrollWheel(followMouse = True)
-mouseTracker.distance = 1.4
-arrow = vizshape.addArrow(length=0.2,color=viz.BLUE)
-arrow.collideNone()
-arrowLink = viz.link(mouseTracker,arrow)
-arrowLink.postMultLinkable(viz.MainView)
-viz.link(arrowLink,tool)
+# 0 is box
+# 1 is cube
+# 2 is gate
+def positionCallback(item, itemType, gateArray = 0):
+	global objectHeld
+	
+	userPosition = viz.MainView.getPosition()
+	userDirection = viz.MainView.getMatrix().getForward()
+	interactionDot = vizmat.MoveAlongVector(userPosition, userDirection, 2)
+	yEuler = -1 * joystickTracker.getEuler()[1]
+	dotPos = [interactionDot[0], interactionDot[1] * (yEuler/30) + 1, interactionDot[2]]
+	dot.setPosition(dotPos)
+	itemPosition = item.getPosition()
+#	if itemType == 2:
+#		print(itemPosition)
+#		print(dotPos)
+	if dotPos[0] > itemPosition[0] - 0.3 and dotPos[0] < itemPosition[0] + 0.3:
+		if dotPos[1] > itemPosition[1] - 0.3 and dotPos[1] < itemPosition[1] + 0.3:
+			if dotPos[2] > itemPosition[2] - 0.3 and dotPos[2] < itemPosition[2] + 0.3:
+				rawInput = vizconnect.getConfiguration().getRawDict("input")['flystick']
+				if itemType != 2: # boxes and cubes
+					if rawInput.isButtonDown(0) and not objectHeld:
+						objectHeld = True
+						item.setPosition(dotPos)
+						item.collideNone()
+					else:
+						objectHeld = False
+						if itemType == 0:
+							item.collideBox([0.5,0.5,0.5])
+						elif itemType == 1:
+							item.collideBox([0.15,0.15,0.15])
+				else: # gates
+					if rawInput.isButtonDown(0):
+						print("gate check")
+						time.sleep(0.2)
+						changeTexture(gateArray)
+						
 
 '''''''''''''''''''''''''''''LOGIC GATE PROBLEM'''''''''''''''''''''''''''''''''
-def changeTexture():
-	global gateValue
-	object = viz.pick()
-	if object.valid():
-		gateValue = (gateValue + 1) % 3
-		gate.texture(gateTextures[gateValue])
-	wireColor(wire3, GateOutput(gateValue, wire1Value, wire2Value))
+def changeTexture(gateArr):
+	gateArr[1] = (gateArr[1] + 1) % 3
+	gateArr[0].texture(gateTextures[gateArr[1]])
+#	wireColor(wire3, GateOutput(gateArr[1], wire1Value, wire2Value))
 
 def NotGate(c, i):
 	if c == 0:
@@ -661,7 +723,51 @@ logicOutlight[0].setPosition(1,1.5,5)
 logicOutlight[0].setScale(.25,.25,.25)
 objColor(logicOutlight[0], logicOutlight[1])
 
+viz.fov(80)
+if isCave:
+	import vizconnect
+	CONFIG_FILE = "vizconnect_config_CaveFloor+ART_headnode.py"
+	vizconnect.go(CONFIG_FILE)	
+	dtrack_manager = MyDtrackManager()
+	dtrack_manager.startDefaultHeadPosition()
+	joystickTracker = vizconnect.getTracker("dtrack_flystick")
 
+	dot = vizshape.addSphere()
+	dot.setScale([0.1, 0.1, 0.1])
+
+	vizact.onupdate(0, positionCallback, box1, 0)
+	vizact.onupdate(1, positionCallback, box2, 0)
+	vizact.onupdate(2, positionCallback, box3, 0)
+	vizact.onupdate(3, positionCallback, box4, 0)
+	vizact.onupdate(4, positionCallback, redCube, 1)
+	vizact.onupdate(5, positionCallback, greenCube, 1)
+	vizact.onupdate(6, positionCallback, blackCube, 1)
+	vizact.onupdate(7, positionCallback, orangeCube, 1)
+	vizact.onupdate(8, positionCallback, blueCube, 1)
+	vizact.onupdate(9, positionCallback, gate1[0], 2, gate1)
+	vizact.onupdate(9, positionCallback, gate2[0], 2, gate2)
+	vizact.onupdate(9, positionCallback, gate3[0], 2, gate3)
+	vizact.onupdate(9, positionCallback, gate4[0], 2, gate4)
+	vizact.onupdate(9, positionCallback, gate5[0], 2, gate5)
+	
+	viz.MainView.collision(viz.ON)
+	
+else:
+	from vizconnect.util import virtual_trackers
+	usingPhysics=False
+	from tools import grabber
+	from tools import highlighter
+	tool = grabber.Grabber(usingPhysics=usingPhysics, usingSprings=usingPhysics, highlightMode=highlighter.MODE_OUTLINE)
+	tool.setItems(objects)
+	mouseTracker = virtual_trackers.ScrollWheel(followMouse = True)
+	mouseTracker.distance = 3
+	arrow = vizshape.addArrow(length=0.2,color=viz.BLUE)
+	arrowLink = viz.link(mouseTracker, arrow)
+	arrowLink.postMultLinkable(viz.MainView)
+	viz.link(arrowLink,tool)
+	tool.setUpdateFunction(updateMouseGrabber)
+	viz.go()
+	viz.MainView.collision(viz.ON)			
 
 def moveMushroom():
 	move = vizact.animation(2)
@@ -673,4 +779,22 @@ mushroom.setScale([0.5, 0.5, 0.5])
 mushroom.setPosition([4.5, 1, 0])
 mushroom.setEuler(90,0,0)
 
+#Checking all lights to open door
+door = viz.addTexQuad()
+door.setScale([1.5,2.5,1])
+door.setPosition([0,1.25,5])
+doorCover = viz.addTexture('CustomTextures/door.jpg')
+door.texture(doorCover)
+def checkLights():
+	global door
+	if checkKnapsack() and logicOutlight[1]:
+		door.remove()
+	else:
+		door.remove()
+		door = viz.addTexQuad()
+		door.setScale([1.5,2.5,1])
+		door.setPosition([0,1.25,5])
+		doorCover = viz.addTexture('CustomTextures/door.jpg')
+		door.texture(doorCover)
 
+#vizact.onupdate(0, checkLights)
