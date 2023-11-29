@@ -231,7 +231,7 @@ blackCube.label = '1100'
 purpleCube = vizshape.addCube()
 purpleCube.collideBox(0.15,0.15,0.15)
 purpleCube.setScale([0.15, 0.15, 0.15])
-purpleCube.setPosition([-2, 2, 4.4])
+purpleCube.setPosition([3.75, 2, -4.4])
 purpleCube.color(viz.PURPLE)
 purpleCube.density = 2
 purpleCube.label = '0111'
