@@ -11,7 +11,7 @@ import time
 from loop import *
 from utilFunctions import *
 
-isCave = True
+isCave = False
 
 viz.phys.enable()
 
@@ -735,6 +735,7 @@ if isCave:
 	dot.setScale([0.1, 0.1, 0.1])
 	dot.color(0,0,0)
 
+	
 	vizact.onupdate(0, positionCallback, box1, 0)
 	vizact.onupdate(1, positionCallback, box2, 0)
 	vizact.onupdate(2, positionCallback, box3, 0)
@@ -777,8 +778,13 @@ def moveMushroom():
 mushroom = viz.addAvatar('CustomModels/MushroomMan/Martial_arts_character.osgb')
 vizact.onkeydown('3', moveMushroom)
 mushroom.setScale([0.5, 0.5, 0.5])
-mushroom.setPosition([4.5, 1, 0])
-mushroom.setEuler(90,0,0)
+mushroom.setPosition([0, 0, 6.5])
+mushroom.setEuler(0,0,0)
+
+light = viz.addLight()
+light.color(viz.WHITE)
+light.setPosition(0, 3, 6.5)
+light.intensity(100)
 
 #Checking all lights to open door
 door = viz.addTexQuad()
@@ -786,16 +792,16 @@ door.setScale([1.5,2.5,1])
 door.setPosition([0,1.25,5])
 doorCover = viz.addTexture('CustomTextures/door.jpg')
 door.texture(doorCover)
+door.remove()
 
 def checkLights():
 	global door
 	if checkKnapsack() and logicOutlight[1]:
 		if box1Placed is False and box2Placed is False and box3Placed is False and box4Placed is False:
 			door.remove()
-	
+			moveMushroom()
 
 vizact.onupdate(23, checkLights)
-
 
 knapValuesTex = viz.addTexture('CustomImages/KnapValuesVisual.jpg')
 knapValues = viz.addTexQuad()
