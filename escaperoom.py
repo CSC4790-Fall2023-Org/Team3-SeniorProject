@@ -778,7 +778,7 @@ def moveMushroom():
 mushroom = viz.addAvatar('CustomModels/MushroomMan/Martial_arts_character.osgb')
 vizact.onkeydown('3', moveMushroom)
 mushroom.setScale([0.5, 0.5, 0.5])
-mushroom.setPosition([0, 0, 6.5])
+mushroom.setPosition([0, 0, 10])
 mushroom.setEuler(0,0,0)
 
 light = viz.addLight()
@@ -793,6 +793,15 @@ door.setPosition([0,1.25,5])
 doorCover = viz.addTexture('CustomTextures/door.jpg')
 door.texture(doorCover)
 door.remove()
+
+#Red Carpet
+carpet = viz.addTexQuad()
+carpet.setPosition([0,0,10])
+carpet.setEuler([0,90,0])
+carpet.setScale([4,10,10])
+carpet.collidePlane()
+carpetTex = viz.addTexture('CustomTextures/redCarpet.jpg')
+carpet.texture(carpetTex)
 
 def checkLights():
 	global door
