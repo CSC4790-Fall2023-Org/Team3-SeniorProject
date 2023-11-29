@@ -551,7 +551,12 @@ def positionCallback(item, itemType, gateArray = 0):
 						
 
 '''''''''''''''''''''''''''''LOGIC GATE PROBLEM'''''''''''''''''''''''''''''''''
-def changeTexture(gateArr): #Add the Not gate stuff and encode it in a different way
+def changeTexture(gateArr, gateNum): #Add the Not gate stuff and encode it in a different way
+	global gate1
+	global gate2
+	global gate3
+	global gate4
+	global gate5
 	global NotGate
 	if gateArr[1] == 4:
 		gateArr[1] = 5
@@ -566,20 +571,15 @@ def changeTexture(gateArr): #Add the Not gate stuff and encode it in a different
 	wire6[1] = GateOutput(gate1[1], gate1[2], gate1[3])
 	wire7[1] = GateOutput(gate2[1], gate2[2], gate2[3])
 	wire8[1] = wire6[1]
+	gate3[2] = wire8[1]
 	wire9[1] = wire7[1]
 	wire10[1] = wire5[1]
+	gate4[2], gate4[3] = wire9[1], wire10[1]
 	wire11[1] = NotGate(gate3[1], gate3[2])
 	wire12[1] = GateOutput(gate4[1], gate4[2], gate4[3])
-	wire13[1] = GateOutput(gate5[1], gate5[2], gate5[3])
-	
-	gate3[2] = wire8[1]
-	gate4[2], gate4[3] = wire9[1], wire10[1]
 	gate5[2], gate5[3] = wire11[1], wire12[1]
+	wire13[1] = GateOutput(gate5[1], gate5[2], gate5[3])
 	logicOutlight[1] = wire13[1]
-	
-	print(wire8[1])
-	print(gate3)
-	print(wire11[1])
 	
 	objColor(wire6[0], wire6[1])
 	objColor(wire7[0], wire7[1])
@@ -758,11 +758,11 @@ logicOutlight[0].setPosition(1,1.5,5)
 logicOutlight[0].setScale(.25,.25,.25)
 objColor(logicOutlight[0], logicOutlight[1])
 
-vizact.onkeydown('5', changeTexture, gate1)
-vizact.onkeydown('6', changeTexture, gate2)
-vizact.onkeydown('7', changeTexture, gate3)
-vizact.onkeydown('8', changeTexture, gate4)
-vizact.onkeydown('9', changeTexture, gate5)
+vizact.onkeydown('5', changeTexture, gate1, 1)
+vizact.onkeydown('6', changeTexture, gate2, 2)
+vizact.onkeydown('7', changeTexture, gate3, 3)
+vizact.onkeydown('8', changeTexture, gate4, 4)
+vizact.onkeydown('9', changeTexture, gate5, 5)
 
 viz.fov(80)
 if isCave:
