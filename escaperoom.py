@@ -51,12 +51,12 @@ class MyDtrackManager():
 			return False
 
 joystickTracker = None
-
-# Add table
-table = viz.addChild('CustomModels/table1.osgb')
-table.setScale([0.01, 0.0125, 0.01])
-table.setPosition([4.5, 0, 0])
-table.setEuler(90, 0, 0)
+ 
+#Add table
+#table = viz.addChild('CustomModels/table1.osgb')
+#table.setScale([0.01, 0.0125, 0.01])
+#table.setPosition([4.5, 0, 0])
+#table.setEuler(90, 0, 0)
 
 ''''''''''''''''''''''' ABOVE DOOR -- TIMER '''''''''''''''''''''
 #Load Textures
@@ -816,8 +816,8 @@ def moveMushroom():
 mushroom = viz.addAvatar('CustomModels/MushroomMan/Martial_arts_character.osgb')
 vizact.onkeydown('3', moveMushroom)
 mushroom.setScale([0.5, 0.5, 0.5])
-mushroom.setPosition([4.5, 1, 0])
-mushroom.setEuler(90,0,0)
+mushroom.setPosition([0, 0, 10])
+mushroom.setEuler(0,0,0)
 
 #Checking all lights to open door
 door = viz.addTexQuad()
@@ -825,12 +825,23 @@ door.setScale([1.5,2.5,1])
 door.setPosition([0,1.25,5])
 doorCover = viz.addTexture('CustomTextures/door.jpg')
 door.texture(doorCover)
+door.remove()
+
+#Red Carpet
+carpet = viz.addTexQuad()
+carpet.setPosition([0,0,10])
+carpet.setEuler([0,90,0])
+carpet.setScale([4,10,10])
+carpet.collidePlane()
+carpetTex = viz.addTexture('CustomTextures/redCarpet.jpg')
+carpet.texture(carpetTex)
 
 def checkLights():
 	global door
 	if checkKnapsack() and logicOutlight[1]:
 		if box1Placed is False and box2Placed is False and box3Placed is False and box4Placed is False:
 			door.remove()
+			moveMushroom()
 	
 
 vizact.onupdate(23, checkLights)
