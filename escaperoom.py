@@ -11,7 +11,7 @@ import time
 from loop import *
 from utilFunctions import *
 
-isCave = True
+isCave = False
 
 viz.phys.enable()
 
