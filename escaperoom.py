@@ -549,9 +549,45 @@ def positionCallback(item, itemType, gateArray = 0):
 						
 
 '''''''''''''''''''''''''''''LOGIC GATE PROBLEM'''''''''''''''''''''''''''''''''
-def changeTexture(gateArr):
-	gateArr[1] = (gateArr[1] + 1) % 3
-	gateArr[0].texture(gateTextures[gateArr[1]])
+def changeTexture(gateArr, gateNum): #Add the Not gate stuff and encode it in a different way
+	global gate1
+	global gate2
+	global gate3
+	global gate4
+	global gate5
+	global NotGate
+	if gateArr[1] == 4:
+		gateArr[1] = 5
+		gateArr[0].texture(andGateTex)
+	elif gateArr[1] == 5:
+		gateArr[1] = 4
+		gateArr[0].texture(notGateTex)
+	else:
+		gateArr[1] = (gateArr[1] + 1) % 3
+		gateArr[0].texture(gateTextures[gateArr[1]])
+		
+	wire6[1] = GateOutput(gate1[1], gate1[2], gate1[3])
+	wire7[1] = GateOutput(gate2[1], gate2[2], gate2[3])
+	wire8[1] = wire6[1]
+	gate3[2] = wire8[1]
+	wire9[1] = wire7[1]
+	wire10[1] = wire5[1]
+	gate4[2], gate4[3] = wire9[1], wire10[1]
+	wire11[1] = NotGate(gate3[1], gate3[2])
+	wire12[1] = GateOutput(gate4[1], gate4[2], gate4[3])
+	gate5[2], gate5[3] = wire11[1], wire12[1]
+	wire13[1] = GateOutput(gate5[1], gate5[2], gate5[3])
+	logicOutlight[1] = wire13[1]
+	
+	objColor(wire6[0], wire6[1])
+	objColor(wire7[0], wire7[1])
+	objColor(wire8[0], wire8[1])
+	objColor(wire9[0], wire9[1])
+	objColor(wire10[0], wire10[1])
+	objColor(wire11[0], wire11[1])
+	objColor(wire12[0], wire12[1])
+	objColor(wire13[0], wire13[1])
+	objColor(logicOutlight[0], logicOutlight[1])
 
 def NotGate(c, i):
 	if c == 4:
