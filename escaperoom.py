@@ -554,7 +554,7 @@ def changeTexture(gateArr):
 	gateArr[0].texture(gateTextures[gateArr[1]])
 
 def NotGate(c, i):
-	if c == 0:
+	if c == 4:
 		return not i
 	else:
 		return i
@@ -679,7 +679,7 @@ wire10[0].setScale(.1,1,.1)
 wire10[0].setEuler([90,90,0])
 objColor(wire10[0], wire10[1])
 
-gate3 = [viz.addTexQuad(), 0, wire8[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
+gate3 = [viz.addTexQuad(), 4, wire8[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
 gate3[0].setPosition([3.5,3,4.9])
 gate3[0].setScale(0.75,0.75,0.75)
 gate3[0].setEuler([0,0,180])
@@ -709,31 +709,34 @@ gate5[0].setScale(0.75,0.75,0.75)
 gate5[0].setEuler([0,0,180])
 gate5[0].texture(gateTextures[gate5[1]])
 
-wire12 = [vizshape.addCylinder(), GateOutput(gate5[1], gate5[2], gate5[3])]
-wire12[0].setPosition(1.5,1.5,5)
-wire12[0].setScale(.1,0.5,.1)
-wire12[0].setEuler([90,90,0])
-objColor(wire12[0], wire12[1])
+wire13 = [vizshape.addCylinder(), GateOutput(gate5[1], gate5[2], gate5[3])]
+wire13[0].setPosition(1.5,1.5,5)
+wire13[0].setScale(.1,0.5,.1)
+wire13[0].setEuler([90,90,0])
+objColor(wire13[0], wire13[1])
 
-logicOutlight = [vizshape.addSphere(), wire12[1]]
+logicOutlight = [vizshape.addSphere(), wire13[1]]
 logicOutlight[0].setPosition(1,1.5,5)
 logicOutlight[0].setScale(.25,.25,.25)
 objColor(logicOutlight[0], logicOutlight[1])
+
+vizact.onkeydown('5', changeTexture, gate1)
+vizact.onkeydown('6', changeTexture, gate2)
+vizact.onkeydown('7', changeTexture, gate3, 3)
+vizact.onkeydown('8', changeTexture, gate4, 4)
+vizact.onkeydown('9', changeTexture, gate5, 5)
 
 viz.fov(80)
 if isCave:
 	import vizconnect
 	CONFIG_FILE = "vizconnect_config_CaveFloor+ART_headnode.py"
 	vizconnect.go(CONFIG_FILE)	
-	vizconnect.getAvatar().getAttachmentPoint("l_hand").getNode3d().remove()
-	vizconnect.getAvatar().getAttachmentPoint("r_hand").getNode3d().remove()
 	dtrack_manager = MyDtrackManager()
 	dtrack_manager.startDefaultHeadPosition()
 	joystickTracker = vizconnect.getTracker("dtrack_flystick")
 
 	dot = vizshape.addSphere()
 	dot.setScale([0.1, 0.1, 0.1])
-	dot.color(0,0,0)
 
 	vizact.onupdate(0, positionCallback, box1, 0)
 	vizact.onupdate(1, positionCallback, box2, 0)
