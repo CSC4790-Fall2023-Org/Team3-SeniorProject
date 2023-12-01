@@ -549,7 +549,7 @@ def positionCallback(item, itemType, gateArray = 0):
 						
 
 '''''''''''''''''''''''''''''LOGIC GATE PROBLEM'''''''''''''''''''''''''''''''''
-def changeTexture(gateArr, gateNum): #Add the Not gate stuff and encode it in a different way
+def changeTexture(gateArr): #Add the Not gate stuff and encode it in a different way
 	global gate1
 	global gate2
 	global gate3
@@ -758,9 +758,9 @@ objColor(logicOutlight[0], logicOutlight[1])
 
 vizact.onkeydown('5', changeTexture, gate1)
 vizact.onkeydown('6', changeTexture, gate2)
-vizact.onkeydown('7', changeTexture, gate3, 3)
-vizact.onkeydown('8', changeTexture, gate4, 4)
-vizact.onkeydown('9', changeTexture, gate5, 5)
+vizact.onkeydown('7', changeTexture, gate3)
+vizact.onkeydown('8', changeTexture, gate4)
+vizact.onkeydown('9', changeTexture, gate5)
 
 viz.fov(80)
 if isCave:
