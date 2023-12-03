@@ -297,12 +297,12 @@ knapOutLight.setPosition(1,2.25,5)
 knapOutLight.setScale(.25,.25,.25)
 knapOutLight.label = False
 
-def changeLightColor():
+def changeKnapLightColor():
 	if checkKnapsack():
 		knapOutLight.color(viz.YELLOW)
 	else:
 		knapOutLight.color(viz.WHITE)
-vizact.onupdate(0, changeLightColor)
+vizact.onupdate(20, changeKnapLightColor)
 
 '''''''''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''
 
@@ -453,6 +453,7 @@ box3Placed = False
 box4Placed = False
 
 def checkBox1Position():
+	global box1Placed
 	box1Position = box1.getPosition()
 	if box1Position[0] > -4 and box1Position[0] < 2:
 		if box1Position[1] > 1.8 and box1Position[1] < 2.4:
@@ -463,6 +464,7 @@ def checkBox1Position():
 				box1Placed = True
 				
 def checkBox2Position():
+	global box2Placed
 	box2Position = box2.getPosition()
 	if box2Position[0] > -4 and box2Position[0] < 2:
 		if box2Position[1] > 1.33 and box2Position[1] < 1.83:
@@ -473,6 +475,7 @@ def checkBox2Position():
 				box2Placed = True
 				
 def checkBox3Position():
+	global box3Placed
 	box3Position = box3.getPosition()
 	if box3Position[0] > -4 and box3Position[0] < 2:
 		if box3Position[1] > 0.88 and box3Position[1] < 1.28:
@@ -483,6 +486,7 @@ def checkBox3Position():
 				box3Placed = True
 				
 def checkBox4Position():
+	global box4Placed
 	box4Position = box4.getPosition()
 	if box4Position[0] > -4 and box4Position[0] < 2:
 		if box4Position[1] < 0.8:
@@ -491,12 +495,31 @@ def checkBox4Position():
 				if isCave:
 					box4.remove()
 				box4Placed = True
+				
+forOutLight = vizshape.addSphere()
+forOutLight.setPosition(1,0.75,5)
+forOutLight.setScale(.25,.25,.25)
+forOutLight.label = False
+
+def checkFor():
+	if box1Placed is True and box2Placed is True and box3Placed is True and box4Placed is True:
+		return True
+	else:
+		return False
 
 # Add callbacks
 if not box1Placed: vizact.onupdate(15, checkBox1Position)
 if not box2Placed: vizact.onupdate(16, checkBox2Position)
 if not box3Placed: vizact.onupdate(17, checkBox3Position)
 if not box4Placed: vizact.onupdate(18, checkBox4Position)
+
+def changeForLightColor():
+	print(box1Placed)
+	if checkFor():
+		forOutLight.color(viz.YELLOW)
+	else:
+		forOutLight.color(viz.WHITE)
+vizact.onupdate(20, changeForLightColor)
 
 light = viz.addLight()
 light.color(viz.WHITE)
@@ -510,6 +533,22 @@ def updateMouseGrabber(tool):
     state = viz.mouse.getState()
     if state & viz. MOUSEBUTTON_LEFT:
         tool.grabAndHold()
+
+def localPositionCallback(item, boxNum):
+	itemPos = item.getPosition()
+	if boxNum == 1:
+		if box1Placed:
+			box1.setPosition([10, 10, 10])
+	elif boxNum == 2:
+		if box2Placed:
+			box2.setPosition([-10, 10, -10])
+	elif boxNum == 3:
+		if box3Placed:
+			box3.setPosition([10, 10, -10])
+	elif boxNum == 4:
+		if box4Placed:
+			box4.setPosition([-10, 10, 10])
+		
 
 # 0 is box
 # 1 is cube
@@ -546,6 +585,8 @@ def positionCallback(item, itemType, gateArray = 0):
 						print("gate check")
 						time.sleep(0.2)
 						changeTexture(gateArray)
+	elif itemPos[0] > 5 or itemPos[0] < -5 or itemPos[2] > 5 or itemPos[2] < -5:
+		item.setPosition([0, 2, 0])
 						
 
 '''''''''''''''''''''''''''''LOGIC GATE PROBLEM'''''''''''''''''''''''''''''''''
@@ -816,6 +857,12 @@ else:
 	arrowLink.postMultLinkable(viz.MainView)
 	viz.link(arrowLink,tool)
 	tool.setUpdateFunction(updateMouseGrabber)
+	
+	vizact.onupdate(5, localPositionCallback, box1, 1)
+	vizact.onupdate(6, localPositionCallback, box2, 2)
+	vizact.onupdate(7, localPositionCallback, box3, 3)
+	vizact.onupdate(8, localPositionCallback, box4, 4)
+	
 	viz.go()
 	viz.MainView.collision(viz.ON)			
 
@@ -849,7 +896,7 @@ carpet.texture(carpetTex)
 def checkLights():
 	global door
 	if checkKnapsack() and logicOutlight[1]:
-		if box1Placed is False and box2Placed is False and box3Placed is False and box4Placed is False:
+		if box1Placed is True and box2Placed is True and box3Placed is True and box4Placed is True:
 			door.remove()
 			moveMushroom()
 	
