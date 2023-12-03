@@ -558,7 +558,7 @@ def changeTexture(gateArr): #Add the Not gate stuff and encode it in a different
 	global NotGate
 	if gateArr[1] == 4:
 		gateArr[1] = 5
-		gateArr[0].texture(andGateTex)
+		gateArr[0].texture(blankGateTex)
 	elif gateArr[1] == 5:
 		gateArr[1] = 4
 		gateArr[0].texture(notGateTex)
@@ -616,6 +616,7 @@ andGateTex = viz.addTexture("CustomTextures/logic-symbols/AndGate.png")
 orGateTex = viz.addTexture("CustomTextures/logic-symbols/OrGate.png")
 xorGateTex = viz.addTexture("CustomTextures/logic-symbols/XorGate.png")
 notGateTex = viz.addTexture("CustomTextures/logic-symbols/NotGate.png")
+blankGateTex = viz.addTexture("CustomTextures/logic-symbols/blankGate.jpg")
 gateTextures = [andGateTex, orGateTex, xorGateTex]
 
 light1 = [vizshape.addSphere(), False]
