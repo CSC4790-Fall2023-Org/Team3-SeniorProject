@@ -895,7 +895,7 @@ carpet.texture(carpetTex)
 
 def checkLights():
 	global door
-	if checkKnapsack() and logicOutlight[1]:
+	if checkKnapsack() and logicOutlight1[1]:
 		if box1Placed is True and box2Placed is True and box3Placed is True and box4Placed is True:
 			door.remove()
 			moveMushroom()
