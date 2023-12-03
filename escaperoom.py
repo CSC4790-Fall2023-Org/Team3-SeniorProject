@@ -501,6 +501,22 @@ forOutLight.setPosition(1,0.75,5)
 forOutLight.setScale(.25,.25,.25)
 forOutLight.label = False
 
+knapsackOutLabel = viz.addText('Knapsack Problem',pos = [2, 2.15, 4.99])
+knapsackOutLabel.setScale([0.15,0.15,0.15])
+knapsackOutLabel.color(viz.BLACK)
+knapsackOutLabel.alignment(viz.ALIGN_CENTER_BOTTOM)
+
+logicOutLabel = viz.addText('Logic Gate Problem',pos = [2, 1.40, 4.99])
+logicOutLabel.setScale([0.15,0.15,0.15])
+logicOutLabel.color(viz.BLACK)
+logicOutLabel.alignment(viz.ALIGN_CENTER_BOTTOM)
+
+forOutLabel = viz.addText('For Loop Problem',pos = [2, 0.65, 4.99])
+forOutLabel.setScale([0.15,0.15,0.15])
+forOutLabel.color(viz.BLACK)
+forOutLabel.alignment(viz.ALIGN_CENTER_BOTTOM)
+
+
 def checkFor():
 	if box1Placed is True and box2Placed is True and box3Placed is True and box4Placed is True:
 		return True
@@ -882,7 +898,6 @@ door.setScale([1.5,2.5,1])
 door.setPosition([0,1.25,5])
 doorCover = viz.addTexture('CustomTextures/door.jpg')
 door.texture(doorCover)
-door.remove()
 
 #Red Carpet
 carpet = viz.addTexQuad()
