@@ -717,7 +717,7 @@ wire5[0].setScale(.1,2.5,.1)
 wire5[0].setEuler([0,90,0])
 objColor(wire5[0], wire5[1])
 
-gate1 = [viz.addTexQuad(), 1, wire1[1], wire2[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
+gate1 = [viz.addTexQuad(), 0, wire1[1], wire2[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
 gate1[0].setPosition([4.9,2,-1.25])
 gate1[0].setScale(0.75,0.75,0.75)
 gate1[0].setEuler([90,0,180])
@@ -729,7 +729,7 @@ wire6[0].setScale(.1,1,.1)
 wire6[0].setEuler([0,90,0])
 objColor(wire6[0], wire6[1])
 
-gate2 = [viz.addTexQuad(), 0, wire3[1], wire4[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
+gate2 = [viz.addTexQuad(), 2, wire3[1], wire4[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
 gate2[0].setPosition([4.9,1,-1.25])
 gate2[0].setScale(0.75,0.75,0.75)
 gate2[0].setEuler([90,0,180])
@@ -767,7 +767,7 @@ gate3[0].setScale(0.75,0.75,0.75)
 gate3[0].setEuler([90,0,180])
 gate3[0].texture(notGateTex)
 
-gate4 = [viz.addTexQuad(), 2, wire9[1], wire10[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
+gate4 = [viz.addTexQuad(), 0, wire9[1], wire10[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
 gate4[0].setPosition([4.9,.6,.25])
 gate4[0].setScale(0.75,0.75,0.75)
 gate4[0].setEuler([90,0,180])
@@ -785,7 +785,7 @@ wire12[0].setScale(.1,1,.1)
 wire12[0].setEuler([0,90,0])
 objColor(wire12[0], wire12[1])
 
-gate5 = [viz.addTexQuad(), 1, wire11[1], wire12[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
+gate5 = [viz.addTexQuad(), 0, wire11[1], wire12[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
 gate5[0].setPosition([4.9,1,1.75])
 gate5[0].setScale(0.75,0.75,0.75)
 gate5[0].setEuler([90,0,180])
