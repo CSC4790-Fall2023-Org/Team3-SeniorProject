@@ -534,6 +534,22 @@ def updateMouseGrabber(tool):
     if state & viz. MOUSEBUTTON_LEFT:
         tool.grabAndHold()
 
+def localPositionCallback(item, boxNum):
+	itemPos = item.getPosition()
+	if boxNum == 1:
+		if box1Placed:
+			box1.setPosition([10, 10, 10])
+	elif boxNum == 2:
+		if box2Placed:
+			box2.setPosition([-10, 10, -10])
+	elif boxNum == 3:
+		if box3Placed:
+			box3.setPosition([10, 10, -10])
+	elif boxNum == 4:
+		if box4Placed:
+			box4.setPosition([-10, 10, 10])
+		
+
 # 0 is box
 # 1 is cube
 # 2 is gate
@@ -569,6 +585,8 @@ def positionCallback(item, itemType, gateArray = 0):
 						print("gate check")
 						time.sleep(0.2)
 						changeTexture(gateArray)
+	elif itemPos[0] > 5 or itemPos[0] < -5 or itemPos[2] > 5 or itemPos[2] < -5:
+		item.setPosition([0, 2, 0])
 						
 
 '''''''''''''''''''''''''''''LOGIC GATE PROBLEM'''''''''''''''''''''''''''''''''
@@ -830,6 +848,12 @@ else:
 	arrowLink.postMultLinkable(viz.MainView)
 	viz.link(arrowLink,tool)
 	tool.setUpdateFunction(updateMouseGrabber)
+	
+	vizact.onupdate(5, localPositionCallback, box1, 1)
+	vizact.onupdate(6, localPositionCallback, box2, 2)
+	vizact.onupdate(7, localPositionCallback, box3, 3)
+	vizact.onupdate(8, localPositionCallback, box4, 4)
+	
 	viz.go()
 	viz.MainView.collision(viz.ON)			
 
