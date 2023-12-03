@@ -577,7 +577,8 @@ def changeTexture(gateArr): #Add the Not gate stuff and encode it in a different
 	wire12[1] = GateOutput(gate4[1], gate4[2], gate4[3])
 	gate5[2], gate5[3] = wire11[1], wire12[1]
 	wire13[1] = GateOutput(gate5[1], gate5[2], gate5[3])
-	logicOutlight[1] = wire13[1]
+	logicOutlight1[1] = wire13[1]
+	logicOutlight2[1] = wire13[1]
 	
 	objColor(wire6[0], wire6[1])
 	objColor(wire7[0], wire7[1])
@@ -587,7 +588,8 @@ def changeTexture(gateArr): #Add the Not gate stuff and encode it in a different
 	objColor(wire11[0], wire11[1])
 	objColor(wire12[0], wire12[1])
 	objColor(wire13[0], wire13[1])
-	objColor(logicOutlight[0], logicOutlight[1])
+	objColor(logicOutlight1[0], logicOutlight1[1])
+	objColor(logicOutlight2[0], logicOutlight2[1])
 
 def NotGate(c, i):
 	if c == 4:
@@ -620,142 +622,149 @@ blankGateTex = viz.addTexture("CustomTextures/logic-symbols/blankGate.jpg")
 gateTextures = [andGateTex, orGateTex, xorGateTex]
 
 light1 = [vizshape.addSphere(), False]
-light1[0].setPosition(5,3.5,1.5)
+light1[0].setPosition(5,2.25,-2.5)
 light1[0].setScale(.25,.25,.25)
 objColor(light1[0], light1[1])
 
 light2 = [vizshape.addSphere(), True]
-light2[0].setPosition(5,2.75,1.5)
+light2[0].setPosition(5,1.75,-2.5)
 light2[0].setScale(.25,.25,.25)
 objColor(light2[0], light2[1])
 
 light3 = [vizshape.addSphere(), True]
-light3[0].setPosition(5,2,1.5)
+light3[0].setPosition(5,1.25,-2.5)
 light3[0].setScale(.25,.25,.25)
 objColor(light3[0], light3[1])
 
 light4 = [vizshape.addSphere(), True]
-light4[0].setPosition(5,1.25,1.5)
+light4[0].setPosition(5,0.75,-2.5)
 light4[0].setScale(.25,.25,.25)
 objColor(light4[0], light4[1])
 
 light5 = [vizshape.addSphere(), False]
-light5[0].setPosition(5,0.5,1.5)
+light5[0].setPosition(5,0.25,-2.5)
 light5[0].setScale(.25,.25,.25)
 objColor(light5[0], light5[1])
 
 wire1 = [vizshape.addCylinder(), light1[1]] #[object, boolVal]
-wire1[0].setPosition(5,3.5,2)
+wire1[0].setPosition(5,2.25,-2)
 wire1[0].setScale(.1,1,.1)
 wire1[0].setEuler([0,90,0])
 objColor(wire1[0], wire1[1])
 
 wire2 = [vizshape.addCylinder(), light2[1]]
-wire2[0].setPosition(5,2.75,2)
+wire2[0].setPosition(5,1.75,-2)
 wire2[0].setScale(.1,1,.1)
 wire2[0].setEuler([0,90,0])
 objColor(wire2[0], wire2[1])
 
 wire3 = [vizshape.addCylinder(), light3[1]]
-wire3[0].setPosition(5,2,2)
+wire3[0].setPosition(5,1.25,-2)
 wire3[0].setScale(.1,1,.1)
 wire3[0].setEuler([0,90,0])
 objColor(wire3[0], wire3[1])
 
 wire4 = [vizshape.addCylinder(), light4[1]]
-wire4[0].setPosition(5,1.25,2)
+wire4[0].setPosition(5,0.75,-2)
 wire4[0].setScale(.1,1,.1)
 wire4[0].setEuler([0,90,0])
 objColor(wire4[0], wire4[1])
 
 wire5 = [vizshape.addCylinder(), light5[1]]
-wire5[0].setPosition(5,0.5,3.5)
-wire5[0].setScale(.1,4,.1)
+wire5[0].setPosition(5,0.25,-1)
+wire5[0].setScale(.1,2.5,.1)
 wire5[0].setEuler([0,90,0])
 objColor(wire5[0], wire5[1])
 
 gate1 = [viz.addTexQuad(), 1, wire1[1], wire2[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
-gate1[0].setPosition([4.9,3,2.8])
+gate1[0].setPosition([4.9,2,-1.25])
 gate1[0].setScale(0.75,0.75,0.75)
 gate1[0].setEuler([90,0,180])
 gate1[0].texture(gateTextures[gate1[1]])
 
 wire6 = [vizshape.addCylinder(), GateOutput(gate1[1], gate1[2], gate1[3])]
-wire6[0].setPosition(5,3,4)
-wire6[0].setScale(.1,3,.1)
+wire6[0].setPosition(5,2,-.5)
+wire6[0].setScale(.1,1,.1)
 wire6[0].setEuler([0,90,0])
 objColor(wire6[0], wire6[1])
 
 gate2 = [viz.addTexQuad(), 0, wire3[1], wire4[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
-gate2[0].setPosition([4.9,1.7,2.7])
+gate2[0].setPosition([4.9,1,-1.25])
 gate2[0].setScale(0.75,0.75,0.75)
 gate2[0].setEuler([90,0,180])
 gate2[0].texture(gateTextures[gate1[2]])
 
 wire7 = [vizshape.addCylinder(), GateOutput(gate2[1], gate2[2], gate2[3])]
-wire7[0].setPosition(5,1.7,4)
-wire7[0].setScale(.1,3,.1)
+wire7[0].setPosition(5,1,-.5)
+wire7[0].setScale(.1,1,.1)
 wire7[0].setEuler([0,90,0])
 objColor(wire7[0], wire7[1])
 
+#WIRE 8, 9 AND 10 ARE NOT NEEDED BUT I DIDNT WANT TO DELETE THEM SO THE LOGIC WOULDNT GET MESSED UP
 wire8 = [vizshape.addCylinder(), wire6[1]]
-wire8[0].setPosition(4.5,3,5)
+wire8[0].setPosition(10,10,10)
 wire8[0].setScale(.1,1,.1)
 wire8[0].setEuler([90,90,0])
 objColor(wire8[0], wire8[1])
 
 wire9 = [vizshape.addCylinder(), wire7[1]]
-wire9[0].setPosition(4.5,1.7,5)
+wire9[0].setPosition(10,10,10)
 wire9[0].setScale(.1,1,.1)
 wire9[0].setEuler([90,90,0])
 objColor(wire9[0], wire9[1])
 
 wire10 = [vizshape.addCylinder(), wire5[1]]
-wire10[0].setPosition(4.5,0.5,5)
+wire10[0].setPosition(10,10,10)
 wire10[0].setScale(.1,1,.1)
 wire10[0].setEuler([90,90,0])
 objColor(wire10[0], wire10[1])
+#END OF USELESS STUFF
 
 gate3 = [viz.addTexQuad(), 4, wire8[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
-gate3[0].setPosition([3.5,3,4.9])
+gate3[0].setPosition([4.9,2,.25])
 gate3[0].setScale(0.75,0.75,0.75)
-gate3[0].setEuler([0,0,180])
+gate3[0].setEuler([90,0,180])
 gate3[0].texture(notGateTex)
 
 gate4 = [viz.addTexQuad(), 2, wire9[1], wire10[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
-gate4[0].setPosition([3.5,1.2,4.9])
+gate4[0].setPosition([4.9,.6,.25])
 gate4[0].setScale(0.75,0.75,0.75)
-gate4[0].setEuler([0,0,180])
+gate4[0].setEuler([90,0,180])
 gate4[0].texture(gateTextures[gate4[1]])
 
 wire11 = [vizshape.addCylinder(), NotGate(gate3[1], gate3[2])]
-wire11[0].setPosition(2.8,2.5,5)
-wire11[0].setScale(.1,1.5,.1)
-wire11[0].setEuler([90,35,0])
+wire11[0].setPosition(5,1.75,1)
+wire11[0].setScale(.1,1,.1)
+wire11[0].setEuler([0,125,0])
 objColor(wire11[0], wire11[1])
 
 wire12 = [vizshape.addCylinder(), GateOutput(gate4[1], gate4[2], gate4[3])]
-wire12[0].setPosition(2.8,1.2,5)
+wire12[0].setPosition(5,0.6,1)
 wire12[0].setScale(.1,1,.1)
-wire12[0].setEuler([90,90,0])
+wire12[0].setEuler([0,90,0])
 objColor(wire12[0], wire12[1])
 
 gate5 = [viz.addTexQuad(), 1, wire11[1], wire12[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
-gate5[0].setPosition([2,1.5,4.9])
+gate5[0].setPosition([4.9,1,1.75])
 gate5[0].setScale(0.75,0.75,0.75)
-gate5[0].setEuler([0,0,180])
+gate5[0].setEuler([90,0,180])
 gate5[0].texture(gateTextures[gate5[1]])
 
 wire13 = [vizshape.addCylinder(), GateOutput(gate5[1], gate5[2], gate5[3])]
-wire13[0].setPosition(1.5,1.5,5)
+wire13[0].setPosition(5,1,2.25)
 wire13[0].setScale(.1,0.5,.1)
-wire13[0].setEuler([90,90,0])
+wire13[0].setEuler([0,90,0])
 objColor(wire13[0], wire13[1])
 
-logicOutlight = [vizshape.addSphere(), wire13[1]]
-logicOutlight[0].setPosition(1,1.5,5)
-logicOutlight[0].setScale(.25,.25,.25)
-objColor(logicOutlight[0], logicOutlight[1])
+logicOutlight1 = [vizshape.addSphere(), wire13[1]]
+logicOutlight1[0].setPosition(5,1,2.75)
+logicOutlight1[0].setScale(.25,.25,.25)
+objColor(logicOutlight1[0], logicOutlight1[1])
+
+logicOutlight2 = [vizshape.addSphere(), wire13[1]]
+logicOutlight2[0].setPosition(1,1.5,5)
+logicOutlight2[0].setScale(.25,.25,.25)
+objColor(logicOutlight2[0], logicOutlight2[1])
 
 vizact.onkeydown('5', changeTexture, gate1)
 vizact.onkeydown('6', changeTexture, gate2)
