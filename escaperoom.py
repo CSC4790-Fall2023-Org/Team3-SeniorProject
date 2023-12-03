@@ -918,7 +918,6 @@ def checkLights():
 
 vizact.onupdate(23, checkLights)
 
-
 knapValuesTex = viz.addTexture('CustomImages/KnapValuesVisual.jpg')
 knapValues = viz.addTexQuad()
 knapValues.texture(knapValuesTex)
@@ -939,3 +938,10 @@ knapValues.texture(knapLimitTex)
 knapValues.setScale([1.4, 1.1, 1.1])
 knapValues.setPosition([-2,2.1,4.95])
 knapValues.setEuler([0, 0, 270])
+
+logicValuesTex = viz.addTexture('CustomImages/LogicGateVisual.jpg')
+logicValues = viz.addTexQuad()
+logicValues.texture(logicValuesTex)
+logicValues.setScale([1.5, 1.5, 1.5])
+logicValues.setPosition([4.99, 2.0, 4])
+logicValues.setEuler([90, 0, 0])
