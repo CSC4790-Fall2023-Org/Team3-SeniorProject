@@ -580,14 +580,13 @@ def positionCallback(item, itemType, gateArray = 0):
 							item.collideBox([0.5,0.5,0.5])
 						elif itemType == 1:
 							item.collideBox([0.15,0.15,0.15])
+						if itemPos[0] > 5 or itemPos[0] < -5 or itemPos[2] > 5 or itemPos[2] < -5:
+							item.setPosition([0, 3, 0])
 				else: # gates
 					if rawInput.isButtonDown(0):
 						print("gate check")
 						time.sleep(0.2)
-						changeTexture(gateArray)
-	elif itemPos[0] > 5 or itemPos[0] < -5 or itemPos[2] > 5 or itemPos[2] < -5:
-		item.setPosition([0, 2, 0])
-						
+						changeTexture(gateArray)						
 
 '''''''''''''''''''''''''''''LOGIC GATE PROBLEM'''''''''''''''''''''''''''''''''
 def changeTexture(gateArr): #Add the Not gate stuff and encode it in a different way
