@@ -396,15 +396,19 @@ slot4 = viz.addTexQuad()
 slot1.setPosition([-1, 2, -4.9])
 slot1.setScale([7,0.39,0.5])
 slot1.setEuler([180,0,0])
+slot1.color(viz.BLACK)
 slot2.setPosition([-1, 1.53, -4.9])
 slot2.setScale([7,0.39,0.5])
 slot2.setEuler([180,0,0])
+slot2.color(viz.BLACK)
 slot3.setPosition([-1, 1.08, -4.9])
 slot3.setScale([7,0.39,0.5])
 slot3.setEuler([180,0,0])
+slot3.color(viz.BLACK)
 slot4.setPosition([-1, 0.6, -4.9])
 slot4.setScale([7,0.39,0.5])
 slot4.setEuler([180,0,0])
+slot4.color(viz.BLACK)
 
 box1 = vizshape.addBox(splitFaces=True)
 box2 = vizshape.addBox(splitFaces=True)
@@ -445,7 +449,24 @@ box3.texture(sol2)
 box4.color(5,5,5)
 box4.texture(sol3)
 
-createProblem()
+wallBack = viz.addTexQuad()
+wallLeft = viz.addTexQuad()
+wallRight = viz.addTexQuad()
+wallFront = viz.addTexQuad()
+lid = viz.addTexQuad()
+wallBack.setPosition([3.6, 0, -4.8])
+wallBack.setScale([2, 1.5, 1.5])
+wallLeft.setPosition([4.6, 0, -4.3])
+wallLeft.setScale([1, 1.5, 1.5])
+wallLeft.setEuler([90, 0, 0])
+wallRight.setPosition([2.6, 0, -4.3])
+wallRight.setScale([1, 1.5, 1.5])
+wallRight.setEuler([90, 0, 0])
+wallFront.setPosition([3.6, 0, -3.8])
+wallFront.setScale([2, 1.5, 1.5])
+lid.setPosition([3.6, 0.75, -4.3])
+lid.setScale([2, 1, 1.5])
+lid.setEuler([0, 90, 0])
 
 box1Placed = False
 box2Placed = False
@@ -516,9 +537,12 @@ forOutLabel.setScale([0.15,0.15,0.15])
 forOutLabel.color(viz.BLACK)
 forOutLabel.alignment(viz.ALIGN_CENTER_BOTTOM)
 
+forDone = False
 
 def checkFor():
 	if box1Placed is True and box2Placed is True and box3Placed is True and box4Placed is True:
+		lid.remove()
+		forDone = True
 		return True
 	else:
 		return False
@@ -535,7 +559,9 @@ def changeForLightColor():
 		forOutLight.color(viz.YELLOW)
 	else:
 		forOutLight.color(viz.WHITE)
-vizact.onupdate(20, changeForLightColor)
+		
+if forDone:
+	vizact.onupdate(20, changeForLightColor)
 
 light = viz.addLight()
 light.color(viz.WHITE)
@@ -748,7 +774,7 @@ gate2 = [viz.addTexQuad(), 2, wire3[1], wire4[1]] #[object, what gate its on (an
 gate2[0].setPosition([4.9,1,-1.25])
 gate2[0].setScale(0.75,0.75,0.75)
 gate2[0].setEuler([90,0,180])
-gate2[0].texture(gateTextures[gate1[2]])
+gate2[0].texture(gateTextures[gate2[1]])
 
 wire7 = [vizshape.addCylinder(), GateOutput(gate2[1], gate2[2], gate2[3])]
 wire7[0].setPosition(5,1,-.5)
