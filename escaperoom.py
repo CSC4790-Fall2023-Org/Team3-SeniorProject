@@ -11,7 +11,7 @@ import time
 from loop import *
 from utilFunctions import *
 
-isCave = False
+isCave = True
 
 viz.phys.enable()
 
@@ -51,12 +51,6 @@ class MyDtrackManager():
 			return False
 
 joystickTracker = None
- 
-#Add table
-#table = viz.addChild('CustomModels/table1.osgb')
-#table.setScale([0.01, 0.0125, 0.01])
-#table.setPosition([4.5, 0, 0])
-#table.setEuler(90, 0, 0)
 
 ''''''''''''''''''''''' ABOVE DOOR -- TIMER '''''''''''''''''''''
 #Load Textures
@@ -86,7 +80,6 @@ back.setPosition([0, 3.25, 4.999])  # Put quad in view
 
 #Start digit at 0
 back.texture(white1)
-
 
 #Ones seconds digit
 quad1 = viz.addTexQuad()
@@ -179,7 +172,6 @@ pillar5.collideBox(0.5, 1, 0.5)
 pillar5.setScale([0.5, 1, 0.5])
 pillar5.setPosition([-4.5, 2, 3])
 
-
 # RED CUBE
 redCube = vizshape.addCube()
 redCube.collideBox(0.15,0.15,0.15)
@@ -225,7 +217,6 @@ blackCube.setPosition([-4.5, 3, 3])
 blackCube.color(viz.BLACK)
 blackCube.density = 5
 blackCube.label = '1100'
-
 
 # PURPLE CUBE
 purpleCube = vizshape.addCube()
@@ -310,8 +301,6 @@ vizact.onupdate(20, changeKnapLightColor)
 # The wall consists of three parts, left of the door, above the door, and right of the door
 # Alternatively door could be overlaid on a singular instance of the wall, however this gives the option to have 
 	# an event derender the door and create an openning to pass to another room
-	
-
 
 # Fill in wall around door
 wallOneLeft = viz.addTexQuad()
@@ -347,7 +336,6 @@ floor.setEuler([0,90,0])
 floor.setScale([10,10,10])
 floor.collidePlane()
 
-
 wallOneLeft.collidePlane(0,1,0,0)
 wallOneRight.collidePlane(0,1,0,0)
 wallOneAbove.collidePlane(0,1,0,0)
@@ -373,7 +361,6 @@ light.intensity(2)
 wallCover = viz.addTexture('CustomTextures/concreteWall.jpg')
 ceilingCover = viz.addTexture('images/tile_slate.jpg')
 floorCover = viz.addTexture('CustomTextures/wood.jpg')
-
 
 # Cover walls with texture
 wallOneLeft.texture(wallCover)
@@ -516,7 +503,6 @@ forOutLabel.setScale([0.15,0.15,0.15])
 forOutLabel.color(viz.BLACK)
 forOutLabel.alignment(viz.ALIGN_CENTER_BOTTOM)
 
-
 def checkFor():
 	if box1Placed is True and box2Placed is True and box3Placed is True and box4Placed is True:
 		return True
@@ -543,7 +529,6 @@ light.setPosition(0, 3, 0)
 light.intensity(100)
 
 objects = [box1, box2, box3, box4, redCube, blueCube, greenCube, orangeCube, blackCube, purpleCube]
-objectHeld = False
 
 def updateMouseGrabber(tool):
     state = viz.mouse.getState()
@@ -563,14 +548,12 @@ def localPositionCallback(item, boxNum):
 			box3.setPosition([10, 10, -10])
 	elif boxNum == 4:
 		if box4Placed:
-			box4.setPosition([-10, 10, 10])
-		
+			box4.setPosition([-10, 10, 10])		
 
 # 0 is box
 # 1 is cube
 # 2 is gate
 def positionCallback(item, itemType, gateArray = 0):
-	global objectHeld
 	
 	userPosition = viz.MainView.getPosition()
 	userDirection = viz.MainView.getMatrix().getForward()
@@ -582,27 +565,30 @@ def positionCallback(item, itemType, gateArray = 0):
 	if dotPos[0] > itemPosition[0] - 0.3 and dotPos[0] < itemPosition[0] + 0.3:
 		if dotPos[1] > itemPosition[1] - 0.3 and dotPos[1] < itemPosition[1] + 0.3:
 			if dotPos[2] > itemPosition[2] - 0.3 and dotPos[2] < itemPosition[2] + 0.3:
-				#dot.color(3,3,3)
 				rawInput = vizconnect.getConfiguration().getRawDict("input")['flystick']
 				if itemType != 2: # boxes and cubes
-					if rawInput.isButtonDown(0) and not objectHeld:
-						objectHeld = True
+					if rawInput.isButtonDown(0):
 						item.setPosition(dotPos)
 						item.collideNone()
 					else:
-						objectHeld = False
-						#dot.color(0,0,0)
 						if itemType == 0:
 							item.collideBox([0.5,0.5,0.5])
 						elif itemType == 1:
 							item.collideBox([0.15,0.15,0.15])
-						if itemPos[0] > 5 or itemPos[0] < -5 or itemPos[2] > 5 or itemPos[2] < -5:
-							item.setPosition([0, 3, 0])
 				else: # gates
 					if rawInput.isButtonDown(0):
 						print("gate check")
 						time.sleep(0.2)
-						changeTexture(gateArray)						
+						changeTexture(gateArray)
+						
+def outsideCallback(item, itemType):
+	itemPosition = item.getPosition()
+	if itemPosition[0] > 5 or itemPosition[0] < -5 or itemPosition[2] > 5 or itemPosition[2] < -5:
+		item.setPosition([0, 3, 0])
+		if itemType == 1:
+			item.collideBox([0.5,0.5,0.5])
+		else:
+			item.collideBox([0.15,0.15,0.15])
 
 '''''''''''''''''''''''''''''LOGIC GATE PROBLEM'''''''''''''''''''''''''''''''''
 def changeTexture(gateArr): #Add the Not gate stuff and encode it in a different way
@@ -756,7 +742,7 @@ wire7[0].setScale(.1,1,.1)
 wire7[0].setEuler([0,90,0])
 objColor(wire7[0], wire7[1])
 
-#WIRE 8, 9 AND 10 ARE NOT NEEDED BUT I DIDNT WANT TO DELETE THEM SO THE LOGIC WOULDNT GET MESSED UP
+#WIRE 8, 9 AND 10 ARE NOT NEEDED BUT I DIDN'T WANT TO DELETE THEM SO THE LOGIC WOULDNT GET MESSED UP
 wire8 = [vizshape.addCylinder(), wire6[1]]
 wire8[0].setPosition(10,10,10)
 wire8[0].setScale(.1,1,.1)
@@ -836,6 +822,8 @@ if isCave:
 	dtrack_manager = MyDtrackManager()
 	dtrack_manager.startDefaultHeadPosition()
 	joystickTracker = vizconnect.getTracker("dtrack_flystick")
+	vizconnect.getAvatar().getAttachmentPoint("l_hand").getNode3d().remove()
+	vizconnect.getAvatar().getAttachmentPoint("r_hand").getNode3d().remove()
 
 	dot = vizshape.addSphere()
 	dot.setScale([0.1, 0.1, 0.1])
@@ -855,6 +843,17 @@ if isCave:
 	vizact.onupdate(12, positionCallback, gate3[0], 2, gate3)
 	vizact.onupdate(13, positionCallback, gate4[0], 2, gate4)
 	vizact.onupdate(14, positionCallback, gate5[0], 2, gate5)
+	
+	vizact.onupdate(30, outsideCallback, box1, 1)
+	vizact.onupdate(31, outsideCallback, box2, 1)
+	vizact.onupdate(32, outsideCallback, box3, 1)
+	vizact.onupdate(33, outsideCallback, box4, 1)
+	vizact.onupdate(34, outsideCallback, redCube, 2)
+	vizact.onupdate(35, outsideCallback, greenCube, 2)
+	vizact.onupdate(36, outsideCallback, blackCube, 2)
+	vizact.onupdate(37, outsideCallback, orangeCube, 2)
+	vizact.onupdate(38, outsideCallback, blueCube, 2)
+	vizact.onupdate(39, outsideCallback, purpleCube, 2)	
 	
 	viz.MainView.collision(viz.ON)
 	
@@ -912,8 +911,7 @@ def checkLights():
 	if checkKnapsack() and logicOutlight1[1]:
 		if box1Placed is True and box2Placed is True and box3Placed is True and box4Placed is True:
 			door.remove()
-			moveMushroom()
-	
+			moveMushroom()	
 
 vizact.onupdate(23, checkLights)
 
