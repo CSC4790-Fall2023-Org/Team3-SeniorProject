@@ -8,7 +8,6 @@ import vizshape
 import vizfx
 import tools
 import time
-from loop import *
 from utilFunctions import *
 
 isCave = False
@@ -374,7 +373,6 @@ wallCover = viz.addTexture('CustomTextures/concreteWall.jpg')
 ceilingCover = viz.addTexture('images/tile_slate.jpg')
 floorCover = viz.addTexture('CustomTextures/wood.jpg')
 
-
 # Cover walls with texture
 wallOneLeft.texture(wallCover)
 wallOneRight.texture(wallCover)
@@ -445,8 +443,6 @@ box3.texture(sol2)
 box4.color(5,5,5)
 box4.texture(sol3)
 
-createProblem()
-
 box1Placed = False
 box2Placed = False
 box3Placed = False
@@ -496,6 +492,39 @@ def checkBox4Position():
 					box4.remove()
 				box4Placed = True
 				
+######## FOR LOOP CHEST CODE ########
+
+# Create chest
+chestWallBack = viz.addTexQuad()
+chestWallLeft = viz.addTexQuad()
+chestWallRight = viz.addTexQuad()
+chestWallFront = viz.addTexQuad()
+chestLid = viz.addTexQuad()
+	
+crateSide = viz.addTexture('CustomTextures/woodpanel.jpg')
+	
+chestWallBack.setPosition([3.6, 0, -4.8])
+chestWallBack.setScale([2, 1.25, 1.5])
+chestWallBack.texture(crateSide)
+chestWallLeft.setPosition([4.6, 0, -4.3])
+chestWallLeft.setScale([1, 1.25, 1.5])
+chestWallLeft.setEuler([90, 0, 0])
+chestWallLeft.texture(crateSide)
+chestWallRight.setPosition([2.6, 0, -4.3])
+chestWallRight.setScale([1, 1.25, 1.5])
+chestWallRight.setEuler([90, 0, 0])
+chestWallRight.texture(crateSide)
+chestWallFront.setPosition([3.6, 0, -3.8])
+chestWallFront.setScale([2, 1.25, 1.5])
+chestWallFront.texture(crateSide)
+
+chestLid.setPosition([3.6, 0.625, -4.3])
+chestLid.setScale([2, 1, 1.5])
+chestLid.setEuler([0, 90, 0])
+chestLid.texture(crateSide)
+
+##### END OF FOR LOOP CHEST CODE #####
+				
 forOutLight = vizshape.addSphere()
 forOutLight.setPosition(1,0.75,5)
 forOutLight.setScale(.25,.25,.25)
@@ -533,6 +562,7 @@ def changeForLightColor():
 	print(box1Placed)
 	if checkFor():
 		forOutLight.color(viz.YELLOW)
+		chestLid.remove()
 	else:
 		forOutLight.color(viz.WHITE)
 vizact.onupdate(20, changeForLightColor)

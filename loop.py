@@ -41,21 +41,29 @@ def createProblem():
 	wallLeft = viz.addTexQuad()
 	wallRight = viz.addTexQuad()
 	wallFront = viz.addTexQuad()
-	# lid = viz.addTexQuad()
+	lid = viz.addTexQuad()
+	
+	crateSide = viz.addTexture('CustomTextures/woodpanel.jpg')
 	
 	wallBack.setPosition([3.6, 0, -4.8])
-	wallBack.setScale([2, 1.5, 1.5])
+	wallBack.setScale([2, 1.25, 1.5])
+	wallBack.texture(crateSide)
 	wallLeft.setPosition([4.6, 0, -4.3])
-	wallLeft.setScale([1, 1.5, 1.5])
+	wallLeft.setScale([1, 1.25, 1.5])
 	wallLeft.setEuler([90, 0, 0])
+	wallLeft.texture(crateSide)
 	wallRight.setPosition([2.6, 0, -4.3])
-	wallRight.setScale([1, 1.5, 1.5])
+	wallRight.setScale([1, 1.25, 1.5])
 	wallRight.setEuler([90, 0, 0])
+	wallRight.texture(crateSide)
 	wallFront.setPosition([3.6, 0, -3.8])
-	wallFront.setScale([2, 1.5, 1.5])
-	# lid.setPosition([3.6, 0.75, -4.3])
-	# lid.setScale([2, 1, 1.5])
-	# lid.setEuler([0, 90, 0])
+	wallFront.setScale([2, 1.25, 1.5])
+	wallFront.texture(crateSide)
+	
+	lid.setPosition([3.6, 0.625, -4.3])
+	lid.setScale([2, 1, 1.5])
+	lid.setEuler([0, 90, 0])
+	lid.texture(crateSide)
 	
 	return
 
@@ -65,21 +73,3 @@ def createProblem():
 #box3 = vizshape.addBox(splitFaces=True)
 #box4 = vizshape.addBox(splitFaces=True)
 
-def spawnCodeBoxes():
-	
-	global box1
-	global box2
-	global box3
-	global box4
-	
-	box1.setPosition([1,0.1,-2])
-	box2.setPosition([1,0.1,2])
-	box3.setPosition([-2,0.1,-2])
-	box4.setPosition([-2,0.1,2])
-	
-	box1.color(viz.BLACK)
-	box2.color(viz.BLACK)
-	box3.color(viz.BLACK)
-	box4.color(viz.BLACK)
-	
-	return
