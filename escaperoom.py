@@ -346,7 +346,6 @@ floor.setEuler([0,90,0])
 floor.setScale([10,10,10])
 floor.collidePlane()
 
-
 wallOneLeft.collidePlane(0,1,0,0)
 wallOneRight.collidePlane(0,1,0,0)
 wallOneAbove.collidePlane(0,1,0,0)
@@ -974,3 +973,10 @@ logicValues.texture(logicValuesTex)
 logicValues.setScale([1.5, 1.5, 1.5])
 logicValues.setPosition([4.99, 2.0, 4])
 logicValues.setEuler([90, 0, 0])
+
+forLoopInstructionsTex = viz.addTexture('CustomImages/forLoopVisial.jpg')
+forLoopInstructions = viz.addTexQuad()
+forLoopInstructions.texture(logicValuesTex)
+forLoopInstructions.setScale([1.5, 1.5, 1.5])
+forLoopInstructions.setPosition([3.75, 1.75, -4.99])
+forLoopInstructions.setEuler([180, 0, 0])
