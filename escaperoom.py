@@ -549,6 +549,7 @@ def changeForLightColor():
 	#print(box1Placed)
 	if checkFor():
 		forOutLight.color(viz.YELLOW)
+		lid.remove()
 	else:
 		forOutLight.color(viz.WHITE)
 vizact.onupdate(20, changeForLightColor)
