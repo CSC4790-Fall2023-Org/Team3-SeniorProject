@@ -546,7 +546,7 @@ if not box3Placed: vizact.onupdate(17, checkBox3Position)
 if not box4Placed: vizact.onupdate(18, checkBox4Position)
 
 def changeForLightColor():
-	print(box1Placed)
+	#print(box1Placed)
 	if checkFor():
 		forOutLight.color(viz.YELLOW)
 	else:
@@ -973,9 +973,9 @@ logicValues.setScale([1.5, 1.5, 1.5])
 logicValues.setPosition([4.99, 2.0, 4])
 logicValues.setEuler([90, 0, 0])
 
-forLoopInstructionsTex = viz.addTexture('CustomImages/forLoopVisial.jpg')
+forLoopInstructionsTex = viz.addTexture('CustomImages/ForLoopVisual.jpg')
 forLoopInstructions = viz.addTexQuad()
-forLoopInstructions.texture(logicValuesTex)
+forLoopInstructions.texture(forLoopInstructionsTex)
 forLoopInstructions.setScale([1.5, 1.5, 1.5])
 forLoopInstructions.setPosition([3.75, 1.75, -4.99])
 forLoopInstructions.setEuler([180, 0, 0])
