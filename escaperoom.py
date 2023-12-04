@@ -8,10 +8,9 @@ import vizshape
 import vizfx
 import tools
 import time
-from loop import *
 from utilFunctions import *
 
-isCave = True
+isCave = False
 
 viz.phys.enable()
 
@@ -432,8 +431,6 @@ box3.texture(sol2)
 box4.color(5,5,5)
 box4.texture(sol3)
 
-createProblem()
-
 box1Placed = False
 box2Placed = False
 box3Placed = False
@@ -482,6 +479,39 @@ def checkBox4Position():
 				if isCave:
 					box4.remove()
 				box4Placed = True
+				
+######## FOR LOOP CHEST CODE ########
+
+# Create chest
+chestWallBack = viz.addTexQuad()
+chestWallLeft = viz.addTexQuad()
+chestWallRight = viz.addTexQuad()
+chestWallFront = viz.addTexQuad()
+chestLid = viz.addTexQuad()
+	
+crateSide = viz.addTexture('CustomTextures/woodpanel.jpg')
+	
+chestWallBack.setPosition([3.6, 0, -4.8])
+chestWallBack.setScale([2, 1.25, 1.5])
+chestWallBack.texture(crateSide)
+chestWallLeft.setPosition([4.6, 0, -4.3])
+chestWallLeft.setScale([1, 1.25, 1.5])
+chestWallLeft.setEuler([90, 0, 0])
+chestWallLeft.texture(crateSide)
+chestWallRight.setPosition([2.6, 0, -4.3])
+chestWallRight.setScale([1, 1.25, 1.5])
+chestWallRight.setEuler([90, 0, 0])
+chestWallRight.texture(crateSide)
+chestWallFront.setPosition([3.6, 0, -3.8])
+chestWallFront.setScale([2, 1.25, 1.5])
+chestWallFront.texture(crateSide)
+
+chestLid.setPosition([3.6, 0.625, -4.3])
+chestLid.setScale([2, 1, 1.5])
+chestLid.setEuler([0, 90, 0])
+chestLid.texture(crateSide)
+
+##### END OF FOR LOOP CHEST CODE #####
 				
 forOutLight = vizshape.addSphere()
 forOutLight.setPosition(1,0.75,5)
