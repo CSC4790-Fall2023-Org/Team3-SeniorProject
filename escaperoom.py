@@ -539,8 +539,7 @@ forOutLabel.alignment(viz.ALIGN_CENTER_BOTTOM)
 
 def checkFor():
 	if box1Placed is True and box2Placed is True and box3Placed is True and box4Placed is True:
-		lid.remove()
-		forDone = True
+
 		return True
 	else:
 		return False
@@ -555,12 +554,10 @@ def changeForLightColor():
 	#print(box1Placed)
 	if checkFor():
 		forOutLight.color(viz.YELLOW)
-		lid.remove()
+		chestLid.remove()
 	else:
 		forOutLight.color(viz.WHITE)
-		
-if forDone:
-	vizact.onupdate(20, changeForLightColor)
+vizact.onupdate(20, changeForLightColor)
 
 light = viz.addLight()
 light.color(viz.WHITE)
