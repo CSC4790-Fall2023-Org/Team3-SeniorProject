@@ -51,12 +51,12 @@ class MyDtrackManager():
 			return False
 
 joystickTracker = None
-
-# Add table
-table = viz.addChild('CustomModels/table1.osgb')
-table.setScale([0.01, 0.0125, 0.01])
-table.setPosition([4.5, 0, 0])
-table.setEuler(90, 0, 0)
+ 
+#Add table
+#table = viz.addChild('CustomModels/table1.osgb')
+#table.setScale([0.01, 0.0125, 0.01])
+#table.setPosition([4.5, 0, 0])
+#table.setEuler(90, 0, 0)
 
 ''''''''''''''''''''''' ABOVE DOOR -- TIMER '''''''''''''''''''''
 #Load Textures
@@ -231,7 +231,7 @@ blackCube.label = '1100'
 purpleCube = vizshape.addCube()
 purpleCube.collideBox(0.15,0.15,0.15)
 purpleCube.setScale([0.15, 0.15, 0.15])
-purpleCube.setPosition([-2, 2, 4.4])
+purpleCube.setPosition([3.75, 2, -4.4])
 purpleCube.color(viz.PURPLE)
 purpleCube.density = 2
 purpleCube.label = '0111'
@@ -297,12 +297,12 @@ knapOutLight.setPosition(1,2.25,5)
 knapOutLight.setScale(.25,.25,.25)
 knapOutLight.label = False
 
-def changeLightColor():
+def changeKnapLightColor():
 	if checkKnapsack():
 		knapOutLight.color(viz.YELLOW)
 	else:
 		knapOutLight.color(viz.WHITE)
-vizact.onupdate(0, changeLightColor)
+vizact.onupdate(20, changeKnapLightColor)
 
 '''''''''''''''END OF RIGHT WALL -- KNAPSACK PROBLEM'''''''''
 
@@ -453,6 +453,7 @@ box3Placed = False
 box4Placed = False
 
 def checkBox1Position():
+	global box1Placed
 	box1Position = box1.getPosition()
 	if box1Position[0] > -4 and box1Position[0] < 2:
 		if box1Position[1] > 1.8 and box1Position[1] < 2.4:
@@ -463,6 +464,7 @@ def checkBox1Position():
 				box1Placed = True
 				
 def checkBox2Position():
+	global box2Placed
 	box2Position = box2.getPosition()
 	if box2Position[0] > -4 and box2Position[0] < 2:
 		if box2Position[1] > 1.33 and box2Position[1] < 1.83:
@@ -473,6 +475,7 @@ def checkBox2Position():
 				box2Placed = True
 				
 def checkBox3Position():
+	global box3Placed
 	box3Position = box3.getPosition()
 	if box3Position[0] > -4 and box3Position[0] < 2:
 		if box3Position[1] > 0.88 and box3Position[1] < 1.28:
@@ -483,6 +486,7 @@ def checkBox3Position():
 				box3Placed = True
 				
 def checkBox4Position():
+	global box4Placed
 	box4Position = box4.getPosition()
 	if box4Position[0] > -4 and box4Position[0] < 2:
 		if box4Position[1] < 0.8:
@@ -491,12 +495,47 @@ def checkBox4Position():
 				if isCave:
 					box4.remove()
 				box4Placed = True
+				
+forOutLight = vizshape.addSphere()
+forOutLight.setPosition(1,0.75,5)
+forOutLight.setScale(.25,.25,.25)
+forOutLight.label = False
+
+knapsackOutLabel = viz.addText('Knapsack Problem',pos = [2, 2.15, 4.99])
+knapsackOutLabel.setScale([0.15,0.15,0.15])
+knapsackOutLabel.color(viz.BLACK)
+knapsackOutLabel.alignment(viz.ALIGN_CENTER_BOTTOM)
+
+logicOutLabel = viz.addText('Logic Gate Problem',pos = [2, 1.40, 4.99])
+logicOutLabel.setScale([0.15,0.15,0.15])
+logicOutLabel.color(viz.BLACK)
+logicOutLabel.alignment(viz.ALIGN_CENTER_BOTTOM)
+
+forOutLabel = viz.addText('For Loop Problem',pos = [2, 0.65, 4.99])
+forOutLabel.setScale([0.15,0.15,0.15])
+forOutLabel.color(viz.BLACK)
+forOutLabel.alignment(viz.ALIGN_CENTER_BOTTOM)
+
+
+def checkFor():
+	if box1Placed is True and box2Placed is True and box3Placed is True and box4Placed is True:
+		return True
+	else:
+		return False
 
 # Add callbacks
 if not box1Placed: vizact.onupdate(15, checkBox1Position)
 if not box2Placed: vizact.onupdate(16, checkBox2Position)
 if not box3Placed: vizact.onupdate(17, checkBox3Position)
 if not box4Placed: vizact.onupdate(18, checkBox4Position)
+
+def changeForLightColor():
+	print(box1Placed)
+	if checkFor():
+		forOutLight.color(viz.YELLOW)
+	else:
+		forOutLight.color(viz.WHITE)
+vizact.onupdate(20, changeForLightColor)
 
 light = viz.addLight()
 light.color(viz.WHITE)
@@ -510,6 +549,22 @@ def updateMouseGrabber(tool):
     state = viz.mouse.getState()
     if state & viz. MOUSEBUTTON_LEFT:
         tool.grabAndHold()
+
+def localPositionCallback(item, boxNum):
+	itemPos = item.getPosition()
+	if boxNum == 1:
+		if box1Placed:
+			box1.setPosition([10, 10, 10])
+	elif boxNum == 2:
+		if box2Placed:
+			box2.setPosition([-10, 10, -10])
+	elif boxNum == 3:
+		if box3Placed:
+			box3.setPosition([10, 10, -10])
+	elif boxNum == 4:
+		if box4Placed:
+			box4.setPosition([-10, 10, 10])
+		
 
 # 0 is box
 # 1 is cube
@@ -541,20 +596,59 @@ def positionCallback(item, itemType, gateArray = 0):
 							item.collideBox([0.5,0.5,0.5])
 						elif itemType == 1:
 							item.collideBox([0.15,0.15,0.15])
+						if itemPos[0] > 5 or itemPos[0] < -5 or itemPos[2] > 5 or itemPos[2] < -5:
+							item.setPosition([0, 3, 0])
 				else: # gates
 					if rawInput.isButtonDown(0):
 						print("gate check")
 						time.sleep(0.2)
-						changeTexture(gateArray)
-						
+						changeTexture(gateArray)						
 
 '''''''''''''''''''''''''''''LOGIC GATE PROBLEM'''''''''''''''''''''''''''''''''
-def changeTexture(gateArr):
-	gateArr[1] = (gateArr[1] + 1) % 3
-	gateArr[0].texture(gateTextures[gateArr[1]])
+def changeTexture(gateArr): #Add the Not gate stuff and encode it in a different way
+	global gate1
+	global gate2
+	global gate3
+	global gate4
+	global gate5
+	global NotGate
+	if gateArr[1] == 4:
+		gateArr[1] = 5
+		gateArr[0].texture(blankGateTex)
+	elif gateArr[1] == 5:
+		gateArr[1] = 4
+		gateArr[0].texture(notGateTex)
+	else:
+		gateArr[1] = (gateArr[1] + 1) % 3
+		gateArr[0].texture(gateTextures[gateArr[1]])
+		
+	wire6[1] = GateOutput(gate1[1], gate1[2], gate1[3])
+	wire7[1] = GateOutput(gate2[1], gate2[2], gate2[3])
+	wire8[1] = wire6[1]
+	gate3[2] = wire8[1]
+	wire9[1] = wire7[1]
+	wire10[1] = wire5[1]
+	gate4[2], gate4[3] = wire9[1], wire10[1]
+	wire11[1] = NotGate(gate3[1], gate3[2])
+	wire12[1] = GateOutput(gate4[1], gate4[2], gate4[3])
+	gate5[2], gate5[3] = wire11[1], wire12[1]
+	wire13[1] = GateOutput(gate5[1], gate5[2], gate5[3])
+	logicOutlight1[1] = wire13[1]
+	logicOutlight2[1] = wire13[1]
+	
+	objColor(wire6[0], wire6[1])
+	objColor(wire7[0], wire7[1])
+	objColor(wire8[0], wire8[1])
+	objColor(wire9[0], wire9[1])
+	objColor(wire10[0], wire10[1])
+	objColor(wire11[0], wire11[1])
+	objColor(wire12[0], wire12[1])
+	objColor(wire13[0], wire13[1])
+	objColor(logicOutlight1[0], logicOutlight1[1])
+	objColor(logicOutlight2[0], logicOutlight2[1])
 
 def NotGate(c, i):
-	if c == 0:
+	if c == 4:
 		return not i
 	else:
 		return i
@@ -580,162 +674,172 @@ andGateTex = viz.addTexture("CustomTextures/logic-symbols/AndGate.png")
 orGateTex = viz.addTexture("CustomTextures/logic-symbols/OrGate.png")
 xorGateTex = viz.addTexture("CustomTextures/logic-symbols/XorGate.png")
 notGateTex = viz.addTexture("CustomTextures/logic-symbols/NotGate.png")
+blankGateTex = viz.addTexture("CustomTextures/logic-symbols/blankGate.jpg")
 gateTextures = [andGateTex, orGateTex, xorGateTex]
 
 light1 = [vizshape.addSphere(), False]
-light1[0].setPosition(5,3.5,1.5)
+light1[0].setPosition(5,2.25,-2.5)
 light1[0].setScale(.25,.25,.25)
 objColor(light1[0], light1[1])
 
 light2 = [vizshape.addSphere(), True]
-light2[0].setPosition(5,2.75,1.5)
+light2[0].setPosition(5,1.75,-2.5)
 light2[0].setScale(.25,.25,.25)
 objColor(light2[0], light2[1])
 
 light3 = [vizshape.addSphere(), True]
-light3[0].setPosition(5,2,1.5)
+light3[0].setPosition(5,1.25,-2.5)
 light3[0].setScale(.25,.25,.25)
 objColor(light3[0], light3[1])
 
 light4 = [vizshape.addSphere(), True]
-light4[0].setPosition(5,1.25,1.5)
+light4[0].setPosition(5,0.75,-2.5)
 light4[0].setScale(.25,.25,.25)
 objColor(light4[0], light4[1])
 
 light5 = [vizshape.addSphere(), False]
-light5[0].setPosition(5,0.5,1.5)
+light5[0].setPosition(5,0.25,-2.5)
 light5[0].setScale(.25,.25,.25)
 objColor(light5[0], light5[1])
 
 wire1 = [vizshape.addCylinder(), light1[1]] #[object, boolVal]
-wire1[0].setPosition(5,3.5,2)
+wire1[0].setPosition(5,2.25,-2)
 wire1[0].setScale(.1,1,.1)
 wire1[0].setEuler([0,90,0])
 objColor(wire1[0], wire1[1])
 
 wire2 = [vizshape.addCylinder(), light2[1]]
-wire2[0].setPosition(5,2.75,2)
+wire2[0].setPosition(5,1.75,-2)
 wire2[0].setScale(.1,1,.1)
 wire2[0].setEuler([0,90,0])
 objColor(wire2[0], wire2[1])
 
 wire3 = [vizshape.addCylinder(), light3[1]]
-wire3[0].setPosition(5,2,2)
+wire3[0].setPosition(5,1.25,-2)
 wire3[0].setScale(.1,1,.1)
 wire3[0].setEuler([0,90,0])
 objColor(wire3[0], wire3[1])
 
 wire4 = [vizshape.addCylinder(), light4[1]]
-wire4[0].setPosition(5,1.25,2)
+wire4[0].setPosition(5,0.75,-2)
 wire4[0].setScale(.1,1,.1)
 wire4[0].setEuler([0,90,0])
 objColor(wire4[0], wire4[1])
 
 wire5 = [vizshape.addCylinder(), light5[1]]
-wire5[0].setPosition(5,0.5,3.5)
-wire5[0].setScale(.1,4,.1)
+wire5[0].setPosition(5,0.25,-1)
+wire5[0].setScale(.1,2.5,.1)
 wire5[0].setEuler([0,90,0])
 objColor(wire5[0], wire5[1])
 
-gate1 = [viz.addTexQuad(), 1, wire1[1], wire2[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
-gate1[0].setPosition([4.9,3,2.8])
+gate1 = [viz.addTexQuad(), 0, wire1[1], wire2[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
+gate1[0].setPosition([4.9,2,-1.25])
 gate1[0].setScale(0.75,0.75,0.75)
 gate1[0].setEuler([90,0,180])
 gate1[0].texture(gateTextures[gate1[1]])
 
 wire6 = [vizshape.addCylinder(), GateOutput(gate1[1], gate1[2], gate1[3])]
-wire6[0].setPosition(5,3,4)
-wire6[0].setScale(.1,3,.1)
+wire6[0].setPosition(5,2,-.5)
+wire6[0].setScale(.1,1,.1)
 wire6[0].setEuler([0,90,0])
 objColor(wire6[0], wire6[1])
 
-gate2 = [viz.addTexQuad(), 0, wire3[1], wire4[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
-gate2[0].setPosition([4.9,1.7,2.7])
+gate2 = [viz.addTexQuad(), 2, wire3[1], wire4[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
+gate2[0].setPosition([4.9,1,-1.25])
 gate2[0].setScale(0.75,0.75,0.75)
 gate2[0].setEuler([90,0,180])
 gate2[0].texture(gateTextures[gate1[2]])
 
 wire7 = [vizshape.addCylinder(), GateOutput(gate2[1], gate2[2], gate2[3])]
-wire7[0].setPosition(5,1.7,4)
-wire7[0].setScale(.1,3,.1)
+wire7[0].setPosition(5,1,-.5)
+wire7[0].setScale(.1,1,.1)
 wire7[0].setEuler([0,90,0])
 objColor(wire7[0], wire7[1])
 
+#WIRE 8, 9 AND 10 ARE NOT NEEDED BUT I DIDNT WANT TO DELETE THEM SO THE LOGIC WOULDNT GET MESSED UP
 wire8 = [vizshape.addCylinder(), wire6[1]]
-wire8[0].setPosition(4.5,3,5)
+wire8[0].setPosition(10,10,10)
 wire8[0].setScale(.1,1,.1)
 wire8[0].setEuler([90,90,0])
 objColor(wire8[0], wire8[1])
 
 wire9 = [vizshape.addCylinder(), wire7[1]]
-wire9[0].setPosition(4.5,1.7,5)
+wire9[0].setPosition(10,10,10)
 wire9[0].setScale(.1,1,.1)
 wire9[0].setEuler([90,90,0])
 objColor(wire9[0], wire9[1])
 
 wire10 = [vizshape.addCylinder(), wire5[1]]
-wire10[0].setPosition(4.5,0.5,5)
+wire10[0].setPosition(10,10,10)
 wire10[0].setScale(.1,1,.1)
 wire10[0].setEuler([90,90,0])
 objColor(wire10[0], wire10[1])
+#END OF USELESS STUFF
 
-gate3 = [viz.addTexQuad(), 0, wire8[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
-gate3[0].setPosition([3.5,3,4.9])
+gate3 = [viz.addTexQuad(), 4, wire8[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
+gate3[0].setPosition([4.9,2,.25])
 gate3[0].setScale(0.75,0.75,0.75)
-gate3[0].setEuler([0,0,180])
+gate3[0].setEuler([90,0,180])
 gate3[0].texture(notGateTex)
 
-gate4 = [viz.addTexQuad(), 2, wire9[1], wire10[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
-gate4[0].setPosition([3.5,1.2,4.9])
+gate4 = [viz.addTexQuad(), 0, wire9[1], wire10[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
+gate4[0].setPosition([4.9,.6,.25])
 gate4[0].setScale(0.75,0.75,0.75)
-gate4[0].setEuler([0,0,180])
+gate4[0].setEuler([90,0,180])
 gate4[0].texture(gateTextures[gate4[1]])
 
 wire11 = [vizshape.addCylinder(), NotGate(gate3[1], gate3[2])]
-wire11[0].setPosition(2.8,2.5,5)
-wire11[0].setScale(.1,1.5,.1)
-wire11[0].setEuler([90,35,0])
+wire11[0].setPosition(5,1.75,1)
+wire11[0].setScale(.1,1,.1)
+wire11[0].setEuler([0,125,0])
 objColor(wire11[0], wire11[1])
 
 wire12 = [vizshape.addCylinder(), GateOutput(gate4[1], gate4[2], gate4[3])]
-wire12[0].setPosition(2.8,1.2,5)
+wire12[0].setPosition(5,0.6,1)
 wire12[0].setScale(.1,1,.1)
-wire12[0].setEuler([90,90,0])
+wire12[0].setEuler([0,90,0])
 objColor(wire12[0], wire12[1])
 
-gate5 = [viz.addTexQuad(), 1, wire11[1], wire12[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
-gate5[0].setPosition([2,1.5,4.9])
+gate5 = [viz.addTexQuad(), 0, wire11[1], wire12[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
+gate5[0].setPosition([4.9,1,1.75])
 gate5[0].setScale(0.75,0.75,0.75)
-gate5[0].setEuler([0,0,180])
+gate5[0].setEuler([90,0,180])
 gate5[0].texture(gateTextures[gate5[1]])
 
-wire12 = [vizshape.addCylinder(), GateOutput(gate5[1], gate5[2], gate5[3])]
-wire12[0].setPosition(1.5,1.5,5)
-wire12[0].setScale(.1,0.5,.1)
-wire12[0].setEuler([90,90,0])
-objColor(wire12[0], wire12[1])
+wire13 = [vizshape.addCylinder(), GateOutput(gate5[1], gate5[2], gate5[3])]
+wire13[0].setPosition(5,1,2.25)
+wire13[0].setScale(.1,0.5,.1)
+wire13[0].setEuler([0,90,0])
+objColor(wire13[0], wire13[1])
 
-logicOutlight = [vizshape.addSphere(), wire12[1]]
-logicOutlight[0].setPosition(1,1.5,5)
-logicOutlight[0].setScale(.25,.25,.25)
-objColor(logicOutlight[0], logicOutlight[1])
+logicOutlight1 = [vizshape.addSphere(), wire13[1]]
+logicOutlight1[0].setPosition(5,1,2.75)
+logicOutlight1[0].setScale(.25,.25,.25)
+objColor(logicOutlight1[0], logicOutlight1[1])
+
+logicOutlight2 = [vizshape.addSphere(), wire13[1]]
+logicOutlight2[0].setPosition(1,1.5,5)
+logicOutlight2[0].setScale(.25,.25,.25)
+objColor(logicOutlight2[0], logicOutlight2[1])
+
+vizact.onkeydown('5', changeTexture, gate1)
+vizact.onkeydown('6', changeTexture, gate2)
+vizact.onkeydown('7', changeTexture, gate3)
+vizact.onkeydown('8', changeTexture, gate4)
+vizact.onkeydown('9', changeTexture, gate5)
 
 viz.fov(80)
 if isCave:
 	import vizconnect
 	CONFIG_FILE = "vizconnect_config_CaveFloor+ART_headnode.py"
 	vizconnect.go(CONFIG_FILE)	
-	vizconnect.getAvatar().getAttachmentPoint("l_hand").getNode3d().remove()
-	vizconnect.getAvatar().getAttachmentPoint("r_hand").getNode3d().remove()
 	dtrack_manager = MyDtrackManager()
 	dtrack_manager.startDefaultHeadPosition()
 	joystickTracker = vizconnect.getTracker("dtrack_flystick")
 
 	dot = vizshape.addSphere()
 	dot.setScale([0.1, 0.1, 0.1])
-	dot.color(0,0,0)
 
-	
 	vizact.onupdate(0, positionCallback, box1, 0)
 	vizact.onupdate(1, positionCallback, box2, 0)
 	vizact.onupdate(2, positionCallback, box3, 0)
@@ -768,6 +872,12 @@ else:
 	arrowLink.postMultLinkable(viz.MainView)
 	viz.link(arrowLink,tool)
 	tool.setUpdateFunction(updateMouseGrabber)
+	
+	vizact.onupdate(5, localPositionCallback, box1, 1)
+	vizact.onupdate(6, localPositionCallback, box2, 2)
+	vizact.onupdate(7, localPositionCallback, box3, 3)
+	vizact.onupdate(8, localPositionCallback, box4, 4)
+	
 	viz.go()
 	viz.MainView.collision(viz.ON)			
 
@@ -781,18 +891,12 @@ mushroom.setScale([0.5, 0.5, 0.5])
 mushroom.setPosition([0, 0, 10])
 mushroom.setEuler(0,0,0)
 
-light = viz.addLight()
-light.color(viz.WHITE)
-light.setPosition(0, 3, 6.5)
-light.intensity(100)
-
 #Checking all lights to open door
 door = viz.addTexQuad()
 door.setScale([1.5,2.5,1])
 door.setPosition([0,1.25,5])
 doorCover = viz.addTexture('CustomTextures/door.jpg')
 door.texture(doorCover)
-door.remove()
 
 #Red Carpet
 carpet = viz.addTexQuad()
@@ -805,10 +909,11 @@ carpet.texture(carpetTex)
 
 def checkLights():
 	global door
-	if checkKnapsack() and logicOutlight[1]:
-		if box1Placed is False and box2Placed is False and box3Placed is False and box4Placed is False:
+	if checkKnapsack() and logicOutlight1[1]:
+		if box1Placed is True and box2Placed is True and box3Placed is True and box4Placed is True:
 			door.remove()
 			moveMushroom()
+	
 
 vizact.onupdate(23, checkLights)
 
@@ -832,3 +937,10 @@ knapValues.texture(knapLimitTex)
 knapValues.setScale([1.4, 1.1, 1.1])
 knapValues.setPosition([-2,2.1,4.95])
 knapValues.setEuler([0, 0, 270])
+
+logicValuesTex = viz.addTexture('CustomImages/LogicGateVisual.jpg')
+logicValues = viz.addTexQuad()
+logicValues.texture(logicValuesTex)
+logicValues.setScale([1.5, 1.5, 1.5])
+logicValues.setPosition([4.99, 2.0, 4])
+logicValues.setEuler([90, 0, 0])
