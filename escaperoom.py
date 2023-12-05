@@ -283,7 +283,7 @@ def checkKnapsack():
 
 #add knapsack out light
 knapOutLight = vizshape.addSphere()
-knapOutLight.setPosition(1,2.25,5)
+knapOutLight.setPosition(1.25,2.25,5)
 knapOutLight.setScale(.25,.25,.25)
 knapOutLight.label = False
 
@@ -380,19 +380,19 @@ slot3 = viz.addTexQuad()
 slot4 = viz.addTexQuad()
 
 slot1.setPosition([-1, 2, -4.9])
-slot1.setScale([7,0.39,0.5])
+slot1.setScale([5.5,0.39,0.5])
 slot1.setEuler([180,0,0])
 slot1.color(viz.BLACK)
 slot2.setPosition([-1, 1.53, -4.9])
-slot2.setScale([7,0.39,0.5])
+slot2.setScale([5.5,0.39,0.5])
 slot2.setEuler([180,0,0])
 slot2.color(viz.BLACK)
 slot3.setPosition([-1, 1.08, -4.9])
-slot3.setScale([7,0.39,0.5])
+slot3.setScale([5.5,0.39,0.5])
 slot3.setEuler([180,0,0])
 slot3.color(viz.BLACK)
 slot4.setPosition([-1, 0.6, -4.9])
-slot4.setScale([7,0.39,0.5])
+slot4.setScale([5.5,0.39,0.5])
 slot4.setEuler([180,0,0])
 slot4.color(viz.BLACK)
 
@@ -518,21 +518,21 @@ chestLid.texture(crateSide)
 ##### END OF FOR LOOP CHEST CODE #####
 				
 forOutLight = vizshape.addSphere()
-forOutLight.setPosition(1,0.75,5)
+forOutLight.setPosition(1.25,0.75,5)
 forOutLight.setScale(.25,.25,.25)
 forOutLight.label = False
 
-knapsackOutLabel = viz.addText('Knapsack Problem',pos = [2, 2.15, 4.99])
+knapsackOutLabel = viz.addText('Knapsack Problem',pos = [2.25, 2.15, 4.99])
 knapsackOutLabel.setScale([0.15,0.15,0.15])
 knapsackOutLabel.color(viz.BLACK)
 knapsackOutLabel.alignment(viz.ALIGN_CENTER_BOTTOM)
 
-logicOutLabel = viz.addText('Logic Gate Problem',pos = [2, 1.40, 4.99])
+logicOutLabel = viz.addText('Logic Gate Problem',pos = [2.25, 1.40, 4.99])
 logicOutLabel.setScale([0.15,0.15,0.15])
 logicOutLabel.color(viz.BLACK)
 logicOutLabel.alignment(viz.ALIGN_CENTER_BOTTOM)
 
-forOutLabel = viz.addText('For Loop Problem',pos = [2, 0.65, 4.99])
+forOutLabel = viz.addText('For Loop Problem',pos = [2.25, 0.65, 4.99])
 forOutLabel.setScale([0.15,0.15,0.15])
 forOutLabel.color(viz.BLACK)
 forOutLabel.alignment(viz.ALIGN_CENTER_BOTTOM)
@@ -840,7 +840,7 @@ logicOutlight1[0].setScale(.25,.25,.25)
 objColor(logicOutlight1[0], logicOutlight1[1])
 
 logicOutlight2 = [vizshape.addSphere(), wire13[1]]
-logicOutlight2[0].setPosition(1,1.5,5)
+logicOutlight2[0].setPosition(1.25,1.5,5)
 logicOutlight2[0].setScale(.25,.25,.25)
 objColor(logicOutlight2[0], logicOutlight2[1])
 
