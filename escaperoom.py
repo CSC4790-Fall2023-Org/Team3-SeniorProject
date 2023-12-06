@@ -959,11 +959,12 @@ if isCave:
 	vizact.onupdate(7, positionCallback, orangeCube, 1)
 	vizact.onupdate(8, positionCallback, blueCube, 1)
 	vizact.onupdate(9, positionCallback, purpleCube, 1)
-	vizact.onupdate(10, positionCallback, gate1[0], 2, gate1)
-	vizact.onupdate(11, positionCallback, gate2[0], 2, gate2)
-	vizact.onupdate(12, positionCallback, gate3[0], 2, gate3)
-	vizact.onupdate(13, positionCallback, gate4[0], 2, gate4)
-	vizact.onupdate(14, positionCallback, gate5[0], 2, gate5)
+	vizact.onupdate(10, positionCallback, tutorialBox, 1)
+	vizact.onupdate(11, positionCallback, gate1[0], 2, gate1)
+	vizact.onupdate(12, positionCallback, gate2[0], 2, gate2)
+	vizact.onupdate(13, positionCallback, gate3[0], 2, gate3)
+	vizact.onupdate(14, positionCallback, gate4[0], 2, gate4)
+	vizact.onupdate(15, positionCallback, gate5[0], 2, gate5)
 	
 	viz.MainView.collision(viz.ON)
 	
