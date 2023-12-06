@@ -50,17 +50,10 @@ class MyDtrackManager():
 			return False
 
 joystickTracker = None
-<<<<<<< Updated upstream
- 
-#Add table
-#table = viz.addChild('CustomModels/table1.osgb')
-#table.setScale([0.01, 0.0125, 0.01])
-#table.setPosition([4.5, 0, 0])
-#table.setEuler(90, 0, 0)
-=======
+
 viz.MainView.setPosition(0,2,-10)
 viz.MainView.setEuler(180,0,0)
->>>>>>> Stashed changes
+
 
 ''''''''''''''''''''''' ABOVE DOOR -- TIMER '''''''''''''''''''''
 #Load Textures
@@ -460,19 +453,6 @@ slot2 = viz.addTexQuad()
 slot3 = viz.addTexQuad()
 slot4 = viz.addTexQuad()
 
-<<<<<<< Updated upstream
-slot1.setPosition([-1, 2, -4.9])
-slot1.setScale([7,0.39,0.5])
-slot1.setEuler([180,0,0])
-slot2.setPosition([-1, 1.53, -4.9])
-slot2.setScale([7,0.39,0.5])
-slot2.setEuler([180,0,0])
-slot3.setPosition([-1, 1.08, -4.9])
-slot3.setScale([7,0.39,0.5])
-slot3.setEuler([180,0,0])
-slot4.setPosition([-1, 0.6, -4.9])
-slot4.setScale([7,0.39,0.5])
-=======
 slot1.setPosition([0.25, 2, -4.9])
 slot1.setScale([4,0.39,0.5])
 slot1.setEuler([180,0,0])
@@ -487,8 +467,8 @@ slot3.setEuler([180,0,0])
 slot3.color(viz.BLACK)
 slot4.setPosition([0.25, 0.6, -4.9])
 slot4.setScale([4,0.39,0.5])
->>>>>>> Stashed changes
 slot4.setEuler([180,0,0])
+slot4.color(viz.BLACK)
 
 box1 = vizshape.addBox(splitFaces=True)
 box2 = vizshape.addBox(splitFaces=True)
@@ -659,7 +639,7 @@ if not box3Placed: vizact.onupdate(17, checkBox3Position)
 if not box4Placed: vizact.onupdate(18, checkBox4Position)
 
 def changeForLightColor():
-	print(box1Placed)
+	#print(box1Placed)
 	if checkFor():
 		forOutLight.color(viz.YELLOW)
 		chestLid.remove()
@@ -672,12 +652,7 @@ light.color(viz.WHITE)
 light.setPosition(0, 3, 0)
 light.intensity(100)
 
-<<<<<<< Updated upstream
-objects = [box1, box2, box3, box4, redCube, blueCube, greenCube, orangeCube, blackCube, purpleCube]
-objectHeld = False
-=======
 objects = [box1, box2, box3, box4, redCube, blueCube, greenCube, orangeCube, blackCube, purpleCube, tutorialBox]
->>>>>>> Stashed changes
 
 def updateMouseGrabber(tool):
     state = viz.mouse.getState()
@@ -734,7 +709,7 @@ def positionCallback(item, itemType, gateArray = 0):
 							item.setPosition([0, 3, 0])
 				else: # gates
 					if rawInput.isButtonDown(0):
-						print("gate check")
+						#print("gate check")
 						time.sleep(0.2)
 						changeTexture(gateArray)						
 
@@ -1051,14 +1026,8 @@ def checkLights():
 	global door1
 	if checkKnapsack() and logicOutlight1[1]:
 		if box1Placed is True and box2Placed is True and box3Placed is True and box4Placed is True:
-<<<<<<< Updated upstream
-			door.remove()
-			moveMushroom()
-	
-=======
 			door1.remove()
 			moveMushroom()	
->>>>>>> Stashed changes
 
 vizact.onupdate(23, checkLights)
 
