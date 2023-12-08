@@ -51,8 +51,10 @@ class MyDtrackManager():
 
 joystickTracker = None
 
+'''
 viz.MainView.setPosition(0,2,-10)
 viz.MainView.setEuler(180,0,0)
+'''
 
 
 ''''''''''''''''''''''' ABOVE DOOR -- TIMER '''''''''''''''''''''
@@ -966,6 +968,10 @@ if isCave:
 	vizact.onupdate(14, positionCallback, gate4[0], 2, gate4)
 	vizact.onupdate(15, positionCallback, gate5[0], 2, gate5)
 	
+	viewpoint = vizconnect.addViewpoint(pos=[0,0.5,-10], euler = [180,0,0])
+	viewPoint.add(vizconnect.getDisplay())
+	viewconnect.resetViewpoints()
+	
 	viz.MainView.collision(viz.ON)
 	
 else:
@@ -987,6 +993,9 @@ else:
 	vizact.onupdate(6, localPositionCallback, box2, 2)
 	vizact.onupdate(7, localPositionCallback, box3, 3)
 	vizact.onupdate(8, localPositionCallback, box4, 4)
+	
+	viz.MainView.setPosition(0,2,-10)
+	viz.MainView.setEuler(180,0,0)
 	
 	viz.go()
 	viz.MainView.collision(viz.ON)			
