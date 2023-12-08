@@ -957,6 +957,8 @@ if isCave:
 	dtrack_manager = MyDtrackManager()
 	dtrack_manager.startDefaultHeadPosition()
 	joystickTracker = vizconnect.getTracker("dtrack_flystick")
+	vizconnect.getAvatar().getAttachmentPoint("l_hand").getNode3d().remove()
+	vizconnect.getAvatar().getAttachmentPoint("r_hand").getNode3d().remove()
 
 	dot = vizshape.addSphere()
 	dot.setScale([0.1, 0.1, 0.1])
@@ -989,9 +991,9 @@ if isCave:
 	vizact.onupdate(38, outsideCallback, blueCube, 2)
 	vizact.onupdate(39, outsideCallback, purpleCube, 2)	
 	
-	viewpoint = vizconnect.addViewpoint(pos=[0,0.5,-10], euler = [180,0,0])
+	viewpoint = vizconnect.addViewpoint(pos=[0,0.4,-10], euler = [180,0,0])
 	viewPoint.add(vizconnect.getDisplay())
-	viewconnect.resetViewpoints()
+	vizconnect.resetViewpoints()
 	
 	viz.MainView.collision(viz.ON)
 	
