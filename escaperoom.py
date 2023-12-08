@@ -707,13 +707,23 @@ def positionCallback(item, itemType, gateArray = 0):
 							item.collideBox([0.5,0.5,0.5])
 						elif itemType == 1:
 							item.collideBox([0.15,0.15,0.15])
-						if itemPos[0] > 5 or itemPos[0] < -5 or itemPos[2] > 5 or itemPos[2] < -5:
-							item.setPosition([0, 3, 0])
+						elif itemType !=3:
+							if itemPos[0] > 5 or itemPos[0] < -5 or itemPos[2] > 5 or itemPos[2] < -5:
+								item.setPosition([0, 3, 0])
 				else: # gates
 					if rawInput.isButtonDown(0):
 						#print("gate check")
 						time.sleep(0.2)
-						changeTexture(gateArray)						
+						changeTexture(gateArray)
+						
+def outsideCallback(item, itemType):
+	itemPosition = item.getPosition()
+	if itemPosition[0] > 5 or itemPosition[0] < -5 or itemPosition[2] > 5 or itemPosition[2] < -5:
+		item.setPosition([0, 3, 0])
+		if itemType == 1:
+			item.collideBox([0.5,0.5,0.5])
+		else:
+			item.collideBox([0.15,0.15,0.15])
 
 '''''''''''''''''''''''''''''LOGIC GATE PROBLEM'''''''''''''''''''''''''''''''''
 def changeTexture(gateArr): #Add the Not gate stuff and encode it in a different way
@@ -961,12 +971,23 @@ if isCave:
 	vizact.onupdate(7, positionCallback, orangeCube, 1)
 	vizact.onupdate(8, positionCallback, blueCube, 1)
 	vizact.onupdate(9, positionCallback, purpleCube, 1)
-	vizact.onupdate(10, positionCallback, tutorialBox, 1)
+	vizact.onupdate(10, positionCallback, tutorialBox, 3)
 	vizact.onupdate(11, positionCallback, gate1[0], 2, gate1)
 	vizact.onupdate(12, positionCallback, gate2[0], 2, gate2)
 	vizact.onupdate(13, positionCallback, gate3[0], 2, gate3)
 	vizact.onupdate(14, positionCallback, gate4[0], 2, gate4)
 	vizact.onupdate(15, positionCallback, gate5[0], 2, gate5)
+	
+	vizact.onupdate(30, outsideCallback, box1, 1)
+	vizact.onupdate(31, outsideCallback, box2, 1)
+	vizact.onupdate(32, outsideCallback, box3, 1)
+	vizact.onupdate(33, outsideCallback, box4, 1)
+	vizact.onupdate(34, outsideCallback, redCube, 2)
+	vizact.onupdate(35, outsideCallback, greenCube, 2)
+	vizact.onupdate(36, outsideCallback, blackCube, 2)
+	vizact.onupdate(37, outsideCallback, orangeCube, 2)
+	vizact.onupdate(38, outsideCallback, blueCube, 2)
+	vizact.onupdate(39, outsideCallback, purpleCube, 2)	
 	
 	viewpoint = vizconnect.addViewpoint(pos=[0,0.5,-10], euler = [180,0,0])
 	viewPoint.add(vizconnect.getDisplay())
