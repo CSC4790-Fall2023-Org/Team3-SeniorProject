@@ -8,10 +8,9 @@ import vizshape
 import vizfx
 import tools
 import time
-from loop import *
 from utilFunctions import *
 
-isCave = False
+isCave = True
 
 viz.phys.enable()
 
@@ -51,12 +50,12 @@ class MyDtrackManager():
 			return False
 
 joystickTracker = None
- 
-#Add table
-#table = viz.addChild('CustomModels/table1.osgb')
-#table.setScale([0.01, 0.0125, 0.01])
-#table.setPosition([4.5, 0, 0])
-#table.setEuler(90, 0, 0)
+
+'''
+viz.MainView.setPosition(0,2,-10)
+viz.MainView.setEuler(180,0,0)
+'''
+
 
 ''''''''''''''''''''''' ABOVE DOOR -- TIMER '''''''''''''''''''''
 #Load Textures
@@ -147,8 +146,9 @@ def swap_timer_tex(a1, q1, a2, q2, a3, q3, a4, q4):
 		#increment tens digit of minutes
 		if(counter % 600 == 0):
 			q4.texture(a4.next())
-		
+			
 timer = viztask.schedule( swap_timer_tex(countUp1, quad1, countUp2, quad2, countUp4, quad4, countUp5, quad5) )
+		
 ''''''''''''''''''''''' END OF ABOVE DOOR -- TIMER '''''''''''''''''''''
 
 
@@ -313,7 +313,7 @@ vizact.onupdate(20, changeKnapLightColor)
 	
 
 
-# Fill in wall around door
+# Fill in wall one around door
 wallOneLeft = viz.addTexQuad()
 wallOneRight = viz.addTexQuad()
 wallOneAbove = viz.addTexQuad()
@@ -326,6 +326,19 @@ wallOneLeft.setScale([4.25,5,1])
 wallOneRight.setScale([4.25,5,1])
 wallOneAbove.setScale([1.5,2.5,1])
 
+# Fill in wall four around door
+wallFourLeft = viz.addTexQuad()
+wallFourRight = viz.addTexQuad()
+wallFourAbove = viz.addTexQuad()
+
+wallFourLeft.setPosition([1.25,2.5,-5])
+wallFourRight.setPosition([-4.5,2.5,-5])
+wallFourAbove.setPosition([-3.25,3.75,-5])
+
+wallFourLeft.setScale([7.5,5,1])
+wallFourRight.setScale([1,5,1])
+wallFourAbove.setScale([1.5,2.5,1])
+
 wallTwo = viz.addTexQuad()
 wallTwo.setPosition([5,2.5,0])
 wallTwo.setEuler([90,0,0])
@@ -334,29 +347,55 @@ wallThree = viz.addTexQuad()
 wallThree.setPosition([-5,2.5,0])
 wallThree.setEuler([-90,0,0])
 wallThree.setScale([10,5,10])
-wallFour = viz.addTexQuad()
-wallFour.setPosition (0,2.5,-5)
-wallFour.setScale([10,5,10])
+
 ceiling = viz.addTexQuad()
 ceiling.setPosition([0,4,0])
 ceiling.setEuler([0,90,0])
 ceiling.setScale([10,10,10])
+
 floor = viz.addTexQuad()
 floor.setPosition([0,0,0])
 floor.setEuler([0,90,0])
 floor.setScale([10,10,10])
 floor.collidePlane()
 
-
 wallOneLeft.collidePlane(0,1,0,0)
 wallOneRight.collidePlane(0,1,0,0)
 wallOneAbove.collidePlane(0,1,0,0)
 
+wallFourLeft.collidePlane(0,1,0,0)
+wallFourRight.collidePlane(0,1,0,0)
+wallFourAbove.collidePlane(0,1,0,0)
+
 wallTwo.collidePlane(0,1,0,0)
 wallThree.collidePlane(0,1,0,0)
-wallFour.collidePlane(0,1,0,0)
 
 ceiling.collidePlane()
+
+tutorialWallOne = viz.addTexQuad()
+tutorialWallOne.setPosition([0,2.5,-15])
+tutorialWallOne.setScale([10,5,10])
+
+tutorialWallTwo = viz.addTexQuad()
+tutorialWallTwo.setPosition([5,2.5,-10])
+tutorialWallTwo.setEuler([90,0,0])
+tutorialWallTwo.setScale([10,5,10])
+
+tutorialWallThree = viz.addTexQuad()
+tutorialWallThree.setPosition([-5,2.5,-10])
+tutorialWallThree.setEuler([-90,0,0])
+tutorialWallThree.setScale([10,5,10])
+
+tutorialCeiling = viz.addTexQuad()
+tutorialCeiling.setPosition([0,4,-10])
+tutorialCeiling.setEuler([0,90,0])
+tutorialCeiling.setScale([10,10,10])
+
+tutorialFloor = viz.addTexQuad()
+tutorialFloor.setPosition([0,0,-10])
+tutorialFloor.setEuler([0,90,0])
+tutorialFloor.setScale([10,10,10])
+tutorialFloor.collidePlane()
 
 # ---------------------------------
 # viz.INTERSECT must be turned off for all the room walls so we don't accidentally pick up the floor !!!
@@ -374,18 +413,41 @@ wallCover = viz.addTexture('CustomTextures/concreteWall.jpg')
 ceilingCover = viz.addTexture('images/tile_slate.jpg')
 floorCover = viz.addTexture('CustomTextures/wood.jpg')
 
-
 # Cover walls with texture
 wallOneLeft.texture(wallCover)
 wallOneRight.texture(wallCover)
 wallOneAbove.texture(wallCover)
 wallTwo.texture(wallCover)
 wallThree.texture(wallCover)
-wallFour.texture(wallCover)
+wallFourLeft.texture(wallCover)
+wallFourRight.texture(wallCover)
+wallFourAbove.texture(wallCover)
+
 ceiling.texture(ceilingCover)
 
 # Cover floor with texture
 floor.texture(floorCover)
+
+# Cover walls with texture
+tutorialWallOne.texture(wallCover)
+tutorialWallTwo.texture(wallCover)
+tutorialWallThree.texture(wallCover)
+tutorialCeiling.texture(ceilingCover)
+
+# Cover floor with texture
+tutorialFloor.texture(floorCover)
+
+tutorialBox = vizshape.addCube()
+tutorialBox.collideBox(0.4,0.4,0.4)
+tutorialBox.setScale([0.4, 0.4, 0.4])
+tutorialBox.setPosition([-2,2,-10])
+tutorialBox.color(viz.BLACK)
+tutorialBox.density = 5
+
+tutorialPillar = vizshape.addCylinder()
+tutorialPillar.collideBox(1.5, 1, 1.5)
+tutorialPillar.setScale([1.5, 1, 1.5])
+tutorialPillar.setPosition([-4,1,-10])
 
 # Spawn loop problem structure
 slot1 = viz.addTexQuad()
@@ -393,18 +455,22 @@ slot2 = viz.addTexQuad()
 slot3 = viz.addTexQuad()
 slot4 = viz.addTexQuad()
 
-slot1.setPosition([-1, 2, -4.9])
-slot1.setScale([7,0.39,0.5])
+slot1.setPosition([0.25, 2, -4.9])
+slot1.setScale([4,0.39,0.5])
 slot1.setEuler([180,0,0])
-slot2.setPosition([-1, 1.53, -4.9])
-slot2.setScale([7,0.39,0.5])
+slot1.color(viz.BLACK)
+slot2.setPosition([0.25, 1.53, -4.9])
+slot2.setScale([4,0.39,0.5])
 slot2.setEuler([180,0,0])
-slot3.setPosition([-1, 1.08, -4.9])
-slot3.setScale([7,0.39,0.5])
+slot2.color(viz.BLACK)
+slot3.setPosition([0.25, 1.08, -4.9])
+slot3.setScale([4,0.39,0.5])
 slot3.setEuler([180,0,0])
-slot4.setPosition([-1, 0.6, -4.9])
-slot4.setScale([7,0.39,0.5])
+slot3.color(viz.BLACK)
+slot4.setPosition([0.25, 0.6, -4.9])
+slot4.setScale([4,0.39,0.5])
 slot4.setEuler([180,0,0])
+slot4.color(viz.BLACK)
 
 box1 = vizshape.addBox(splitFaces=True)
 box2 = vizshape.addBox(splitFaces=True)
@@ -444,8 +510,6 @@ box3.color(5,5,5)
 box3.texture(sol2)
 box4.color(5,5,5)
 box4.texture(sol3)
-
-createProblem()
 
 box1Placed = False
 box2Placed = False
@@ -495,11 +559,74 @@ def checkBox4Position():
 				if isCave:
 					box4.remove()
 				box4Placed = True
+		
+tutorialBoxPlaced = False
+
+def checkTutorialBoxPosition():
+	global tutorialBoxPlaced
+	tutorialBoxPosition = tutorialBox.getPosition()
+	if tutorialBoxPosition[0] > -4.76 and tutorialBoxPosition[0] < -3.24:
+		if tutorialBoxPosition[1] > 0.99 and tutorialBoxPosition[1] < 1.41:
+			if tutorialBoxPosition[2] > -10.76 and tutorialBoxPosition[2] < -9.24:
+				tutorialBoxPlaced = True
+				door2.remove()
+				
+if not tutorialBoxPlaced: vizact.onupdate(40, checkTutorialBoxPosition)
+				
+				
+######## FOR LOOP CHEST CODE ########
+
+# Create chest
+chestWallBack = viz.addTexQuad()
+chestWallLeft = viz.addTexQuad()
+chestWallRight = viz.addTexQuad()
+chestWallFront = viz.addTexQuad()
+chestLid = viz.addTexQuad()
+	
+crateSide = viz.addTexture('CustomTextures/woodpanel.jpg')
+	
+chestWallBack.setPosition([3.6, 0, -4.8])
+chestWallBack.setScale([2, 1.25, 1.5])
+chestWallBack.texture(crateSide)
+chestWallLeft.setPosition([4.6, 0, -4.3])
+chestWallLeft.setScale([1, 1.25, 1.5])
+chestWallLeft.setEuler([90, 0, 0])
+chestWallLeft.texture(crateSide)
+chestWallRight.setPosition([2.6, 0, -4.3])
+chestWallRight.setScale([1, 1.25, 1.5])
+chestWallRight.setEuler([90, 0, 0])
+chestWallRight.texture(crateSide)
+chestWallFront.setPosition([3.6, 0, -3.8])
+chestWallFront.setScale([2, 1.25, 1.5])
+chestWallFront.texture(crateSide)
+
+chestLid.setPosition([3.6, 0.625, -4.3])
+chestLid.setScale([2, 1, 1.5])
+chestLid.setEuler([0, 90, 0])
+chestLid.texture(crateSide)
+
+##### END OF FOR LOOP CHEST CODE #####
 				
 forOutLight = vizshape.addSphere()
 forOutLight.setPosition(1,0.75,5)
 forOutLight.setScale(.25,.25,.25)
 forOutLight.label = False
+
+knapsackOutLabel = viz.addText('Knapsack Problem',pos = [2, 2.15, 4.99])
+knapsackOutLabel.setScale([0.15,0.15,0.15])
+knapsackOutLabel.color(viz.BLACK)
+knapsackOutLabel.alignment(viz.ALIGN_CENTER_BOTTOM)
+
+logicOutLabel = viz.addText('Logic Gate Problem',pos = [2, 1.40, 4.99])
+logicOutLabel.setScale([0.15,0.15,0.15])
+logicOutLabel.color(viz.BLACK)
+logicOutLabel.alignment(viz.ALIGN_CENTER_BOTTOM)
+
+forOutLabel = viz.addText('For Loop Problem',pos = [2, 0.65, 4.99])
+forOutLabel.setScale([0.15,0.15,0.15])
+forOutLabel.color(viz.BLACK)
+forOutLabel.alignment(viz.ALIGN_CENTER_BOTTOM)
+
 
 def checkFor():
 	if box1Placed is True and box2Placed is True and box3Placed is True and box4Placed is True:
@@ -514,9 +641,10 @@ if not box3Placed: vizact.onupdate(17, checkBox3Position)
 if not box4Placed: vizact.onupdate(18, checkBox4Position)
 
 def changeForLightColor():
-	print(box1Placed)
+	#print(box1Placed)
 	if checkFor():
 		forOutLight.color(viz.YELLOW)
+		chestLid.remove()
 	else:
 		forOutLight.color(viz.WHITE)
 vizact.onupdate(20, changeForLightColor)
@@ -526,8 +654,7 @@ light.color(viz.WHITE)
 light.setPosition(0, 3, 0)
 light.intensity(100)
 
-objects = [box1, box2, box3, box4, redCube, blueCube, greenCube, orangeCube, blackCube, purpleCube]
-objectHeld = False
+objects = [box1, box2, box3, box4, redCube, blueCube, greenCube, orangeCube, blackCube, purpleCube, tutorialBox]
 
 def updateMouseGrabber(tool):
     state = viz.mouse.getState()
@@ -576,18 +703,27 @@ def positionCallback(item, itemType, gateArray = 0):
 					else:
 						objectHeld = False
 						#dot.color(0,0,0)
-						if itemType == 0:
+						if itemType == 0 or itemType == 3:
 							item.collideBox([0.5,0.5,0.5])
 						elif itemType == 1:
 							item.collideBox([0.15,0.15,0.15])
+						elif itemType !=3:
+							if itemPos[0] > 5 or itemPos[0] < -5 or itemPos[2] > 5 or itemPos[2] < -5:
+								item.setPosition([0, 3, 0])
 				else: # gates
 					if rawInput.isButtonDown(0):
-						print("gate check")
+						#print("gate check")
 						time.sleep(0.2)
 						changeTexture(gateArray)
-	elif itemPos[0] > 5 or itemPos[0] < -5 or itemPos[2] > 5 or itemPos[2] < -5:
-		item.setPosition([0, 2, 0])
 						
+def outsideCallback(item, itemType):
+	itemPosition = item.getPosition()
+	if itemPosition[0] > 5 or itemPosition[0] < -5 or itemPosition[2] > 5 or itemPosition[2] < -5:
+		item.setPosition([0, 3, 0])
+		if itemType == 1:
+			item.collideBox([0.5,0.5,0.5])
+		else:
+			item.collideBox([0.15,0.15,0.15])
 
 '''''''''''''''''''''''''''''LOGIC GATE PROBLEM'''''''''''''''''''''''''''''''''
 def changeTexture(gateArr): #Add the Not gate stuff and encode it in a different way
@@ -618,7 +754,8 @@ def changeTexture(gateArr): #Add the Not gate stuff and encode it in a different
 	wire12[1] = GateOutput(gate4[1], gate4[2], gate4[3])
 	gate5[2], gate5[3] = wire11[1], wire12[1]
 	wire13[1] = GateOutput(gate5[1], gate5[2], gate5[3])
-	logicOutlight[1] = wire13[1]
+	logicOutlight1[1] = wire13[1]
+	logicOutlight2[1] = wire13[1]
 	
 	objColor(wire6[0], wire6[1])
 	objColor(wire7[0], wire7[1])
@@ -628,7 +765,8 @@ def changeTexture(gateArr): #Add the Not gate stuff and encode it in a different
 	objColor(wire11[0], wire11[1])
 	objColor(wire12[0], wire12[1])
 	objColor(wire13[0], wire13[1])
-	objColor(logicOutlight[0], logicOutlight[1])
+	objColor(logicOutlight1[0], logicOutlight1[1])
+	objColor(logicOutlight2[0], logicOutlight2[1])
 
 def NotGate(c, i):
 	if c == 4:
@@ -661,142 +799,149 @@ blankGateTex = viz.addTexture("CustomTextures/logic-symbols/blankGate.jpg")
 gateTextures = [andGateTex, orGateTex, xorGateTex]
 
 light1 = [vizshape.addSphere(), False]
-light1[0].setPosition(5,3.5,1.5)
+light1[0].setPosition(5,2.25,-2.5)
 light1[0].setScale(.25,.25,.25)
 objColor(light1[0], light1[1])
 
 light2 = [vizshape.addSphere(), True]
-light2[0].setPosition(5,2.75,1.5)
+light2[0].setPosition(5,1.75,-2.5)
 light2[0].setScale(.25,.25,.25)
 objColor(light2[0], light2[1])
 
 light3 = [vizshape.addSphere(), True]
-light3[0].setPosition(5,2,1.5)
+light3[0].setPosition(5,1.25,-2.5)
 light3[0].setScale(.25,.25,.25)
 objColor(light3[0], light3[1])
 
 light4 = [vizshape.addSphere(), True]
-light4[0].setPosition(5,1.25,1.5)
+light4[0].setPosition(5,0.75,-2.5)
 light4[0].setScale(.25,.25,.25)
 objColor(light4[0], light4[1])
 
 light5 = [vizshape.addSphere(), False]
-light5[0].setPosition(5,0.5,1.5)
+light5[0].setPosition(5,0.25,-2.5)
 light5[0].setScale(.25,.25,.25)
 objColor(light5[0], light5[1])
 
 wire1 = [vizshape.addCylinder(), light1[1]] #[object, boolVal]
-wire1[0].setPosition(5,3.5,2)
+wire1[0].setPosition(5,2.25,-2)
 wire1[0].setScale(.1,1,.1)
 wire1[0].setEuler([0,90,0])
 objColor(wire1[0], wire1[1])
 
 wire2 = [vizshape.addCylinder(), light2[1]]
-wire2[0].setPosition(5,2.75,2)
+wire2[0].setPosition(5,1.75,-2)
 wire2[0].setScale(.1,1,.1)
 wire2[0].setEuler([0,90,0])
 objColor(wire2[0], wire2[1])
 
 wire3 = [vizshape.addCylinder(), light3[1]]
-wire3[0].setPosition(5,2,2)
+wire3[0].setPosition(5,1.25,-2)
 wire3[0].setScale(.1,1,.1)
 wire3[0].setEuler([0,90,0])
 objColor(wire3[0], wire3[1])
 
 wire4 = [vizshape.addCylinder(), light4[1]]
-wire4[0].setPosition(5,1.25,2)
+wire4[0].setPosition(5,0.75,-2)
 wire4[0].setScale(.1,1,.1)
 wire4[0].setEuler([0,90,0])
 objColor(wire4[0], wire4[1])
 
 wire5 = [vizshape.addCylinder(), light5[1]]
-wire5[0].setPosition(5,0.5,3.5)
-wire5[0].setScale(.1,4,.1)
+wire5[0].setPosition(5,0.25,-1)
+wire5[0].setScale(.1,2.5,.1)
 wire5[0].setEuler([0,90,0])
 objColor(wire5[0], wire5[1])
 
-gate1 = [viz.addTexQuad(), 1, wire1[1], wire2[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
-gate1[0].setPosition([4.9,3,2.8])
+gate1 = [viz.addTexQuad(), 0, wire1[1], wire2[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
+gate1[0].setPosition([4.9,2,-1.25])
 gate1[0].setScale(0.75,0.75,0.75)
 gate1[0].setEuler([90,0,180])
 gate1[0].texture(gateTextures[gate1[1]])
 
 wire6 = [vizshape.addCylinder(), GateOutput(gate1[1], gate1[2], gate1[3])]
-wire6[0].setPosition(5,3,4)
-wire6[0].setScale(.1,3,.1)
+wire6[0].setPosition(5,2,-.5)
+wire6[0].setScale(.1,1,.1)
 wire6[0].setEuler([0,90,0])
 objColor(wire6[0], wire6[1])
 
-gate2 = [viz.addTexQuad(), 0, wire3[1], wire4[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
-gate2[0].setPosition([4.9,1.7,2.7])
+gate2 = [viz.addTexQuad(), 2, wire3[1], wire4[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
+gate2[0].setPosition([4.9,1,-1.25])
 gate2[0].setScale(0.75,0.75,0.75)
 gate2[0].setEuler([90,0,180])
-gate2[0].texture(gateTextures[gate1[2]])
+gate2[0].texture(gateTextures[gate2[1]])
 
 wire7 = [vizshape.addCylinder(), GateOutput(gate2[1], gate2[2], gate2[3])]
-wire7[0].setPosition(5,1.7,4)
-wire7[0].setScale(.1,3,.1)
+wire7[0].setPosition(5,1,-.5)
+wire7[0].setScale(.1,1,.1)
 wire7[0].setEuler([0,90,0])
 objColor(wire7[0], wire7[1])
 
+#WIRE 8, 9 AND 10 ARE NOT NEEDED BUT I DIDNT WANT TO DELETE THEM SO THE LOGIC WOULDNT GET MESSED UP
 wire8 = [vizshape.addCylinder(), wire6[1]]
-wire8[0].setPosition(4.5,3,5)
+wire8[0].setPosition(10,10,10)
 wire8[0].setScale(.1,1,.1)
 wire8[0].setEuler([90,90,0])
 objColor(wire8[0], wire8[1])
 
 wire9 = [vizshape.addCylinder(), wire7[1]]
-wire9[0].setPosition(4.5,1.7,5)
+wire9[0].setPosition(10,10,10)
 wire9[0].setScale(.1,1,.1)
 wire9[0].setEuler([90,90,0])
 objColor(wire9[0], wire9[1])
 
 wire10 = [vizshape.addCylinder(), wire5[1]]
-wire10[0].setPosition(4.5,0.5,5)
+wire10[0].setPosition(10,10,10)
 wire10[0].setScale(.1,1,.1)
 wire10[0].setEuler([90,90,0])
 objColor(wire10[0], wire10[1])
+#END OF USELESS STUFF
 
 gate3 = [viz.addTexQuad(), 4, wire8[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
-gate3[0].setPosition([3.5,3,4.9])
+gate3[0].setPosition([4.9,2,.25])
 gate3[0].setScale(0.75,0.75,0.75)
-gate3[0].setEuler([0,0,180])
+gate3[0].setEuler([90,0,180])
 gate3[0].texture(notGateTex)
 
-gate4 = [viz.addTexQuad(), 2, wire9[1], wire10[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
-gate4[0].setPosition([3.5,1.2,4.9])
+gate4 = [viz.addTexQuad(), 0, wire9[1], wire10[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
+gate4[0].setPosition([4.9,.6,.25])
 gate4[0].setScale(0.75,0.75,0.75)
-gate4[0].setEuler([0,0,180])
+gate4[0].setEuler([90,0,180])
 gate4[0].texture(gateTextures[gate4[1]])
 
 wire11 = [vizshape.addCylinder(), NotGate(gate3[1], gate3[2])]
-wire11[0].setPosition(2.8,2.5,5)
-wire11[0].setScale(.1,1.5,.1)
-wire11[0].setEuler([90,35,0])
+wire11[0].setPosition(5,1.75,1)
+wire11[0].setScale(.1,1,.1)
+wire11[0].setEuler([0,125,0])
 objColor(wire11[0], wire11[1])
 
 wire12 = [vizshape.addCylinder(), GateOutput(gate4[1], gate4[2], gate4[3])]
-wire12[0].setPosition(2.8,1.2,5)
+wire12[0].setPosition(5,0.6,1)
 wire12[0].setScale(.1,1,.1)
-wire12[0].setEuler([90,90,0])
+wire12[0].setEuler([0,90,0])
 objColor(wire12[0], wire12[1])
 
-gate5 = [viz.addTexQuad(), 1, wire11[1], wire12[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
-gate5[0].setPosition([2,1.5,4.9])
+gate5 = [viz.addTexQuad(), 0, wire11[1], wire12[1]] #[object, what gate its on (and, or, xor), input wire val, input wire val]
+gate5[0].setPosition([4.9,1,1.75])
 gate5[0].setScale(0.75,0.75,0.75)
-gate5[0].setEuler([0,0,180])
+gate5[0].setEuler([90,0,180])
 gate5[0].texture(gateTextures[gate5[1]])
 
 wire13 = [vizshape.addCylinder(), GateOutput(gate5[1], gate5[2], gate5[3])]
-wire13[0].setPosition(1.5,1.5,5)
+wire13[0].setPosition(5,1,2.25)
 wire13[0].setScale(.1,0.5,.1)
-wire13[0].setEuler([90,90,0])
+wire13[0].setEuler([0,90,0])
 objColor(wire13[0], wire13[1])
 
-logicOutlight = [vizshape.addSphere(), wire13[1]]
-logicOutlight[0].setPosition(1,1.5,5)
-logicOutlight[0].setScale(.25,.25,.25)
-objColor(logicOutlight[0], logicOutlight[1])
+logicOutlight1 = [vizshape.addSphere(), wire13[1]]
+logicOutlight1[0].setPosition(5,1,2.75)
+logicOutlight1[0].setScale(.25,.25,.25)
+objColor(logicOutlight1[0], logicOutlight1[1])
+
+logicOutlight2 = [vizshape.addSphere(), wire13[1]]
+logicOutlight2[0].setPosition(1,1.5,5)
+logicOutlight2[0].setScale(.25,.25,.25)
+objColor(logicOutlight2[0], logicOutlight2[1])
 
 vizact.onkeydown('5', changeTexture, gate1)
 vizact.onkeydown('6', changeTexture, gate2)
@@ -812,6 +957,8 @@ if isCave:
 	dtrack_manager = MyDtrackManager()
 	dtrack_manager.startDefaultHeadPosition()
 	joystickTracker = vizconnect.getTracker("dtrack_flystick")
+	vizconnect.getAvatar().getAttachmentPoint("l_hand").getNode3d().remove()
+	vizconnect.getAvatar().getAttachmentPoint("r_hand").getNode3d().remove()
 
 	dot = vizshape.addSphere()
 	dot.setScale([0.1, 0.1, 0.1])
@@ -826,11 +973,27 @@ if isCave:
 	vizact.onupdate(7, positionCallback, orangeCube, 1)
 	vizact.onupdate(8, positionCallback, blueCube, 1)
 	vizact.onupdate(9, positionCallback, purpleCube, 1)
-	vizact.onupdate(10, positionCallback, gate1[0], 2, gate1)
-	vizact.onupdate(11, positionCallback, gate2[0], 2, gate2)
-	vizact.onupdate(12, positionCallback, gate3[0], 2, gate3)
-	vizact.onupdate(13, positionCallback, gate4[0], 2, gate4)
-	vizact.onupdate(14, positionCallback, gate5[0], 2, gate5)
+	vizact.onupdate(10, positionCallback, tutorialBox, 3)
+	vizact.onupdate(11, positionCallback, gate1[0], 2, gate1)
+	vizact.onupdate(12, positionCallback, gate2[0], 2, gate2)
+	vizact.onupdate(13, positionCallback, gate3[0], 2, gate3)
+	vizact.onupdate(14, positionCallback, gate4[0], 2, gate4)
+	vizact.onupdate(15, positionCallback, gate5[0], 2, gate5)
+	
+	vizact.onupdate(30, outsideCallback, box1, 1)
+	vizact.onupdate(31, outsideCallback, box2, 1)
+	vizact.onupdate(32, outsideCallback, box3, 1)
+	vizact.onupdate(33, outsideCallback, box4, 1)
+	vizact.onupdate(34, outsideCallback, redCube, 2)
+	vizact.onupdate(35, outsideCallback, greenCube, 2)
+	vizact.onupdate(36, outsideCallback, blackCube, 2)
+	vizact.onupdate(37, outsideCallback, orangeCube, 2)
+	vizact.onupdate(38, outsideCallback, blueCube, 2)
+	vizact.onupdate(39, outsideCallback, purpleCube, 2)	
+	
+	viewpoint = vizconnect.addViewpoint(pos=[0,0.4,-10], euler = [180,0,0])
+	viewpoint.add(vizconnect.getDisplay())
+	vizconnect.resetViewpoints()
 	
 	viz.MainView.collision(viz.ON)
 	
@@ -854,6 +1017,9 @@ else:
 	vizact.onupdate(7, localPositionCallback, box3, 3)
 	vizact.onupdate(8, localPositionCallback, box4, 4)
 	
+	viz.MainView.setPosition(0,2,-10)
+	viz.MainView.setEuler(180,0,0)
+	
 	viz.go()
 	viz.MainView.collision(viz.ON)			
 
@@ -868,12 +1034,17 @@ mushroom.setPosition([0, 0, 10])
 mushroom.setEuler(0,0,0)
 
 #Checking all lights to open door
-door = viz.addTexQuad()
-door.setScale([1.5,2.5,1])
-door.setPosition([0,1.25,5])
+door1 = viz.addTexQuad()
+door1.setScale([1.5,2.5,1])
+door1.setPosition([0,1.25,5])
 doorCover = viz.addTexture('CustomTextures/door.jpg')
-door.texture(doorCover)
-door.remove()
+door1.texture(doorCover)
+
+door2 = viz.addTexQuad()
+door2.setScale([1.5,2.5,1])
+door2.setPosition([-3.25,1.25,-5])
+doorCover = viz.addTexture('CustomTextures/door.jpg')
+door2.texture(doorCover)
 
 #Red Carpet
 carpet = viz.addTexQuad()
@@ -885,15 +1056,13 @@ carpetTex = viz.addTexture('CustomTextures/redCarpet.jpg')
 carpet.texture(carpetTex)
 
 def checkLights():
-	global door
-	if checkKnapsack() and logicOutlight[1]:
+	global door1
+	if checkKnapsack() and logicOutlight1[1]:
 		if box1Placed is True and box2Placed is True and box3Placed is True and box4Placed is True:
-			door.remove()
-			moveMushroom()
-	
+			door1.remove()
+			moveMushroom()	
 
 vizact.onupdate(23, checkLights)
-
 
 knapValuesTex = viz.addTexture('CustomImages/KnapValuesVisual.jpg')
 knapValues = viz.addTexQuad()
@@ -915,3 +1084,38 @@ knapValues.texture(knapLimitTex)
 knapValues.setScale([1.4, 1.1, 1.1])
 knapValues.setPosition([-2,2.1,4.95])
 knapValues.setEuler([0, 0, 270])
+
+logicValuesTex = viz.addTexture('CustomImages/LogicGateVisual.jpg')
+logicValues = viz.addTexQuad()
+logicValues.texture(logicValuesTex)
+logicValues.setScale([1.5, 1.5, 1.5])
+logicValues.setPosition([4.99, 2.0, 4])
+logicValues.setEuler([90, 0, 0])
+
+forLoopInstructionsTex = viz.addTexture('CustomImages/forLoopVisual.jpg')
+forLoopInstructions = viz.addTexQuad()
+forLoopInstructions.texture(forLoopInstructionsTex)
+forLoopInstructions.setScale([1.5, 1.5, 1.5])
+forLoopInstructions.setPosition([3.75, 1.75, -4.99])
+forLoopInstructions.setEuler([180, 0, 0])
+
+tutorial1Tex = viz.addTexture('CustomTextures/Tutorial1.png')
+tutorial1 = viz.addTexQuad()
+tutorial1.texture(tutorial1Tex)
+tutorial1.setScale([6, 3, 6])
+tutorial1.setPosition([0,2,-14.99])
+tutorial1.setEuler([180, 0, 0])
+
+tutorial2Tex = viz.addTexture('CustomTextures/Tutorial2.jpg')
+tutorial2 = viz.addTexQuad()
+tutorial2.texture(tutorial2Tex)
+tutorial2.setScale([6, 3, 6])
+tutorial2.setPosition([4.99,2,-10])
+tutorial2.setEuler([90, 0, 0])
+
+tutorial3Tex = viz.addTexture('CustomTextures/Tutorial3.png')
+tutorial3 = viz.addTexQuad()
+tutorial3.texture(tutorial3Tex)
+tutorial3.setScale([6, 3, 6])
+tutorial3.setPosition([-4.99,2,-10])
+tutorial3.setEuler([270, 0, 0])
