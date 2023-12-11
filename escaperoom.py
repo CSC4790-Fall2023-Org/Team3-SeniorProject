@@ -290,7 +290,7 @@ def checkKnapsack():
 
 #add knapsack out light
 knapOutLight = vizshape.addSphere()
-knapOutLight.setPosition(1.25,2.25,5)
+knapOutLight.setPosition(1,2.25,5)
 knapOutLight.setScale(.25,.25,.25)
 knapOutLight.label = False
 
@@ -602,7 +602,7 @@ chestLid.texture(crateSide)
 
 ##### END OF FOR LOOP CHEST CODE #####
 forOutLight = vizshape.addSphere()
-forOutLight.setPosition(1.25,0.75,5)
+forOutLight.setPosition(1,0.75,5)
 forOutLight.setScale(.25,.25,.25)
 forOutLight.label = False
 
