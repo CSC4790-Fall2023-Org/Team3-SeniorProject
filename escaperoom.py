@@ -10,7 +10,7 @@ import tools
 import time
 from utilFunctions import *
 
-isCave = True
+isCave = False
 
 viz.phys.enable()
 
