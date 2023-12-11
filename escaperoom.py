@@ -51,6 +51,12 @@ class MyDtrackManager():
 
 joystickTracker = None
 
+'''
+viz.MainView.setPosition(0,2,-10)
+viz.MainView.setEuler(180,0,0)
+'''
+
+
 ''''''''''''''''''''''' ABOVE DOOR -- TIMER '''''''''''''''''''''
 #Load Textures
 tex0 = viz.addTexture('CustomTextures/timer/0.png')
@@ -139,8 +145,9 @@ def swap_timer_tex(a1, q1, a2, q2, a3, q3, a4, q4):
 		#increment tens digit of minutes
 		if(counter % 600 == 0):
 			q4.texture(a4.next())
-		
+			
 timer = viztask.schedule( swap_timer_tex(countUp1, quad1, countUp2, quad2, countUp4, quad4, countUp5, quad5) )
+		
 ''''''''''''''''''''''' END OF ABOVE DOOR -- TIMER '''''''''''''''''''''
 
 
@@ -301,7 +308,7 @@ vizact.onupdate(20, changeKnapLightColor)
 # Alternatively door could be overlaid on a singular instance of the wall, however this gives the option to have 
 	# an event derender the door and create an openning to pass to another room
 
-# Fill in wall around door
+# Fill in wall one around door
 wallOneLeft = viz.addTexQuad()
 wallOneRight = viz.addTexQuad()
 wallOneAbove = viz.addTexQuad()
@@ -314,6 +321,19 @@ wallOneLeft.setScale([4.25,5,1])
 wallOneRight.setScale([4.25,5,1])
 wallOneAbove.setScale([1.5,2.5,1])
 
+# Fill in wall four around door
+wallFourLeft = viz.addTexQuad()
+wallFourRight = viz.addTexQuad()
+wallFourAbove = viz.addTexQuad()
+
+wallFourLeft.setPosition([1.25,2.5,-5])
+wallFourRight.setPosition([-4.5,2.5,-5])
+wallFourAbove.setPosition([-3.25,3.75,-5])
+
+wallFourLeft.setScale([7.5,5,1])
+wallFourRight.setScale([1,5,1])
+wallFourAbove.setScale([1.5,2.5,1])
+
 wallTwo = viz.addTexQuad()
 wallTwo.setPosition([5,2.5,0])
 wallTwo.setEuler([90,0,0])
@@ -322,13 +342,12 @@ wallThree = viz.addTexQuad()
 wallThree.setPosition([-5,2.5,0])
 wallThree.setEuler([-90,0,0])
 wallThree.setScale([10,5,10])
-wallFour = viz.addTexQuad()
-wallFour.setPosition (0,2.5,-5)
-wallFour.setScale([10,5,10])
+
 ceiling = viz.addTexQuad()
 ceiling.setPosition([0,4,0])
 ceiling.setEuler([0,90,0])
 ceiling.setScale([10,10,10])
+
 floor = viz.addTexQuad()
 floor.setPosition([0,0,0])
 floor.setEuler([0,90,0])
@@ -339,11 +358,39 @@ wallOneLeft.collidePlane(0,1,0,0)
 wallOneRight.collidePlane(0,1,0,0)
 wallOneAbove.collidePlane(0,1,0,0)
 
+wallFourLeft.collidePlane(0,1,0,0)
+wallFourRight.collidePlane(0,1,0,0)
+wallFourAbove.collidePlane(0,1,0,0)
+
 wallTwo.collidePlane(0,1,0,0)
 wallThree.collidePlane(0,1,0,0)
-wallFour.collidePlane(0,1,0,0)
 
 ceiling.collidePlane()
+
+tutorialWallOne = viz.addTexQuad()
+tutorialWallOne.setPosition([0,2.5,-15])
+tutorialWallOne.setScale([10,5,10])
+
+tutorialWallTwo = viz.addTexQuad()
+tutorialWallTwo.setPosition([5,2.5,-10])
+tutorialWallTwo.setEuler([90,0,0])
+tutorialWallTwo.setScale([10,5,10])
+
+tutorialWallThree = viz.addTexQuad()
+tutorialWallThree.setPosition([-5,2.5,-10])
+tutorialWallThree.setEuler([-90,0,0])
+tutorialWallThree.setScale([10,5,10])
+
+tutorialCeiling = viz.addTexQuad()
+tutorialCeiling.setPosition([0,4,-10])
+tutorialCeiling.setEuler([0,90,0])
+tutorialCeiling.setScale([10,10,10])
+
+tutorialFloor = viz.addTexQuad()
+tutorialFloor.setPosition([0,0,-10])
+tutorialFloor.setEuler([0,90,0])
+tutorialFloor.setScale([10,10,10])
+tutorialFloor.collidePlane()
 
 # ---------------------------------
 # viz.INTERSECT must be turned off for all the room walls so we don't accidentally pick up the floor !!!
@@ -367,11 +414,35 @@ wallOneRight.texture(wallCover)
 wallOneAbove.texture(wallCover)
 wallTwo.texture(wallCover)
 wallThree.texture(wallCover)
-wallFour.texture(wallCover)
+wallFourLeft.texture(wallCover)
+wallFourRight.texture(wallCover)
+wallFourAbove.texture(wallCover)
+
 ceiling.texture(ceilingCover)
 
 # Cover floor with texture
 floor.texture(floorCover)
+
+# Cover walls with texture
+tutorialWallOne.texture(wallCover)
+tutorialWallTwo.texture(wallCover)
+tutorialWallThree.texture(wallCover)
+tutorialCeiling.texture(ceilingCover)
+
+# Cover floor with texture
+tutorialFloor.texture(floorCover)
+
+tutorialBox = vizshape.addCube()
+tutorialBox.collideBox(0.4,0.4,0.4)
+tutorialBox.setScale([0.4, 0.4, 0.4])
+tutorialBox.setPosition([-2,2,-10])
+tutorialBox.color(viz.BLACK)
+tutorialBox.density = 5
+
+tutorialPillar = vizshape.addCylinder()
+tutorialPillar.collideBox(1.5, 1, 1.5)
+tutorialPillar.setScale([1.5, 1, 1.5])
+tutorialPillar.setPosition([-4,1,-10])
 
 # Spawn loop problem structure
 slot1 = viz.addTexQuad()
@@ -379,20 +450,20 @@ slot2 = viz.addTexQuad()
 slot3 = viz.addTexQuad()
 slot4 = viz.addTexQuad()
 
-slot1.setPosition([-1, 2, -4.9])
-slot1.setScale([5.5,0.39,0.5])
+slot1.setPosition([0.25, 2, -4.9])
+slot1.setScale([4,0.39,0.5])
 slot1.setEuler([180,0,0])
 slot1.color(viz.BLACK)
-slot2.setPosition([-1, 1.53, -4.9])
-slot2.setScale([5.5,0.39,0.5])
+slot2.setPosition([0.25, 1.53, -4.9])
+slot2.setScale([4,0.39,0.5])
 slot2.setEuler([180,0,0])
 slot2.color(viz.BLACK)
-slot3.setPosition([-1, 1.08, -4.9])
-slot3.setScale([5.5,0.39,0.5])
+slot3.setPosition([0.25, 1.08, -4.9])
+slot3.setScale([4,0.39,0.5])
 slot3.setEuler([180,0,0])
 slot3.color(viz.BLACK)
-slot4.setPosition([-1, 0.6, -4.9])
-slot4.setScale([5.5,0.39,0.5])
+slot4.setPosition([0.25, 0.6, -4.9])
+slot4.setScale([4,0.39,0.5])
 slot4.setEuler([180,0,0])
 slot4.color(viz.BLACK)
 
@@ -483,6 +554,53 @@ def checkBox4Position():
 				if isCave:
 					box4.remove()
 				box4Placed = True
+		
+tutorialBoxPlaced = False
+
+def checkTutorialBoxPosition():
+	global tutorialBoxPlaced
+	tutorialBoxPosition = tutorialBox.getPosition()
+	if tutorialBoxPosition[0] > -4.76 and tutorialBoxPosition[0] < -3.24:
+		if tutorialBoxPosition[1] > 0.99 and tutorialBoxPosition[1] < 1.41:
+			if tutorialBoxPosition[2] > -10.76 and tutorialBoxPosition[2] < -9.24:
+				tutorialBoxPlaced = True
+				door2.remove()
+				
+if not tutorialBoxPlaced: vizact.onupdate(40, checkTutorialBoxPosition)
+				
+				
+######## FOR LOOP CHEST CODE ########
+
+# Create chest
+chestWallBack = viz.addTexQuad()
+chestWallLeft = viz.addTexQuad()
+chestWallRight = viz.addTexQuad()
+chestWallFront = viz.addTexQuad()
+chestLid = viz.addTexQuad()
+	
+crateSide = viz.addTexture('CustomTextures/woodpanel.jpg')
+	
+chestWallBack.setPosition([3.6, 0, -4.8])
+chestWallBack.setScale([2, 1.25, 1.5])
+chestWallBack.texture(crateSide)
+chestWallLeft.setPosition([4.6, 0, -4.3])
+chestWallLeft.setScale([1, 1.25, 1.5])
+chestWallLeft.setEuler([90, 0, 0])
+chestWallLeft.texture(crateSide)
+chestWallRight.setPosition([2.6, 0, -4.3])
+chestWallRight.setScale([1, 1.25, 1.5])
+chestWallRight.setEuler([90, 0, 0])
+chestWallRight.texture(crateSide)
+chestWallFront.setPosition([3.6, 0, -3.8])
+chestWallFront.setScale([2, 1.25, 1.5])
+chestWallFront.texture(crateSide)
+
+chestLid.setPosition([3.6, 0.625, -4.3])
+chestLid.setScale([2, 1, 1.5])
+chestLid.setEuler([0, 90, 0])
+chestLid.texture(crateSide)
+
+##### END OF FOR LOOP CHEST CODE #####
 				
 ######## FOR LOOP CHEST CODE ########
 
@@ -564,7 +682,7 @@ light.color(viz.WHITE)
 light.setPosition(0, 3, 0)
 light.intensity(100)
 
-objects = [box1, box2, box3, box4, redCube, blueCube, greenCube, orangeCube, blackCube, purpleCube]
+objects = [box1, box2, box3, box4, redCube, blueCube, greenCube, orangeCube, blackCube, purpleCube, tutorialBox]
 
 def updateMouseGrabber(tool):
     state = viz.mouse.getState()
@@ -611,9 +729,12 @@ def positionCallback(item, itemType, gateArray = 0):
 							item.collideBox([0.5,0.5,0.5])
 						elif itemType == 1:
 							item.collideBox([0.15,0.15,0.15])
+						elif itemType !=3:
+							if itemPos[0] > 5 or itemPos[0] < -5 or itemPos[2] > 5 or itemPos[2] < -5:
+								item.setPosition([0, 3, 0])
 				else: # gates
 					if rawInput.isButtonDown(0):
-						print("gate check")
+						#print("gate check")
 						time.sleep(0.2)
 						changeTexture(gateArray)
 						
@@ -874,11 +995,27 @@ if isCave:
 	vizact.onupdate(7, positionCallback, orangeCube, 1)
 	vizact.onupdate(8, positionCallback, blueCube, 1)
 	vizact.onupdate(9, positionCallback, purpleCube, 1)
-	vizact.onupdate(10, positionCallback, gate1[0], 2, gate1)
-	vizact.onupdate(11, positionCallback, gate2[0], 2, gate2)
-	vizact.onupdate(12, positionCallback, gate3[0], 2, gate3)
-	vizact.onupdate(13, positionCallback, gate4[0], 2, gate4)
-	vizact.onupdate(14, positionCallback, gate5[0], 2, gate5)
+	vizact.onupdate(10, positionCallback, tutorialBox, 3)
+	vizact.onupdate(11, positionCallback, gate1[0], 2, gate1)
+	vizact.onupdate(12, positionCallback, gate2[0], 2, gate2)
+	vizact.onupdate(13, positionCallback, gate3[0], 2, gate3)
+	vizact.onupdate(14, positionCallback, gate4[0], 2, gate4)
+	vizact.onupdate(15, positionCallback, gate5[0], 2, gate5)
+	
+	vizact.onupdate(30, outsideCallback, box1, 1)
+	vizact.onupdate(31, outsideCallback, box2, 1)
+	vizact.onupdate(32, outsideCallback, box3, 1)
+	vizact.onupdate(33, outsideCallback, box4, 1)
+	vizact.onupdate(34, outsideCallback, redCube, 2)
+	vizact.onupdate(35, outsideCallback, greenCube, 2)
+	vizact.onupdate(36, outsideCallback, blackCube, 2)
+	vizact.onupdate(37, outsideCallback, orangeCube, 2)
+	vizact.onupdate(38, outsideCallback, blueCube, 2)
+	vizact.onupdate(39, outsideCallback, purpleCube, 2)	
+	
+	viewpoint = vizconnect.addViewpoint(pos=[0,0.4,-10], euler = [180,0,0])
+	viewPoint.add(vizconnect.getDisplay())
+	vizconnect.resetViewpoints()
 	
 	vizact.onupdate(30, outsideCallback, box1, 1)
 	vizact.onupdate(31, outsideCallback, box2, 1)
@@ -913,6 +1050,9 @@ else:
 	vizact.onupdate(7, localPositionCallback, box3, 3)
 	vizact.onupdate(8, localPositionCallback, box4, 4)
 	
+	viz.MainView.setPosition(0,2,-10)
+	viz.MainView.setEuler(180,0,0)
+	
 	viz.go()
 	viz.MainView.collision(viz.ON)			
 
@@ -927,11 +1067,17 @@ mushroom.setPosition([0, 0, 10])
 mushroom.setEuler(0,0,0)
 
 #Checking all lights to open door
-door = viz.addTexQuad()
-door.setScale([1.5,2.5,1])
-door.setPosition([0,1.25,5])
+door1 = viz.addTexQuad()
+door1.setScale([1.5,2.5,1])
+door1.setPosition([0,1.25,5])
 doorCover = viz.addTexture('CustomTextures/door.jpg')
-door.texture(doorCover)
+door1.texture(doorCover)
+
+door2 = viz.addTexQuad()
+door2.setScale([1.5,2.5,1])
+door2.setPosition([-3.25,1.25,-5])
+doorCover = viz.addTexture('CustomTextures/door.jpg')
+door2.texture(doorCover)
 
 #Red Carpet
 carpet = viz.addTexQuad()
@@ -943,10 +1089,10 @@ carpetTex = viz.addTexture('CustomTextures/redCarpet.jpg')
 carpet.texture(carpetTex)
 
 def checkLights():
-	global door
+	global door1
 	if checkKnapsack() and logicOutlight1[1]:
 		if box1Placed is True and box2Placed is True and box3Placed is True and box4Placed is True:
-			door.remove()
+			door1.remove()
 			moveMushroom()	
 
 vizact.onupdate(23, checkLights)
@@ -979,9 +1125,30 @@ logicValues.setScale([1.5, 1.5, 1.5])
 logicValues.setPosition([4.99, 2.0, 4])
 logicValues.setEuler([90, 0, 0])
 
-forLoopInstructionsTex = viz.addTexture('CustomImages/ForLoopVisual.jpg')
+forLoopInstructionsTex = viz.addTexture('CustomImages/forLoopVisual.jpg')
 forLoopInstructions = viz.addTexQuad()
 forLoopInstructions.texture(forLoopInstructionsTex)
 forLoopInstructions.setScale([1.5, 1.5, 1.5])
 forLoopInstructions.setPosition([3.75, 1.75, -4.99])
 forLoopInstructions.setEuler([180, 0, 0])
+
+tutorial1Tex = viz.addTexture('CustomTextures/Tutorial1.png')
+tutorial1 = viz.addTexQuad()
+tutorial1.texture(tutorial1Tex)
+tutorial1.setScale([6, 3, 6])
+tutorial1.setPosition([0,2,-14.99])
+tutorial1.setEuler([180, 0, 0])
+
+tutorial2Tex = viz.addTexture('CustomTextures/Tutorial2.jpg')
+tutorial2 = viz.addTexQuad()
+tutorial2.texture(tutorial2Tex)
+tutorial2.setScale([6, 3, 6])
+tutorial2.setPosition([4.99,2,-10])
+tutorial2.setEuler([90, 0, 0])
+
+tutorial3Tex = viz.addTexture('CustomTextures/Tutorial3.png')
+tutorial3 = viz.addTexQuad()
+tutorial3.texture(tutorial3Tex)
+tutorial3.setScale([6, 3, 6])
+tutorial3.setPosition([-4.99,2,-10])
+tutorial3.setEuler([270, 0, 0])
