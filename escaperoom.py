@@ -601,56 +601,22 @@ chestLid.setEuler([0, 90, 0])
 chestLid.texture(crateSide)
 
 ##### END OF FOR LOOP CHEST CODE #####
-				
-######## FOR LOOP CHEST CODE ########
-
-# Create chest
-chestWallBack = viz.addTexQuad()
-chestWallLeft = viz.addTexQuad()
-chestWallRight = viz.addTexQuad()
-chestWallFront = viz.addTexQuad()
-chestLid = viz.addTexQuad()
-	
-crateSide = viz.addTexture('CustomTextures/woodpanel.jpg')
-	
-chestWallBack.setPosition([3.6, 0, -4.8])
-chestWallBack.setScale([2, 1.25, 1.5])
-chestWallBack.texture(crateSide)
-chestWallLeft.setPosition([4.6, 0, -4.3])
-chestWallLeft.setScale([1, 1.25, 1.5])
-chestWallLeft.setEuler([90, 0, 0])
-chestWallLeft.texture(crateSide)
-chestWallRight.setPosition([2.6, 0, -4.3])
-chestWallRight.setScale([1, 1.25, 1.5])
-chestWallRight.setEuler([90, 0, 0])
-chestWallRight.texture(crateSide)
-chestWallFront.setPosition([3.6, 0, -3.8])
-chestWallFront.setScale([2, 1.25, 1.5])
-chestWallFront.texture(crateSide)
-
-chestLid.setPosition([3.6, 0.625, -4.3])
-chestLid.setScale([2, 1, 1.5])
-chestLid.setEuler([0, 90, 0])
-chestLid.texture(crateSide)
-
-##### END OF FOR LOOP CHEST CODE #####
-				
 forOutLight = vizshape.addSphere()
 forOutLight.setPosition(1.25,0.75,5)
 forOutLight.setScale(.25,.25,.25)
 forOutLight.label = False
 
-knapsackOutLabel = viz.addText('Knapsack Problem',pos = [2.25, 2.15, 4.99])
+knapsackOutLabel = viz.addText('Knapsack Problem',pos = [2, 2.15, 4.99])
 knapsackOutLabel.setScale([0.15,0.15,0.15])
 knapsackOutLabel.color(viz.BLACK)
 knapsackOutLabel.alignment(viz.ALIGN_CENTER_BOTTOM)
 
-logicOutLabel = viz.addText('Logic Gate Problem',pos = [2.25, 1.40, 4.99])
+logicOutLabel = viz.addText('Logic Gate Problem',pos = [2, 1.40, 4.99])
 logicOutLabel.setScale([0.15,0.15,0.15])
 logicOutLabel.color(viz.BLACK)
 logicOutLabel.alignment(viz.ALIGN_CENTER_BOTTOM)
 
-forOutLabel = viz.addText('For Loop Problem',pos = [2.25, 0.65, 4.99])
+forOutLabel = viz.addText('For Loop Problem',pos = [2, 0.65, 4.99])
 forOutLabel.setScale([0.15,0.15,0.15])
 forOutLabel.color(viz.BLACK)
 forOutLabel.alignment(viz.ALIGN_CENTER_BOTTOM)
@@ -725,7 +691,9 @@ def positionCallback(item, itemType, gateArray = 0):
 						item.setPosition(dotPos)
 						item.collideNone()
 					else:
-						if itemType == 0:
+						objectHeld = False
+						#dot.color(0,0,0)
+						if itemType == 0 or itemType == 3:
 							item.collideBox([0.5,0.5,0.5])
 						elif itemType == 1:
 							item.collideBox([0.15,0.15,0.15])
@@ -899,7 +867,7 @@ wire7[0].setScale(.1,1,.1)
 wire7[0].setEuler([0,90,0])
 objColor(wire7[0], wire7[1])
 
-#WIRE 8, 9 AND 10 ARE NOT NEEDED BUT I DIDN'T WANT TO DELETE THEM SO THE LOGIC WOULDNT GET MESSED UP
+#WIRE 8, 9 AND 10 ARE NOT NEEDED BUT I DIDNT WANT TO DELETE THEM SO THE LOGIC WOULDNT GET MESSED UP
 wire8 = [vizshape.addCylinder(), wire6[1]]
 wire8[0].setPosition(10,10,10)
 wire8[0].setScale(.1,1,.1)
@@ -961,7 +929,7 @@ logicOutlight1[0].setScale(.25,.25,.25)
 objColor(logicOutlight1[0], logicOutlight1[1])
 
 logicOutlight2 = [vizshape.addSphere(), wire13[1]]
-logicOutlight2[0].setPosition(1.25,1.5,5)
+logicOutlight2[0].setPosition(1,1.5,5)
 logicOutlight2[0].setScale(.25,.25,.25)
 objColor(logicOutlight2[0], logicOutlight2[1])
 
@@ -1014,19 +982,8 @@ if isCave:
 	vizact.onupdate(39, outsideCallback, purpleCube, 2)	
 	
 	viewpoint = vizconnect.addViewpoint(pos=[0,0.4,-10], euler = [180,0,0])
-	viewPoint.add(vizconnect.getDisplay())
+	viewpoint.add(vizconnect.getDisplay())
 	vizconnect.resetViewpoints()
-	
-	vizact.onupdate(30, outsideCallback, box1, 1)
-	vizact.onupdate(31, outsideCallback, box2, 1)
-	vizact.onupdate(32, outsideCallback, box3, 1)
-	vizact.onupdate(33, outsideCallback, box4, 1)
-	vizact.onupdate(34, outsideCallback, redCube, 2)
-	vizact.onupdate(35, outsideCallback, greenCube, 2)
-	vizact.onupdate(36, outsideCallback, blackCube, 2)
-	vizact.onupdate(37, outsideCallback, orangeCube, 2)
-	vizact.onupdate(38, outsideCallback, blueCube, 2)
-	vizact.onupdate(39, outsideCallback, purpleCube, 2)	
 	
 	viz.MainView.collision(viz.ON)
 	
